@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2047
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "FamiliaWebSocket", "FamiliaWebSocket\FamiliaWebSocket.njsproj", "{39CB3362-27A4-42DC-B0B5-2AD2A023FBC7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39CB3362-27A4-42DC-B0B5-2AD2A023FBC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39CB3362-27A4-42DC-B0B5-2AD2A023FBC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39CB3362-27A4-42DC-B0B5-2AD2A023FBC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39CB3362-27A4-42DC-B0B5-2AD2A023FBC7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6D3CFE29-91BE-413B-919E-8E2253B5E3A6}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfssrv:8080/tfs/indecocollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = FamiliaWebSocket\\FamiliaWebSocket.njsproj
+		SccProjectName1 = FamiliaWebSocket
+		SccLocalPath1 = FamiliaWebSocket
+	EndGlobalSection
+EndGlobal

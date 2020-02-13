@@ -1,0 +1,2 @@
+C:\Indeco\VisualStudio\FamiliaWebSocket\FamiliaWebSocket\FamiliaWebSocket\bin\Microsoft.NodejsTools.WebRole.dll
+C:\Indeco\VisualStudio\FamiliaWebSocket\FamiliaWebSocket\FamiliaWebSocket\obj\Debug\FamiliaWebSocket.njsprojAssemblyReference.cache

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAeegoP/YT/kqqiHRzyZLjKQAAAAACAAAAAAADZgAAwAAAABAAAABYuqI+4FAwhVDBDUcdJ2A3AAAAAASAAACgAAAAEAAAAONA6eDBT8XZ1q1rfBfiiPUYAAAAQ5WBuawYYdDPOmPk2A/MxJfiMVoZLt2lFAAAALthfBMg/iUanKgKzxV8hpUagu++</EncryptedPassword>
+    <_PublishTargetUrl>ftp://192.168.99.152/FamiliaWS</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="App/App.js">
+      <publishTime>10/22/2019 10:00:13</publishTime>
+    </File>
+    <File Include="App/App.js.map">
+      <publishTime>10/22/2019 10:00:13</publishTime>
+    </File>
+    <File Include="App/App.ts">
+      <publishTime>10/16/2019 13:15:50</publishTime>
+    </File>
+    <File Include="App/config.js">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/config.js.map">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/config.ts">
+      <publishTime>03/25/2019 08:17:34</publishTime>
+    </File>
+    <File Include="App/Db/db.js">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/Db/db.js.map">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/Db/db.ts">
+      <publishTime>10/08/2019 15:06:38</publishTime>
+    </File>
+    <File Include="App/Db/queries/users.public.js">
+      <publishTime>01/09/2020 09:16:29</publishTime>
+    </File>
+    <File Include="App/Db/queries/users.public.js.map">
+      <publishTime>01/09/2020 09:16:29</publishTime>
+    </File>
+    <File Include="App/Db/queries/users.public.ts">
+      <publishTime>01/09/2020 09:16:29</publishTime>
+    </File>
+    <File Include="App/Db/types.js">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/Db/types.js.map">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/Db/types.ts">
+      <publishTime>10/25/2018 13:28:26</publishTime>
+    </File>
+    <File Include="App/Interfaces/IDeviceType.js">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/Interfaces/IDeviceType.js.map">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/Interfaces/IDeviceType.ts">
+      <publishTime>03/11/2019 16:58:32</publishTime>
+    </File>
+    <File Include="App/Interfaces/IMailOption.js">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/Interfaces/IMailOption.js.map">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/Interfaces/IMailOption.ts">
+      <publishTime>03/11/2019 17:00:00</publishTime>
+    </File>
+    <File Include="App/Interfaces/ISocketError.js">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/Interfaces/ISocketError.js.map">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/Interfaces/ISocketError.ts">
+      <publishTime>11/08/2018 08:41:32</publishTime>
+    </File>
+    <File Include="App/Interfaces/ITransporter.js">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/Interfaces/ITransporter.js.map">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/Interfaces/ITransporter.ts">
+      <publishTime>10/25/2018 13:28:26</publishTime>
+    </File>
+    <File Include="App/Interfaces/IUser.js">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/Interfaces/IUser.js.map">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/Interfaces/IUser.ts">
+      <publishTime>10/25/2018 13:28:26</publishTime>
+    </File>
+    <File Include="App/Interfaces/IVisit.js">
+      <publishTime>10/22/2019 11:15:02</publishTime>
+    </File>
+    <File Include="App/Interfaces/IVisit.js.map">
+      <publishTime>10/22/2019 11:15:02</publishTime>
+    </File>
+    <File Include="App/Interfaces/IVisit.ts">
+      <publishTime>10/22/2019 11:15:02</publishTime>
+    </File>
+    <File Include="App/Routes/Routes.js">
+      <publishTime>12/05/2019 13:53:49</publishTime>
+    </File>
+    <File Include="App/Routes/Routes.js.map">
+      <publishTime>12/05/2019 13:53:49</publishTime>
+    </File>
+    <File Include="App/Routes/Routes.ts">
+      <publishTime>11/12/2019 10:43:44</publishTime>
+    </File>
+    <File Include="App/Routes/RoutesHandlers.js">
+      <publishTime>01/15/2020 12:40:27</publishTime>
+    </File>
+    <File Include="App/Routes/RoutesHandlers.js.map">
+      <publishTime>01/15/2020 12:40:27</publishTime>
+    </File>
+    <File Include="App/Routes/RoutesHandlers.ts">
+      <publishTime>01/15/2020 12:40:27</publishTime>
+    </File>
+    <File Include="App/Routes/RoutesModel.js">
+      <publishTime>12/05/2019 13:53:48</publishTime>
+    </File>
+    <File Include="App/Routes/RoutesModel.js.map">
+      <publishTime>12/05/2019 13:53:48</publishTime>
+    </File>
+    <File Include="App/Routes/RoutesModel.ts">
+      <publishTime>07/11/2019 13:57:48</publishTime>
+    </File>
+    <File Include="App/Secure.js">
+      <publishTime>01/13/2020 09:54:09</publishTime>
+    </File>
+    <File Include="App/Secure.js.map">
+      <publishTime>01/13/2020 09:54:09</publishTime>
+    </File>
+    <File Include="App/Secure.ts">
+      <publishTime>01/13/2020 09:54:09</publishTime>
+    </File>
+    <File Include="App/Socket/Socket.js">
+      <publishTime>10/22/2019 10:00:13</publishTime>
+    </File>
+    <File Include="App/Socket/Socket.js.map">
+      <publishTime>10/22/2019 10:00:13</publishTime>
+    </File>
+    <File Include="App/Socket/Socket.ts">
+      <publishTime>10/14/2019 12:44:15</publishTime>
+    </File>
+    <File Include="App/Socket/SocketHandlers.js">
+      <publishTime>10/22/2019 10:00:13</publishTime>
+    </File>
+    <File Include="App/Socket/SocketHandlers.js.map">
+      <publishTime>10/22/2019 10:00:13</publishTime>
+    </File>
+    <File Include="App/Socket/SocketHandlers.ts">
+      <publishTime>03/25/2019 12:19:46</publishTime>
+    </File>
+    <File Include="App/Token.js">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/Token.js.map">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/Token.ts">
+      <publishTime>10/14/2019 11:11:25</publishTime>
+    </File>
+    <File Include="App/VerifyImei.js">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/VerifyImei.js.map">
+      <publishTime>10/17/2019 11:10:52</publishTime>
+    </File>
+    <File Include="App/VerifyImei.ts">
+      <publishTime>08/08/2019 08:59:32</publishTime>
+    </File>
+    <File Include="package-lock.json">
+      <publishTime>05/13/2019 14:54:04</publishTime>
+    </File>
+    <File Include="package.json">
+      <publishTime>05/13/2019 15:00:58</publishTime>
+    </File>
+    <File Include="server.js">
+      <publishTime>10/15/2019 12:46:45</publishTime>
+    </File>
+    <File Include="server.js.map">
+      <publishTime>10/15/2019 12:46:45</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
