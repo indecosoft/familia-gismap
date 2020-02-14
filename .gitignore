@@ -1,4 +1,4 @@
 **/*.js
 **/*.js.map
 **/*.pubxml
-**/config.xml
+**/config.ts
