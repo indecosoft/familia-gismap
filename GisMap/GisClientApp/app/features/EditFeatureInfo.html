@@ -1,0 +1,65 @@
+﻿<div class="modal-content">
+    <form name="editInfoForm" enctype="multipart/form-data" ng-submit="diaCtrl.save(ngDialogData)" novalidate>
+        <fieldset ng-disabled="diaCtrl.disableInput">
+            <div class="modal-header">
+                <h4 class="modal-title">Editare informatii</h4>
+            </div>
+            <!--properties-->
+            <div class="modal-body" ng-hide="!diaCtrl.infoOrCamera">
+                <div class="form-group" ng-repeat="property in diaCtrl.featureProps" ng-hide="property.edit == 'hide'">
+                    <label for="name">{{property.name}}</label>
+                    <!--text input-->
+                    <div  ng-if="property.control === diaCtrl.controlType.text">
+                        <input type="text" class="form-control" id="{{property.name}}" name="property.name" ng-model="property.value" ng-readonly="property.edit == 'read'">
+                    </div>
+                    <!-- text area-->
+                    <div ng-if="property.control === diaCtrl.controlType.textArea">
+                        <textarea class="form-control" id="{{property.name}}" name="property.name" ng-model="property.value" rows="{{property.rows}}" ng-readonly="property.edit == 'read'">{{property.value}}</textarea>
+                    </div>
+                    <!-- datetime input -->
+                    <div class="row" ng-if="property.control === diaCtrl.controlType.dateTimeLocal">
+                        <div class="col-xs-12">
+                            <div class="input-group"
+                                 moment-picker="property.value"
+                                 format="{{property.format}}"
+                                 disable="property.edit == 'read'">
+                                <input class="form-control"
+                                       placeholder="Select a date"
+                                       ng-model="property.value"
+                                       ng-model-options="{ updateOn: 'blur' }" ng-disabled="property.edit == 'read'">
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- rate input -->
+                    <div ng-if="property.control === diaCtrl.controlType.rate">
+                        <ng-rate-it id="{{property.name}}" name="property.name" ng-model="property.value" min="property.min" max="property.max" step="property.step" read-only="property.edit == 'read'"></ng-rate-it><!--<span> {{property.value}}</span>-->
+                    </div>
+                </div>
+            </div>
+            <!--camera-->
+            <div class="modal-body" ng-hide="diaCtrl.infoOrCamera">
+                <div class="camera" ng-hide="!diaCtrl.cameraOrPicture">
+                    <video id="videoCamera" style="width:100%"> </video>
+                </div>
+                <div class="picture" ng-hide="diaCtrl.cameraOrPicture">
+                    <img id="pictureCamera" style="width:100%" ng-src="{{diaCtrl.pictureToUrl}}" alt="Poza nu este disponibila" />
+                </div>
+                <canvas id="canvasCamera" style="display:none;"></canvas>
+            </div>
+            <div class="form-group">
+                <span ng-show="diaCtrl.errorResponse">
+                    <span>{{diaCtrl.errorResponse}}</span>
+                </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="" ng-hide="diaCtrl.infoOrCamera" ng-model="diaCtrl.cameraOrPicture" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false" ng-change="diaCtrl.camerOrPictureChanged()">{{diaCtrl.cameraOrPicture ? 'Pozeaza':'Porneste camera'}}</button>
+                <button type="button" class="btn btn-default" ng-click="" ng-hide="!diaCtrl.propertyPictureName" ng-model="diaCtrl.infoOrCamera" uib-btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false" ng-change="diaCtrl.infoOrCameraChanged()">{{diaCtrl.infoOrCamera ? 'Foto':'Informatii'}}</button>
+                <button type="button" class="btn btn-default" ng-click="diaCtrl.save()" ng-disabled="!editInfoForm.$valid">Salveaza</button>
+                <button type="button" class="btn" ng-click="diaCtrl.cancel()">Închide</button>
+            </div>
+        </fieldset>
+    </form>
+</div>

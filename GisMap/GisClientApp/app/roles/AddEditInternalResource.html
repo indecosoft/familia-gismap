@@ -1,0 +1,61 @@
+﻿<div class="panel dialog-panel-no-margin" ng-if="vm.selectedAction.name == 'res-add' || vm.selectedAction.name == 'res-edit'">
+    <form name="resourceForm" novalidate>
+        <fieldset ng-disabled="vm.disableInput">
+            <div class="panel-body dialog-panel-no-padding">
+                <div class="form-group" ng-show="vm.selectedAction.name == 'res-edit'">
+                    <label for="res_uiSelResursa">Selecteaza resursa</label>
+                    <ui-select name="res_uiSelResursa" ng-model="vm.addEditResursaInterna.selectedResursa" theme="selectize" title="Selecteaza tip resursa" ng-change="vm.onChangeResursaIntera(vm,$select.selected)" required>
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.addEditResursaInterna.availableResurse | filter: $select.search">
+                            <div>{{item.text}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span ng-show="vm.errorResponse || resourceForm.res_uiSelResursa.$touched">
+                        <span ng-show="resourceForm.res_uiSelResursa.$error.required">Resursa este obligatoriu</span>
+                    </span>
+                </div>
+                <div ng-show="vm.selectedAction.name == 'res-add' || (vm.selectedAction.name == 'res-edit' && vm.addEditResursaInterna.selectedResursa)">
+                    <div class="form-group" >
+                        <label for="res_nume">Nume resursa</label>
+                        <input type="text" class="form-control" id="res_nume" name="res_nume" ng-model="vm.addEditResursaInterna.nume" required>
+                        <span ng-show="vm.errorResponse || resourceForm.res_nume.$touched">
+                            <span ng-show="resourceForm.res_nume.$error.required">Nume resursa este obligatoriu</span>
+                        </span>
+                    </div>
+                    <div class="form-group" >
+                        <label for="res-descriere">Descriere resursa</label>
+                        <input type="text" class="form-control" id="res-descriere" name="res-descriere" ng-model="vm.addEditResursaInterna.descriere">
+                    </div>
+                    <div class="form-group" >
+                        <label for="res_uiTipResursaSis">Tip resursa</label>
+                        <ui-select name="res_uiTipResursaSis" ng-model="vm.addEditResursaInterna.selectedType" theme="selectize" title="Selecteaza tip resursa" required>
+                            <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                            <ui-select-choices repeat="item in vm.addEditResursaInterna.availableTypes | filter: $select.search">
+                                <div>{{item.text}}</div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span ng-show="vm.errorResponse || resourceForm.res_uiTipResursaSis.$touched">
+                            <span ng-show="resourceForm.res_uiTipResursaSis.$error.required">Tip resursa este obligatoriu</span>
+                        </span>
+                    </div>
+                    <div class="form-group" >
+                        <label for="res-accessPredefinit">Acces predefinit</label>
+                        <input type="checkbox" class="form-control" id="res-accessPredefinit" name="res-accessPredefinit" ng-model="vm.addEditResursaInterna.defaultAccess">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span ng-show="vm.errorResponse">
+                        <span>{{vm.errorResponse}}</span>
+                    </span>
+                </div>
+            </div>
+            <div class="panel-footer dialog-panel-no-padding">
+                <div class="form-group">
+                    <button type="button" class="btn btn-default" ng-click="vm.deleteResource()" ng-show=" vm.selectedAction.name == 'res-edit'">Sterge</button>
+                    <button type="button" class="btn btn-default" ng-click="vm.saveResource()" ng-show="vm.selectedAction != null">Salveaza</button>
+                    <button type="button" class="btn btn-default" ng-click="vm.cancelResource()">Anuleaza</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>

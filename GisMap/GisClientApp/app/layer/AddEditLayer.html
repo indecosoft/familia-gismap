@@ -1,0 +1,175 @@
+﻿<div class="modal-content">
+    <form name="layerform"   novalidate>
+        <fieldset ng-disabled="diaCtrl.disableInput">
+            <div class="modal-header">
+                <h4 class="modal-title" ng-show="diaCtrl.isAddElseEdit">Adauga strat</h4>
+                <h4 class="modal-title" ng-show="!diaCtrl.isAddElseEdit">Modificare strat</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-if="!diaCtrl.isAddElseEdit" class="form-group">
+                    <label>Categorie</label>
+                    <ui-select ng-model="diaCtrl.categoryModel" theme="selectize">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.descriere}} ({{$select.selected.nume}})</ui-select-match>
+                        <ui-select-choices repeat="item in diaCtrl.categories" | filter: $select.search">
+                            <div>{{item.descriere}} ({{item.nume}})</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group">
+                    <label for="featureType">Tip</label>
+                    <ui-select name="style_uiTipStyle" ng-model="diaCtrl.selectedType" theme="selectize" title="Selecteaza tip strat" required ng-change="diaCtrl.onTipLayerChanged()">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                        <ui-select-choices repeat="item in diaCtrl.availableTypes | filter: $select.search">
+                            <div>{{item.text}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div ng-if="diaCtrl.layer && diaCtrl.selectedType">
+                    <div class="form-group">
+                        <label for="name">Denumire</label>
+                        <input type="text" class="form-control" id="name" name="name" ng-model="diaCtrl.layer.name" required>
+                        <span ng-show="layerform.$submitted || layerform.name.$touched">
+                            <span ng-show="layerform.name.$error.required">Denumirea este obligatorie</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Descriere</label>
+                        <input type="text" class="form-control" id="description" name="description" ng-model="diaCtrl.layer.description" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="url">Tip sursă</label>
+                        <ui-select name="styleType" ng-model="diaCtrl.selectedSourceType" theme="selectize" title="Selecteaza tip strat" required ng-change="diaCtrl.onTipSourceChanged()">
+                            <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                            <ui-select-choices repeat="item in diaCtrl.availableSourceType | filter: $select.search">
+                                <div>{{item.text}}</div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <div ng-if="diaCtrl.selectedSourceType.name === 'url'">
+                            <label>Url sursă</label>
+                            <input type="url" class="form-control" id="url" name="url" ng-model="diaCtrl.layer.url" required>
+                            <span ng-show="layerform.$submitted || layerform.url.$touched">
+                                <span ng-show="layerform.url.$error.required">Sursa este obligatorie</span>
+                            </span>
+                        </div>
+
+                        <div ng-if="diaCtrl.selectedSourceType.name === 'upload'">
+                            <div class="form-group">
+                                <label for="url">Actiune</label>
+                                <ui-select name="destActionType" ng-model="diaCtrl.selectedDestAction" theme="selectize" title="Selecteaza tip actiune" required>
+                                    <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                                    <ui-select-choices repeat="item in diaCtrl.availableDestinationActions | filter: $select.search">
+                                        <div>{{item.text}}</div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                            <div class="form-group">
+                                <label title="Sunt necesare fisierele conexe conform standard shapefile: .shp, .shx, .dbf, .prj, .cst">Fisiere shapefiles</label>
+                                <input type="file" id="layerZip" accept=".shx,.shp,.cpg,.dbf,.qpj,.qix,.prj,.fix" multiple multi-file-upload>
+                                <span ng-show="layerform.$submitted || layerform.url.$touched">
+                                    <span ng-show="layerform.url.$error.required">Sursa este obligatorie</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Proiectie</label>
+                        <input type="text" class="form-control" id="projection" name="projection" ng-model="diaCtrl.layer.projection" required>
+                        <span ng-show="layerform.$submitted || layerform.name.$touched">
+                            <span ng-show="layerform.name.$error.required">Proiectia este obligatorie</span>
+                        </span>
+                    </div>
+                    <!-- setari strat raport-->
+                    <div class="form-group" ng-if="diaCtrl.layer && diaCtrl.layer.featureType == 'polyReport'">
+                        <label for="setariRaport">Setari generare raport</label>
+                        <button class="btn-xs btn-default pull-right" data-toggle="collapse" data-target="#collapseRepSettings">v</button>
+                        <div class="collapse" id="collapseRepSettings">
+                            <edit-report-layer-settings-directive name="setariRaport" settings-list="diaCtrl.layer.reports"></edit-report-layer-settings-directive>
+                        </div>
+                    </div>
+                    <!-- stil -->
+                    <div class="form-group" ng-if="diaCtrl.layer  && diaCtrl.layer.featureType != 'tile' && diaCtrl.layer.featureType != 'heatmap'">
+                        <label for="styleType">Tip stil</label>
+                        <ui-select name="styleType" ng-model="diaCtrl.selectedStyleType" theme="selectize" title="Selecteaza tip strat" required ng-change="diaCtrl.onTipStyleChanged()">
+                            <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                            <ui-select-choices repeat="item in diaCtrl.availableStyleType | filter: $select.search">
+                                <div>{{item.text}}</div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                    <!-- stil baza -->
+                    <div id="stildebaza" class="well">
+                        <div class="form-group" ng-if="diaCtrl.layer && !diaCtrl.isAddElseEdit && diaCtrl.layer.featureType == 'icon'">
+                            <label for="name">Denumire imagine stil de baza</label>
+                            <input type="text" class="form-control" id="filename" name="filename" ng-model="diaCtrl.layer.asset" readonly>
+                        </div>
+                        <div class="form-group" ng-if="diaCtrl.layer && diaCtrl.layer.featureType == 'icon'">
+                            <label for="asset" ng-show="diaCtrl.isAddElseEdit">Incarca imagine, stil de baza</label>
+                            <label for="asset" ng-show="!diaCtrl.isAddElseEdit">Incarca imagine noua, stil de baza</label>
+                            <input type="file" class="form-control" id="file" name="file" file-upload>
+                            <span ng-show="layerform.$submitted || layerform.file.$touched">
+                                <span ng-show="layerform.file.$error.validFile">Selectați o imagine</span>
+                            </span>
+                        </div>
+                        <div class="form-group" ng-if="diaCtrl.layer && diaCtrl.layer.featureType != 'icon' && diaCtrl.layer.featureType != 'tile' && diaCtrl.layer.featureType != 'heatmap'">
+                            <label for="color">Culoare, stil de baza</label>
+                            <color-picker-directive color-picker-data="diaCtrl.defaultStyle" id-color="baseFill"></color-picker-directive>
+                        </div>
+                        <input type="hidden" id="category" name="category" value="{{ngDialogData.category}}" />
+                    </div>
+                    <!-- multistyle -->
+                    <div id="multistil" class="well" ng-if="diaCtrl.layer && diaCtrl.layer.featureType != 'tile' && diaCtrl.layer.featureType != 'heatmap' && (diaCtrl.layer.styleType == 'multiStyle' || diaCtrl.selectedStyleType.name === 'singleStyle')">
+                        <div class="form-group">
+                            <label for="styleKeyCol">Proprietate element pentru selectie stil multiplu</label>
+                            <input type="text" class="form-control" id="styleKeyCol" name="styleKeyCol" ng-model="diaCtrl.layer.styleKeyColumn" required>
+                            <span ng-show="layerform.$submitted || layerform.styleKeyCol.$touched">
+                                <span ng-show="layerform.styleKeyCol.$error.required">Proprietate element este obligatoriu</span>
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Stiluri pentru strat</label>
+                            <div class="well" ng-repeat="style in diaCtrl.asignedLStyles">
+                                <div class="form-group" style="margin-bottom:10px">
+                                    <label>Denumire stil: {{style.styleName}} </label>
+                                    <button type="button" name="btnRemoveStyle" class="btn btn-xs btn-default pull-right" ng-click="diaCtrl.onRemoveOptionStyle(style)"> x </button>
+                                </div>
+                                <div class="row" ng-if="diaCtrl.selectedStyleType.name !== 'singleStyle'">
+                                    <h5 for="res_opt_descriere{{style.text}}" class="control-label col-sm-5">Cheie selectie stil</h5>
+                                    <div class="col-sm-7">
+                                        <input type="text" class="form-control" id="res_opt_descriere{{opt.id}}" name="res_opt_descriere{{opt.id}}" ng-model="style.styleKey">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-xs-8" id="div-add-style-cmb">
+                                    <ui-select name="style_uiTipStyle" ng-model="diaCtrl.selectedLStyle" theme="selectize" title="Selecteaza stil">
+                                        <ui-select-match placeholder="Selecteaza stil sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                                        <ui-select-choices repeat="item in diaCtrl.getRemainingStyles() | filter: $select.search">
+                                            <div>{{item.text}}</div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <div class="col-xs-4" id="div-add-style-btn">
+                                    <button ng-disabled="diaCtrl.asignedLStyles.length === 1 && diaCtrl.selectedStyleType.name === 'singleStyle'" type="button" name="addNewStyleToLayer" class="btn btn-default add-res-rol-option btn-block" ng-click="diaCtrl.onAddStyleToLayer()"> Adauga stil </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <span ng-show="diaCtrl.errorResponse">
+                        <span>{{diaCtrl.errorResponse}}</span>
+                    </span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-disabled="!layerform.$valid" ng-click="diaCtrl.save(diaCtrl)">Salvează</button>
+                <button type="button" class="btn" ng-click="diaCtrl.cancel()">Închide</button>
+            </div>
+        </fieldset>
+    </form>
+</div>

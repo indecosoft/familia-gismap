@@ -1,0 +1,41 @@
+﻿
+<div class="modal-content">
+    <form name="userForm" enctype="multipart/form-data" ng-submit="diaCtrl.saveSettings()" novalidate>
+        <fieldset ng-disabled="diaCtrl.disableInput">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="userMult">Nume utilizator</label>
+                    <ui-select name="uiSelectUser" ng-model="diaCtrl.userSettings.name" theme="selectize" title="Selecteaza utilizator" ng-change="diaCtrl.onChangeUser(diaCtrl,$select.selected)">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                        <ui-select-choices repeat="item in diaCtrl.availableUsers | filter: $select.search">
+                            <!--<div ng-bind-html="item.text | highlight: $select.search">{{item.text}}</div>-->
+
+                            <div>{{item.text}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group">
+                    <label for="rolMult">Roluri</label>
+                    <ui-select name="uiSelectRoles" ng-model="diaCtrl.userSettings.roles" multiple theme="selectize" title="Selecteaza roluri">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$item.text}}</ui-select-match>
+                        <ui-select-choices repeat="item in diaCtrl.availableRoles | filter: $select.search">
+                            <!--<div ng-bind-html="item.Text | highlight: $select.search">{{item.text}}</div>-->
+                            <div>{{item.text}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group">
+                    <span ng-show="diaCtrl.errorResponse">
+                        <span>{{diaCtrl.errorResponse}}</span>
+                    </span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="form-group">
+                    <button type="button" class="btn btn-default" ng-disabled="diaCtrl.errorResponse" ng-click="diaCtrl.save()">Salveaza</button>
+                    <button type="button" class="btn btn-default" ng-click="diaCtrl.cancel()">Anuleaza</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>

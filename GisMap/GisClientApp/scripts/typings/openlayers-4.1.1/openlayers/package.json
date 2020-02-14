@@ -1,0 +1,26 @@
+{
+    "name": "@types/openlayers",
+    "version": "4.1.1",
+    "description": "TypeScript definitions for OpenLayers",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Olivier Sechet",
+            "url": "https://github.com/osechet"
+        },
+        {
+            "name": "Guilhem Brouat",
+            "url": "https://github.com/ganlhi"
+        }
+    ],
+    "main": "",
+    "repository": {
+        "type": "git",
+        "url": "https://www.github.com/DefinitelyTyped/DefinitelyTyped.git"
+    },
+    "scripts": {},
+    "dependencies": {},
+    "peerDependencies": {},
+    "typesPublisherContentHash": "4e05427704e5ad920d6dd32a326d54a08f3c914ecf22a1a6b2c981f2114f5c42",
+    "typeScriptVersion": "2.0"
+}

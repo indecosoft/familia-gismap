@@ -1,0 +1,114 @@
+﻿<!-- optiuni -->
+<div class="panel dialog-panel-no-margin" ng-if="vm.selectedAction.name == 'res-rol-opt' || vm.selectedAction.name == 'res-opt'">
+    <form name="resourceForm" novalidate>
+        <fieldset ng-disabled="vm.disableInput">
+            <div class="panel-body dialog-panel-no-padding">
+                <!---->
+                <div class="form-group" ng-show="vm.selectedAction.name == 'res-rol-opt' || vm.selectedAction.name == 'res-opt'">
+                    <!--<div class="form-group" hidden>-->
+                    <label for="uiSelectResType">Tip resursa</label>
+                    <ui-select name="uiSelectResType" ng-model="vm.addEditResursaOptiuni.selectedType" theme="selectize" title="Selecteaza tip resursa" ng-change="vm.onChangeResursaOptType(vm,$select.selected)">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.addEditResursaOptiuni.availableTypes | filter: $select.search">
+                            <div>{{item.text}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group" ng-show="vm.selectedAction.name == 'res-rol-opt' || vm.selectedAction.name == 'res-opt'">
+                    <label for="userMult">Nume resursa</label>
+                    <ui-select name="uiSelectUser" ng-model="vm.addEditResursaOptiuni.selectedResursa" theme="selectize" title="Selecteaza strat" ng-change="vm.onChangeResursaOpt(vm,$select.selected)">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.nume}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.resourcesForSelectedType() | filter: $select.search">
+                            <div>{{item.nume}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <!-- optiuni resursa-->
+                <div class="form-group" ng-show="vm.selectedAction.name == 'res-opt'">
+                    Optiuni
+                    <div class="well" ng-repeat="opt in vm.addEditResursaOptiuni.assignedOptions">
+
+                        <div class="form-group" style="margin-bottom:10px">
+                            <label>Setari pentru {{opt.nume}} </label>
+                            <button type="button" name="btnRemoveOption" class="btn btn-xs btn-default pull-right" ng-click="vm.onRemoveOptionFromResursa(opt)"> x </button>
+                        </div>
+                        <div class="">
+                            <div class="row" ng-show="opt.group === vm.optionGroupType.item || opt.group === vm.optionGroupType.index">
+                                <h5 for="res_opt_idItem{{opt.id}}" class="control-label col-sm-5"> Identificator element </h5>
+                                <div class="col-sm-4">
+                                    <input type="number" min="-1" step="1" class="form-control" id="res_opt_idItem" name="res_opt_idItem" ng-model="opt.idItem">
+                                </div>
+                            </div>
+                            <div class="row" ng-show="opt.group === vm.optionGroupType.item || opt.group === vm.optionGroupType.relation">
+                                <h5 for="res_opt_descriere{{opt.id}}" class="control-label col-sm-5">Denumire element</h5>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" id="res_opt_descriere{{opt.id}}" name="res_opt_descriere{{opt.id}}" ng-model="opt.descriere">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <h5 for="res_opt_accessPredefinit{{opt.id}}" class="control-label col-sm-5"> Acces predefinit </h5>
+                                <div class="col-sm-2">
+                                    <input type="checkbox" class="form-control pull-left" id="res_opt_accessPredefinit{{opt.id}}" name="res_opt_accessPredefinit{{opt.id}}" ng-model="opt.defaultAccess">
+                                </div>
+                            </div>
+                            <div class="row" ng-hide="opt.group === vm.optionGroupType.index">
+                                <h5 for="res_opt_accessCustom{{opt.id}}" class="control-label col-sm-5"> Acces customizat </h5>
+                                <div class="col-sm-7">
+                                    <!--<input type="text" class="form-control" id="res_opt_accessCustom{{opt.id}}" name="res_opt_accessCustom{{opt.id}}" ng-model="opt.customAccess">-->
+                                    <select class="form-control" name="res_opt_sel_option{{opt.id}}" ng-model="opt.customAccess" ng-options="o as o for o in vm.addEditResursaOptiuni.availableCustomAccess">
+                                        <option value=""> Selecteaza tip acces </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-inline" ng-show="vm.selectedAction.name == 'res-opt'">
+                    <ui-select name="res_new_option" class="" ng-model="vm.addEditResursaOptiuni.newOption" theme="selectize" title="Selecteaza optiune">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.nume}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.optionsLeftForResursa() | filter: $select.search">
+                            <div>{{item.nume}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <button type="button" name="btnAddResOptiune" class="btn btn-default " ng-click="vm.onAddOptionToResursa()">Adauga optiune</button>
+                </div>
+
+                <!-- optiuni rol-->
+                <div class="form-group" ng-show="vm.selectedAction.name == 'res-rol-opt'">
+                    <label for="rolMult">Roluri</label>
+                    <div class="well" ng-repeat="rol in vm.addEditResursaOptiuni.assignedRoleOptions">
+                        <div class="form-inline" style="margin-bottom:10px">
+                            <label>Acces optiuni pentru {{rol.nume}} </label>
+                            <button type="button" name="btnRemoveRol" class="btn btn-xs btn-default pull-right" ng-click="vm.onRemoveRolFromResursa(rol)"> x </button>
+                        </div>
+                        <select-options rol="rol" optiuni="vm.addEditResursaOptiuni.availableResourceOptions"></select-options>
+
+                    </div>
+                </div>
+                <div class="form-inline" ng-show="vm.selectedAction.name == 'res-rol-opt'">
+                    <ui-select name="res_new_resrole" ng-model="vm.addEditResursaOptiuni.newResRole" theme="selectize" title="Selecteaza optiune">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.rolesLeftForResursa() | filter: $select.search">
+                            <div>{{item.text}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <button type="button" name="btnAddResOptiune" class="btn btn-default" ng-click="vm.onAddRoleToResursa()">Adauga rol</button>
+                </div>
+                <!---->
+                <div class="form-group">
+                    <span ng-show="vm.errorResponse">
+                        <span>{{vm.errorResponse}}</span>
+                    </span>
+                </div>
+            </div>
+            <div class="panel-footer dialog-panel-no-padding">
+                <div class="form-group">
+                    <button type="button" class="btn btn-default" ng-click="vm.saveResOption()" ng-show="vm.selectedAction != null">Salveaza</button>
+                    <button type="button" class="btn btn-default" ng-click="vm.cancelResOption()">Anuleaza</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+</div>

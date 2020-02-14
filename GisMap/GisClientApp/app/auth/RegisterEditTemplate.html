@@ -1,0 +1,109 @@
+﻿<div class="modal-content">
+    <form name="loginForm" enctype="multipart/form-data" target="frmupload" method="post" ng-submit="diaCtrl.save(ngDialogData)" novalidate>
+        <fieldset ng-disabled="diaCtrl.disableInput">
+            <div class="modal-header">
+                <h4 class="modal-title">Administrare utilizator</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="featureType">Selecteaza actiune utilizator</label>
+                    <ui-select name="uiSelectUser" ng-model="diaCtrl.actionType" theme="selectize" title="Selecteaza actiune" ng-change="diaCtrl.onChangeAction(diaCtrl,$select.selected)">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.description}}</ui-select-match>
+                        <ui-select-choices repeat="item in diaCtrl.actionList | filter: $select.search">
+                            <div>{{item.description}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group" ng-show="diaCtrl.actionType.name == 'ch-info-user'">
+                    <label for="userMult">Selecteaza utilizator</label>
+                    <ui-select name="uiSelectUser" ng-model="diaCtrl.selectedUser" theme="selectize" title="Selecteaza utilizator" ng-change="diaCtrl.onChangeUser(diaCtrl,$select.selected)">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                        <ui-select-choices repeat="item in diaCtrl.availableUsers | filter: $select.search">
+                            <!--<div ng-bind-html="item.text | highlight: $select.search">{{item.text}}</div>-->
+
+                            <div>{{item.text}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class="form-group" ng-show="diaCtrl.actionType.name == 'reg-user' || diaCtrl.actionType.name == 'ch-info' || (diaCtrl.actionType.name == 'ch-info-user' && diaCtrl.selectedUser)">
+                    <label for="name">Nume persoana</label>
+                    <input type="text" class="form-control" id="name" name="name" ng-model="diaCtrl.name" required>
+                    <span ng-show="loginForm.$submitted || loginForm.name.$touched">
+                        <span ng-show="loginForm.name.$error.required">Nume este obligatoriu</span>
+                    </span>
+                </div>
+                <div class="form-group" ng-show="diaCtrl.actionType.name == 'reg-user' || diaCtrl.actionType.name == 'ch-info' || (diaCtrl.actionType.name == 'ch-info-user' && diaCtrl.selectedUser)">
+                    <label for="email">E-mail</label>
+                    <input type="email" class="form-control" id="email" name="email" ng-model="diaCtrl.email" required>
+                    <span ng-show="loginForm.$submitted || loginForm.email.$touched">
+                        <span ng-show="loginForm.email.$error.required">E-mail este obligatoriu</span>
+                        <span ng-show="loginForm.email.$error.email">Format e-mail este incorect</span>
+                    </span>
+                </div>
+                <div class="form-group" ng-show="diaCtrl.actionType.name == 'reg-user' || diaCtrl.actionType.name == 'ch-info' || (diaCtrl.actionType.name == 'ch-info-user' && diaCtrl.selectedUser)">
+                    <label for="phone">Telefon</label>
+                    <input type="text" class="form-control" id="phone" name="phone" ng-model="diaCtrl.phone" required>
+                    <span ng-show="loginForm.$submitted || loginForm.phone.$touched">
+                        <span ng-show="loginForm.phone.$error.required">Numar telefon este obligatoriu</span>
+                    </span>
+                </div>
+                <div class="form-group" ng-show="diaCtrl.actionType.name == 'reg-user' || diaCtrl.actionType.name == 'ch-info' || (diaCtrl.actionType.name == 'ch-info-user' && diaCtrl.selectedUser)">
+                    <label for="phone">Versiune setari view harta</label>
+                    <ui-select name="uiSelmapConfig" ng-model="diaCtrl.selectedConfigVersion" theme="selectize" title="Selecteaza versiune" ng-change="" required>
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                        <ui-select-choices repeat="item in diaCtrl.availableConfigVersions | filter: $select.search">
+                            <div>{{item.text}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span ng-show="vm.errorResponse || resourceForm.uiSelmapConfig.$touched">
+                        <span ng-show="resourceForm.uiSelmapConfig.$error.required">Id Config este obligatoriu</span>
+                    </span>
+                </div>
+                <div class="form-group" ng-show="diaCtrl.actionType.name == 'reg-user' || diaCtrl.actionType.name == 'ch-pass-user'">
+                    <label for="username">Nume utilizator</label>
+                    <input type="text" class="form-control" id="username" name="username" ng-model="diaCtrl.username" required>
+                    <span ng-show="loginForm.$submitted || loginForm.username.$touched">
+                        <span ng-show="loginForm.username.$error.required">Nume utilizator este obligatoriu</span>
+                    </span>
+                </div>
+
+                <div class="form-group" ng-show="diaCtrl.actionType.name == 'ch-pass'">
+                    <label for="passwordold">Parola veche</label>
+                    <input type="password" class="form-control" id="passwordold" name="passwordold" ng-model="diaCtrl.passwordOld" required>
+                    <span ng-show="loginForm.$submitted || loginForm.passwordold.$touched">
+                        <span ng-show="loginForm.passwordold.$error.required">Parola veche este obligatorie</span>
+                    </span>
+                </div>
+                <div class="form-group" ng-show="diaCtrl.actionType.name == 'reg-user' || diaCtrl.actionType.name == 'ch-pass'|| diaCtrl.actionType.name == 'ch-pass-user'">
+                    <label for="password">Parola</label>
+                    <input type="password" class="form-control" id="password" name="password" ng-model="diaCtrl.password" required>
+                    <span ng-show="loginForm.$submitted || loginForm.password.$touched">
+                        <span ng-show="loginForm.password.$error.required">Parola este obligatorie</span>
+                    </span>
+                </div>
+                <div class="form-group" ng-show="diaCtrl.actionType.name == 'reg-user' || diaCtrl.actionType.name == 'ch-pass'|| diaCtrl.actionType.name == 'ch-pass-user'">
+                    <label for="passwordconfirm">Confirma Parola</label>
+                    <input type="password" class="form-control" id="passwordconfirm" name="passwordconfirm" ng-model="diaCtrl.passwordConfirm" required>
+                    <span ng-show="loginForm.$submitted || loginForm.passwordconfirm.$touched">
+                        <span ng-show="loginForm.passwordconfirm.$error.required">Confirmare parola este obligatorie</span>
+                    </span>
+                </div>
+
+            </div>
+            <div class="form-group">
+                <span ng-show="diaCtrl.errorResponse">
+                    <span>{{diaCtrl.errorResponse}}</span>
+                </span>
+            </div>
+            <div class="modal-footer">
+                <!--ng-disabled="!loginForm.$valid"-->
+                <button type="button" class="btn btn-default"  ng-click="diaCtrl.save()" ng-show="diaCtrl.actionType.name == 'ch-info' ||(diaCtrl.actionType.name == 'ch-info-user' && diaCtrl.selectedUser) ">Salveaza</button>
+                <button type="button" class="btn btn-default"  ng-click="diaCtrl.register()" ng-show="diaCtrl.actionType.name == 'reg-user'">Inregistreaza</button>
+                <button type="button" class="btn btn-default"  ng-click="diaCtrl.changePassword()" ng-show="diaCtrl.actionType.name == 'ch-pass'|| diaCtrl.actionType.name == 'ch-pass-user'">Schimba parola</button>
+                <button type="button" class="btn btn-default" ng-if="diaCtrl.actionType == null" ng-click="diaCtrl.reload()">Reincarca</button>
+                <button type="button" class="btn" ng-click="diaCtrl.cancel()">Închide</button>
+            </div>
+        </fieldset>
+    </form>
+</div>

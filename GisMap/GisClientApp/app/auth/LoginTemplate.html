@@ -1,0 +1,35 @@
+﻿<div class="modal-content">
+    <form name="loginForm" enctype="multipart/form-data" target="frmupload" method="post" ng-submit="diaCtrl.save(ngDialogData)" novalidate>
+        <fieldset ng-disabled="diaCtrl.disableInput">
+            <div class="modal-header">
+                <h4 class="modal-title">Autentificare utilizator</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="name">Nume utilizator</label>
+                    <input type="text" class="form-control" id="username" name="username" ng-model="diaCtrl.username" required>
+                    <span ng-show="loginForm.$submitted || loginForm.name.$touched">
+                        <span ng-show="loginForm.username.$error.required">Nume utilizator este obligatoriu</span>
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label for="url">Parola</label>
+                    <input type="password" class="form-control" id="password" name="password" ng-model="diaCtrl.password" ng-keypress="diaCtrl.onKeyPress($event)"  required>
+                    <span ng-show="loginForm.$submitted || loginForm.url.$touched">
+                        <span ng-show="loginForm.password.$error.required">Parola este obligatorie</span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <span ng-show="diaCtrl.errorResponse">
+                    <span>{{diaCtrl.errorResponse}}</span>
+                </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-disabled="!loginForm.$valid" ng-click="diaCtrl.authenticate()">Autentifica</button>
+                <button type="button" class="btn btn-default" ng-click="diaCtrl.authenticateAnonymous()">Acces anonim</button>
+                <button type="button" class="btn" ng-click="diaCtrl.cancel()">Închide</button>
+            </div>
+        </fieldset>
+    </form>
+</div>

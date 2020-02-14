@@ -1,0 +1,38 @@
+﻿<div class="panel dialog-panel-no-margin" ng-if="vm.selectedAction.name === 'client-cat'">
+    <form novalidate>
+        <div class="panel-body dialog-panel-no-padding">
+            <div style="margin-bottom: 20px">
+                <label>Categorii asignate</label>
+                <div class="well" ng-repeat="item in vm.assignedCategories">
+                    <div>
+                        <button class="btn btn-xs btn-default pull-right" ng-click="vm.deleteCategory(item)"> x </button>
+                        <label>Cod: {{ item.nume }}</label>
+                    </div>
+                    <div>
+                        <label>Denumire: {{ item.descriere }}</label>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px">
+                <div>
+                    <label>Categorie</label>
+                    <ui-select ng-model="vm.categoryModel" theme="selectize" ng-change="vm.onChangeCategory($select.selected)">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.nume}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.categories" | filter: $select.search">
+                            <div>{{item.descriere}} ({{item.nume}})</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <button class="btn btn-default" ng-click="vm.addCategory()">Adauga categorie</button>
+            </div>
+        </div>
+
+        <div class="panel-footer dialog-panel-no-padding">
+            <div class="form-group">
+                <button type="button" class="btn btn-default" ng-click="vm.save()" ng-show="vm.selectedAction != null">Salveaza</button>
+                <button type="button" class="btn btn-default" ng-click="vm.cancel()">Anuleaza</button>
+            </div>
+        </div>
+    </form>
+</div>

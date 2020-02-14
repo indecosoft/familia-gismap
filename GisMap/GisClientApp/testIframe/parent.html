@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Parent Window</title>
+</head>
+<body>
+
+    <h4>Parent Window</h4>
+    <p>Send Message (Image CQL): <button id="message_button_image">Filter on cql Image</button></p>
+    <p>Send Message 864190030935997: <button id="message_button">filter on imei</button></p>
+    <p>Send Message 864190030936193: <button id="message_button2">filter on imei</button></p>
+    <p>Send Message: <button id="message_button3">clear</button></p>
+    <p>Send Message clickMap: <button id="message_button4">clickMapAll</button><button id="message_button4a">clickMap coord</button><button id="message_button4b">clickMap prop</button></p>
+    <p> Send animeaza ruta: <button id="message_button5">animeaza</button> StartPointIndex: <input id="message_input5" type="number" min="-2" max="1000" step="1" value="3"/> Animeaza: <input type="checkbox" id="message_check5" value="false"/></p>
+    <p> Send centerMap: <button id="message_button6">centreaza</button> Zoom: <input id="message_input6" type="number" min="1" max="100" step="1" value="4"/></p>
+    <p> Sent centerMap by feature<button id="message_button7">centraza</button></p>
+    <label>
+        Start date
+        <input type="datetime-local" id="start_date" name="start_date" value="2018-01-01T01:00" />
+    </label>
+    <label>
+        End date
+        <input type="datetime-local" id="end_date" name="end_date" value="2018-01-01T01:00" />
+    </label>
+
+    <p>Got Message:</p>
+    <div id="results"></div>
+    <br />
+
+    <script>
+        // addEventListener support for IE8
+        function bindEvent(element, eventName, eventHandler) {
+            if (element.addEventListener) {
+                element.addEventListener(eventName, eventHandler, false);
+            } else if (element.attachEvent) {
+                element.attachEvent('on' + eventName, eventHandler);
+            }
+        }
+        //var iframeSource = '../index.html#!?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjI2LCJjbGkiOjQsImV4cCI6MTUzNDE2MDEwMiwiaWF0IjoxNTMzMTIzMzAyfQ.vgnqDgjdU8k9OK24PYd09TEQKPlYYhuIjQ1zWwKks5M';
+        //var iframeSource = '../index.html#!?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImNsaSI6MSwiZXhwIjoxNTM4Mjk5MzgwLCJpYXQiOjE1MzcyNjI1ODB9.VeJsRG3qj2Xcj-98Xt7vAFQHUMUbaznBtjHP9ImMrGA&userfilter=[{"layer":"Asistenta Sociala","set":" lunaAjutor < 1000-01-28T12:00:00Z"}]';
+        //var iframeSource = '../index.html#!?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjI3LCJjbGkiOjQsImV4cCI6MTU1Mjk3Nzk3NCwiaWF0IjoxNTUxOTQxMTc0fQ.KE1zN1xHXzpAHSNawVaSJRvkeC1v-kAch5rxhN185jk&userfilter=%5B%7B%22layer%22:%22Asistenta%20Sociala%22,%22set%22:%22%20lunaAjutor%20%3C%201000-01-28T12:00:00Z%22%7D%5D';
+        var iframeSource = '../index.html#!?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjI1LCJjbGkiOjQsImV4cCI6MTU1MzM1MTYzNCwiaWF0IjoxNTUyMzE0ODM0fQ.gTUYOwrtYfc_5xl3EjvfdUiucrWeG8MNJ2fKFxd3fDw';
+
+        
+
+
+        // Create the iframe
+        var iframe = document.createElement('iframe');
+        iframe.setAttribute('src', iframeSource);
+        iframe.setAttribute('id', 'the_iframe');
+        iframe.style.width = 100 + '%';
+        iframe.style.height = 400 + 'px';
+        document.body.appendChild(iframe);
+        // Send a message to the child iframe
+        var iframeEl = document.getElementById('the_iframe'),
+            messageButtonImage = document.getElementById('message_button_image'),
+            messageButton = document.getElementById('message_button'),
+            messageButton2 = document.getElementById('message_button2'),
+            messageButton3 = document.getElementById('message_button3'),
+            messageButton4 = document.getElementById('message_button4'),
+            messageButton4a = document.getElementById('message_button4a'),
+            messageButton4b = document.getElementById('message_button4b'),
+            messageButton5 = document.getElementById('message_button5'),
+            messageInputp5 = document.getElementById('message_input5'),
+            messageCheck5 = document.getElementById('message_check5'),
+            messageButton6 = document.getElementById('message_button6'),
+            messageInputp6 = document.getElementById('message_input6'),
+            messageButton7 = document.getElementById('message_button7'),
+            startDate = document.getElementById('start_date'),
+            endDate = document.getElementById('end_date'),
+            results = document.getElementById('results');
+        // Send a message to the child iframe
+        var sendMessage = function (msg) {
+            // Make sure you are sending a string, and to stringify JSON
+            iframeEl.contentWindow.postMessage(msg, '*');
+        };
+        // Send random messge data on every button click
+        bindEvent(messageButton, 'click', function (e) {
+            var random = Math.random();
+            var startd = startDate.value;
+            var endd = endDate.value;
+            //var message = '{"token":"","userfilter":[{"layer":"Dispozitive masuratori","set":[{"grOp":"and","grVal":"imei = 864190030935997"},{"grOp":"and","grVal":"dateTimeISO < 2018-05-31T00:00:00Z"},{"grOp":"and","grVal":"dateTimeISO > 2018-01-01T00:00:00Z"}]},{"layer":"Dispozitive traseu","set":[{"grOp":"and","grVal":"imei = 864190030936193"},{"grOp":"and","grVal":"data_str > 2018 - 03 - 05"},{"grOp":"and","grVal":"data_str < 2018 - 03 - 08"}]},{"layer":"Dispozitive rute","set":[{"grOp":"and","grVal":"imei = 864190030936193"},{"grOp":"and","grVal":"data_str > 2018 - 03 - 05"},{"grOp":"and","grVal":"data_str < 2018 - 03 - 08"}]}]}';
+            var message = '{"type":"cqlFilter","token":"","userfilter":[{"layer":"Dispozitive masuratori","set":"imei = 864190030935997 and dateTimeISO < ' + endd + ':00Z' + ' and dateTimeISO > ' + startd + ':00Z' + '"}]}';
+
+            sendMessage(message);
+        });
+
+        bindEvent(messageButtonImage, 'click', function (e) {
+            var message = '{"type":"cqlFilter","token":"","userfilter":[{"layer":"Cluster Asistenta Sociala","set":"lunaAjutorLT = 201806"}]}';
+            sendMessage(message);
+        });
+        bindEvent(messageButton2, 'click', function (e) {
+            var random = Math.random();
+            var startd = startDate.value;
+            var endd = endDate.value;
+            var message = '{"type":"cqlFilter","token":"","userfilter":[{"layer":"Dispozitive masuratori","set":"imei = 864190030936193 and dateTimeISO < ' + endd + ':00Z' + ' and dateTimeISO > ' + startd + ':00Z' + '"}]}';
+
+            sendMessage(message);
+        });
+        bindEvent(messageButton3, 'click', function (e) {
+            var random = Math.random();
+            var startd = startDate.value;
+            var endd = endDate.value;
+            var message = '{"type":"cqlFilter","token":"","userfilter":[{"layer":"Dispozitive masuratori","set":""}]}';
+
+            sendMessage(message);
+        });
+        bindEvent(messageButton4, 'click', function (e) {
+            var message = '{"type":"sendMapClick","token":"","coordinates":[123,456]}';
+            //message = '{"type":"sendMapClick","layer":"Dispozitive masuratori","coordinates":[2620854.6983675184, 6050910.200649587],"properties":[{"key":"id","value":10091}]}';
+            //message = '{"type":"sendMapClick","layer":"Dispozitive masuratori","coordinates":[2620854.6983675184, 6050910.200649587],"properties":[{"key":"dateTimeISO","value":"2018-11-14T08:30:35Z"}]}';
+            message = `{"type":"sendMapClick","layer":"Alerte","coordinates":[2621424.5741667324,6049909.679285043],"properties":[{"key":"id","value":8}]}`
+            message = `{"type":"sendMapClick","layer":"Alerte","coordinates":[2621424.5741667324,6049909.679285043],"properties":[{"key":"id","value":8}]}`
+
+            sendMessage(message);
+        });
+        bindEvent(messageButton4a, 'click', function (e) {
+             message = `{"type":"sendMapClick","mode":"coordinates","coordinates":[2621424.5741667324,6049909.679285043]}`
+             sendMessage(message);
+        });
+        bindEvent(messageButton4b, 'click', function (e) {
+           // message = `{"type":"sendMapClick","mode":"properties","layer":"Alerte","properties":[{"key":"id","value":8}]}`;
+            message = `{"type":"sendMapClick","mode":"properties","layer":"Zone restrictie strazi","properties":[{"key":"id","value":20}]}`;
+            sendMessage(message);
+        });
+        bindEvent(messageButton5, 'click', function (e) {
+            var startVal = messageInputp5.value;
+            var animateVal = messageCheck5.checked;
+            var message = `{"type":"animateRoute","layer":"Rute ad-hoc","startPointIndex":${startVal}, "startAnimation":${animateVal} ,"properties":[{"key":"id","value":1662}]}`;
+            sendMessage(message);
+        });
+        bindEvent(messageButton6, 'click', function (e) {
+            var zoomVal = messageInputp6.value;
+            var message = `{"type":"sendMapView","center":[24, 47],"zoom":${zoomVal}}`;
+            sendMessage(message);
+        });
+        bindEvent(messageButton7, 'click', function (e) {
+            //var zoomVal = messageInputp6.value;
+            var message = `{"type":"sendMapView","centerByFeature":{"layerName":"Dispozitive masuratori", "properties":[{"key":"id","value":13397}]},"zoom":10}`;
+            //var message = `{"type":"sendMapView","centerByFeature":{"layerName":"Rute ad-hoc", "properties":[{"key":"id","value":1662}]},"zoom":14}`;
+
+            sendMessage(message);
+        });
+
+        // Listen to message from child window
+        bindEvent(window, 'message', function (e) {
+            results.innerHTML = e.data;
+            let tmpData = JSON.parse(e.data);
+            if (tmpData['type'] && tmpData['type'] === "featureExtraInfo") {
+                try {
+                    let data = tmpData['data']['info'];
+                    for (var i = 0; i < data.length; i++) {
+                        let currentItem = data[i];
+                        if (currentItem.item === 'cnp') {
+                            currentItem.value = '248';
+                        }
+                        if (currentItem.item === 'nume') {
+                            currentItem.value = 'ddd';
+                        }
+                        if (currentItem.item === 'prenume') {
+                            currentItem.value = 'vvv';
+                        }
+                    }
+                    sendMessage(JSON.stringify(tmpData));
+                } catch (e) {
+
+                }
+            }
+        });
+    </script>
+</body>
+</html>

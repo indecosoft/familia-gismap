@@ -1,0 +1,370 @@
+﻿<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{64B7E761-36DE-4671-8F1A-7FAAFD55DF7B}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GisClientApp</RootNamespace>
+    <AssemblyName>GisClientApp</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptModuleKind>None</TypeScriptModuleKind>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
+    <FilesToIncludeForPublish>AllFilesInTheProject</FilesToIncludeForPublish>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="app\features\info-connected-features-controller.ts" />
+    <TypeScriptCompile Include="app\features\reports\fisa-spatiului-verde-controller.ts" />
+    <TypeScriptCompile Include="app\file\file-directives.ts" />
+    <TypeScriptCompile Include="app\layer\editReportLayerSetDirective.ts" />
+    <TypeScriptCompile Include="app\layer\layer-dialogs-service.ts" />
+    <TypeScriptCompile Include="app\map\map-dialogs.ts" />
+    <TypeScriptCompile Include="app\map\map-ol-features.ts" />
+    <TypeScriptCompile Include="app\map\map-ol-init.ts" />
+    <TypeScriptCompile Include="app\map\map-ol-position.ts" />
+    <TypeScriptCompile Include="app\map\report-layer-formulas.ts" />
+    <TypeScriptCompile Include="app\roles\addEditCategoryDirective.ts" />
+    <TypeScriptCompile Include="app\roles\addEditDayRoutesTaskDirective.ts" />
+    <TypeScriptCompile Include="app\roles\addEditInternalResourceDirective.ts" />
+    <TypeScriptCompile Include="app\roles\addEditMapConfigDirective.ts" />
+    <TypeScriptCompile Include="app\roles\addEditRoleDirective.ts" />
+    <TypeScriptCompile Include="app\roles\addEditStyleSettingsDirective.ts" />
+    <TypeScriptCompile Include="app\roles\clientCategoriesDirective.ts" />
+    <TypeScriptCompile Include="app\roles\editOptResRolDirective.ts" />
+    <TypeScriptCompile Include="app\roles\editResOptRolDirective.ts" />
+    <TypeScriptCompile Include="app\roles\resouce-roles-controller.ts" />
+    <TypeScriptCompile Include="app\roles\roles-dialogs-services.ts" />
+    <TypeScriptCompile Include="app\roles\selectOptionsDirective.ts" />
+    <TypeScriptCompile Include="app\roles\colorPickerDirective.ts" />
+    <TypeScriptCompile Include="app\roles\styleSettingsDirective.ts" />
+    <TypeScriptCompile Include="app\routes\add-edit-route-controller.ts" />
+    <TypeScriptCompile Include="app\app-settings.ts" />
+    <TypeScriptCompile Include="app\layer\add-edit-layer-controller.ts" />
+    <TypeScriptCompile Include="app\features\edit-search-info-controller.ts" />
+    <TypeScriptCompile Include="app\features\details-features-info-controller.ts" />
+    <TypeScriptCompile Include="app\features\info-dialogs-service.ts" />
+    <TypeScriptCompile Include="app\features\edit-feature-info-controller.ts" />
+    <TypeScriptCompile Include="app\auth\auth-dialogs-service.ts" />
+    <TypeScriptCompile Include="app\features\print-features-info-controller.ts" />
+    <TypeScriptCompile Include="app\auth\register-edit-controller.ts" />
+    <TypeScriptCompile Include="app\auth\login-controller.ts" />
+    <TypeScriptCompile Include="app\routes\add-edit-station-controller.ts" />
+    <TypeScriptCompile Include="app\routes\route-dialogs-service.ts" />
+    <TypeScriptCompile Include="app\routes\route-data-service.ts" />
+    <TypeScriptCompile Include="app\services\popover-service.ts" />
+    <TypeScriptCompile Include="app\services\route-message-service.ts" />
+    <TypeScriptCompile Include="app\services\transport-data-service.ts" />
+    <TypeScriptCompile Include="app\services\user-filter-service.ts" />
+    <TypeScriptCompile Include="app\roles\user-roles-controller.ts" />
+    <TypeScriptCompile Include="app\services\user-settings-service.ts" />
+    <Content Include="app\auth\LoginTemplate.html">
+      <DependentUpon>login-controller.ts</DependentUpon>
+    </Content>
+    <Content Include="app\auth\RegisterEditTemplate.html">
+      <DependentUpon>register-edit-controller.ts</DependentUpon>
+    </Content>
+    <Content Include="app\features\DetailsFeaturesInfo.html">
+      <DependentUpon>details-features-info-controller.ts</DependentUpon>
+    </Content>
+    <Content Include="app\features\EditFeatureInfo.html">
+      <DependentUpon>edit-feature-info-controller.ts</DependentUpon>
+    </Content>
+    <Content Include="app\features\EditSearchInfo.html">
+      <DependentUpon>edit-search-info-controller.ts</DependentUpon>
+    </Content>
+    <Content Include="app\features\InfoConnectedFeatures.html">
+      <DependentUpon>info-connected-features-controller.ts</DependentUpon>
+    </Content>
+    <Content Include="app\features\PrintFeaturesInfo.html">
+      <DependentUpon>print-features-info-controller.ts</DependentUpon>
+    </Content>
+    <Content Include="app\features\reports\FisaSpatiuluiVerde.html">
+      <DependentUpon>fisa-spatiului-verde-controller.ts</DependentUpon>
+    </Content>
+    <Content Include="app\layer\AddEditLayer.html">
+      <DependentUpon>add-edit-layer-controller.ts</DependentUpon>
+    </Content>
+    <Content Include="app\layer\EditReportLayerSettings.html">
+      <DependentUpon>editReportLayerSetDirective.ts</DependentUpon>
+    </Content>
+    <Content Include="app\popover\popover.html" />
+    <TypeScriptCompile Include="app\roles\addEditClientDirective.ts" />
+    <TypeScriptCompile Include="app\roles\addResOptionToMClientRolDirective.ts" />
+    <Content Include="app\roles\AddEditCategory.html">
+      <DependentUpon>addEditCategoryDirective.ts</DependentUpon>
+    </Content>
+    <Content Include="app\roles\AddEditClient.html">
+      <DependentUpon>addEditClientDirective.ts</DependentUpon>
+    </Content>
+    <Content Include="app\roles\AddEditDayRoutesTask.html">
+      <DependentUpon>addEditDayRoutesTaskDirective.ts</DependentUpon>
+    </Content>
+    <Content Include="app\roles\AddEditInternalResource.html">
+      <DependentUpon>addEditInternalResourceDirective.ts</DependentUpon>
+    </Content>
+    <Content Include="app\roles\AddEditMapConfig.html">
+      <DependentUpon>addEditMapConfigDirective.ts</DependentUpon>
+    </Content>
+    <Content Include="app\roles\AddEditRole.html">
+      <DependentUpon>addEditRoleDirective.ts</DependentUpon>
+    </Content>
+    <Content Include="app\roles\AddEditStyleSettings.html">
+      <DependentUpon>addEditStyleSettingsDirective.ts</DependentUpon>
+    </Content>
+    <Content Include="app\roles\AddResOptionToMClientRol.html">
+      <DependentUpon>addResOptionToMClientRolDirective.ts</DependentUpon>
+    </Content>
+    <Content Include="app\roles\ClientCategories.html">
+      <DependentUpon>clientCategoriesDirective.ts</DependentUpon>
+    </Content>
+    <Content Include="app\roles\ColorPicker.html">
+      <DependentUpon>colorPickerDirective.ts</DependentUpon>
+    </Content>
+    <Content Include="app\roles\EditOptResRol.html">
+      <DependentUpon>editOptResRolDirective.ts</DependentUpon>
+    </Content>
+    <Content Include="app\roles\EditResOptRol.html">
+      <DependentUpon>editResOptRolDirective.ts</DependentUpon>
+    </Content>
+    <Content Include="app\roles\EditResourceRoles.html">
+      <DependentUpon>resouce-roles-controller.ts</DependentUpon>
+    </Content>
+    <Content Include="app\roles\EditUserRoles.html">
+      <DependentUpon>user-roles-controller.ts</DependentUpon>
+    </Content>
+    <Content Include="app\roles\SelectOptions.html">
+      <DependentUpon>selectOptionsDirective.ts</DependentUpon>
+    </Content>
+    <Content Include="app\roles\StyleSettings.html">
+      <DependentUpon>styleSettingsDirective.ts</DependentUpon>
+    </Content>
+    <Content Include="app\routes\AddEditRoute.html">
+      <DependentUpon>add-edit-route-controller.ts</DependentUpon>
+    </Content>
+    <Content Include="app\routes\AddEditStation.html">
+      <DependentUpon>add-edit-station-controller.ts</DependentUpon>
+    </Content>
+    <Content Include="Content\ui-bootstrap-csp.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <None Include="packages.config" />
+    <Content Include="img\featureEdit.png" />
+    <Content Include="img\finishFlag.png" />
+    <Content Include="img\location-marker.svg" />
+    <Content Include="img\painter-palette.png" />
+    <Content Include="img\palette-solid.svg" />
+    <Content Include="img\startFlag.png" />
+    <Content Include="scripts\angular-color-picker.js" />
+    <Content Include="scripts\angular-jvt.js" />
+    <Content Include="scripts\angular-moment-picker.js" />
+    <Content Include="scripts\angular-moment.js" />
+    <Content Include="scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="scripts\angular-ui\ui-bootstrap.min.js" />
+    <Content Include="scripts\angular.min.js" />
+    <Content Include="scripts\angularPrint.js" />
+    <Content Include="scripts\html5shiv.min.js" />
+    <Content Include="scripts\jquery.min.js" />
+    <Content Include="scripts\jqueryui.min.js" />
+    <Content Include="scripts\moment.js" />
+    <Content Include="scripts\ng-rateit.js" />
+    <Content Include="scripts\ngDialog.js" />
+    <Content Include="scripts\ol-debug.js" />
+    <Content Include="scripts\ol.js" />
+    <Content Include="scripts\proj4.js" />
+    <Content Include="scripts\respond.min.js" />
+    <Content Include="scripts\select.js" />
+    <Content Include="scripts\slider.js" />
+    <Content Include="scripts\star-rating.js" />
+    <Content Include="scripts\turf.js" />
+    <Content Include="scripts\turf.min.js" />
+    <Content Include="scripts\typings\openlayers-4.1.1\openlayers\LICENSE" />
+    <Content Include="scripts\typings\openlayers-4.1.1\openlayers\package.json" />
+    <Content Include="scripts\typings\openlayers-4.1.1\openlayers\README.md" />
+    <Content Include="scripts\ui-grid.min.js" />
+    <Content Include="styles\angular-color-picker.css" />
+    <Content Include="styles\angular-moment-picker.css" />
+    <Content Include="styles\angularPrint.css" />
+    <Content Include="styles\bootstrap-theme.css.map" />
+    <Content Include="styles\bootstrap.css.map" />
+    <Content Include="styles\ng-rateit.css" />
+    <Content Include="styles\selectize.default.css" />
+    <Content Include="styles\star-rating.css" />
+    <Content Include="styles\ui-grid.ttf" />
+    <Content Include="styles\ui-grid.woff" />
+    <None Include="Properties\PublishProfiles\DevLinuxBistrita.pubxml">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\PublishProfiles\DevLinux.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\ProdLinux.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <TypeScriptCompile Include="app\services\window-message-service.ts" />
+    <TypeScriptCompile Include="scripts\typings\geojson\geojson.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\turf\turf-2.0.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="index.html" />
+    <Content Include="scripts\bootstrap.js" />
+    <Content Include="styles\bootstrap-theme.css" />
+    <Content Include="styles\bootstrap.css" />
+    <Content Include="styles\font-awesome.min.css" />
+    <Content Include="styles\jquery-ui.css" />
+    <Content Include="styles\ngDialog-theme-default.css" />
+    <Content Include="styles\ngDialog.css" />
+    <Content Include="styles\ol.css" />
+    <Content Include="styles\select.css" />
+    <Content Include="styles\select2.css" />
+    <Content Include="styles\style.css" />
+    <Content Include="styles\ui-grid.min.css" />
+    <Content Include="testIframe\parenteab.html" />
+    <Content Include="testIframe\parent.html" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="app\app.ts" />
+    <TypeScriptCompile Include="app\definitions.ts" />
+    <TypeScriptCompile Include="app\map\map-controller.ts" />
+    <TypeScriptCompile Include="scripts\typings\angularjs\angular.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\bootstrap\bootstrap.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\jquery\jquery.d.ts" />
+    <TypeScriptCompile Include="scripts\typings\openlayers-4.1.1\openlayers\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="templates\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>54508</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:54508/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.1.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,53 @@
+﻿<div class="modal-content">
+
+    <div class="modal-header">
+        <h4 class="modal-title">Detalii locatie </h4>
+    </div>
+    <!--properties-->
+    <div class="modal-body">
+        <label>Informatii locatie:</label>
+        <button class="btn-xs btn-default pull-right" data-toggle="collapse" data-target="#collapseRapEatureInfo">V</button>
+        <div class="collapse" id="collapseRapEatureInfo">
+            <div class="form-group" ng-repeat="property in diaCtrl.raportFeatureProps" ng-hide="property.edit == 'hide'">
+                <label for="name">{{property.name}}</label>
+                <div ng-if="property.control === diaCtrl.controlType.text">
+                    <p type="text" class="form-control" id="{{property.name}}">{{property.value}}</p>
+                </div>
+                <!-- text area-->
+                <div ng-if="property.control === diaCtrl.controlType.textArea">
+                    <textarea class="form-control" rows="{{property.rows}}" readonly>{{property.value}} </textarea>
+                </div>
+                <!-- rate input -->
+                <div ng-if="property.control === diaCtrl.controlType.rate">
+                    <ng-rate-it id="{{property.name}}" name="property.name" ng-model="property.value" min="property.min" max="property.max" step="property.step" read-only="true"></ng-rate-it><!--<span> {{property.value}}</span>-->
+                </div>
+            </div>
+        </div>
+        <div ng-if="diaCtrl.selectedFeature">
+            <label>Informatii conexe:  {{diaCtrl.selectedFeatureId + 1}} of {{diaCtrl.connectedFeaturesCount}}</label>
+            <div class="form-group" ng-repeat="property in diaCtrl.connectedFeatureProps" ng-hide="property.edit == 'hide'">
+                <label for="name">{{property.name}}</label>
+                <div ng-if="property.control === diaCtrl.controlType.text">
+                    <p type="text" class="form-control" id="{{property.name}}">{{property.value}}</p>
+                </div>
+                <!-- text area-->
+                <div ng-if="property.control === diaCtrl.controlType.textArea">
+                    <textarea class="form-control" rows="{{property.rows}}" readonly>{{property.value}} </textarea>
+                </div>
+                <!-- rate input -->
+                <div ng-if="property.control === diaCtrl.controlType.rate">
+                    <ng-rate-it id="{{property.name}}" name="property.name" ng-model="property.value" min="property.min" max="property.max" step="property.step" read-only="true"></ng-rate-it><!--<span> {{property.value}}</span>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" ng-click="diaCtrl.prev()" ng-disabled="!diaCtrl.enablePrev()">Precedent</</button>
+        <button type="button" class="btn btn-default pull-left" ng-click="diaCtrl.next()" ng-disabled="!diaCtrl.enableNext()">Urmator</button>
+
+        <button type="button" class="btn pull-right" ng-click="diaCtrl.cancel()">Închide</button>
+    </div>
+
+</div>

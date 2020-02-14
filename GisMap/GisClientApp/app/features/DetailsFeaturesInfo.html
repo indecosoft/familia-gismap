@@ -1,0 +1,32 @@
+﻿<div class="modal-content" id="detailsFeaturesInfo">
+    <div class="modal-header">
+        <h4 class="modal-title">Detalii selectie</h4>
+    </div>
+    <div class="modal-body">
+        <!--ToDo create table-->
+        <div class="listOfTables" ng-repeat="featureTab in diaCtrl.featuresInTables">
+            <div class="row">
+                <div class="col-sm-10">
+                    <h5>{{featureTab.name}}</h5>
+                </div>
+                <div class="col-sm-2">
+                    <button class="pull-right" ng-show="diaCtrl.isAdmin" ng-click="diaCtrl.saveDefaultOptions(featureTab)">Salvare optiuni predefinite</button>
+                </div>
+            </div>
+            <!--<div ui-grid="{data: featureTab.data}" ui-grid-selection ui-grid-exporter ui-grid-resize-columns class="gridTable"></div>-->
+            <div ui-grid="featureTab.gridOptions" ui-grid-selection ui-grid-resize-columns ui-grid-move-columns class="gridTable"></div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" ng-click="diaCtrl.export()">Exporta csv</button>
+        <button type="button" class="btn" ng-click="diaCtrl.cancel()">Inchide</button>
+    </div>
+    <script type="text/javascript">
+        $('.ngdialog-content').width('100%');
+        if ($('.gridTable').length > 1) {
+            $('.gridTable').height('300px');
+        } else {
+            $('.gridTable').height('700px');
+        }
+    </script>
+</div>

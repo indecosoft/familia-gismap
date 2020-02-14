@@ -1,0 +1,95 @@
+﻿<div class="modal-content">
+    <form name="addStationForm"  novalidate>
+        <fieldset ng-disabled="diaCtrl.disableInput">
+            <div class="modal-header">
+                <h4 class="modal-title" ng-show="diaCtrl.isAddElseEdit">Adauga statie</h4>
+                <h4 class="modal-title" ng-show="!diaCtrl.isAddElseEdit">Modificare statie</h4>
+            </div>
+            <!--properties-->
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="name">Nume</label>
+                    <input type="text" class="form-control" name="nume" ng-model="diaCtrl.station.name" ng-disabled="!diaCtrl.isAddElseEdit"  ng-required="true">
+                </div>
+                <div class="form-group">
+                    <label for="name">Categorie</label>
+                    <input type="text" class="form-control" name="categorie" ng-model="diaCtrl.station.type" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="name">Longitudine</label>
+                    <input type="number" class="form-control" name="longitudine" step="0.0000000001" ng-model="diaCtrl.station.long" ng-required="true">
+                </div>
+                <div class="form-group">
+                    <label for="name">Latitudine</label>
+                    <input type="number" class="form-control" name="latitudine" step="0.0000000001" ng-model="diaCtrl.station.lat" ng-required="true">
+                </div>
+                <div class="form-group" ng-show="diaCtrl.isInputInfoEnabled('tip_statie')">
+                    <label for="name">Tip statie</label>
+                    <input type="text" class="form-control" name="tip_statie" ng-model="diaCtrl.station.tip_statie">
+                </div>
+                <div class="form-group" ng-show="diaCtrl.isInputInfoEnabled('adresa')">
+                    <label for="name">Adresa</label>
+                    <input type="text" class="form-control" name="adresa" ng-model="diaCtrl.station.adresa">
+                </div>
+                <div class="form-group" ng-show="diaCtrl.isInputInfoEnabled('telefon')">
+                    <label for="name">Telefon</label>
+                    <input type="text" class="form-control" name="telefon" ng-model="diaCtrl.station.telefon">
+                </div>
+                <div class="form-group" ng-show="diaCtrl.isInputInfoEnabled('email')">
+                    <label for="name">Email</label>
+                    <input type="text" class="form-control" name="email" ng-model="diaCtrl.station.email">
+                </div>
+                <div class="form-group" ng-show="diaCtrl.isInputInfoEnabled('adresa_web')">
+                    <label for="name">Adresa web</label>
+                    <input type="text" class="form-control" name="adresa_web" ng-model="diaCtrl.station.adresa_web">
+                </div>
+                <div class="form-group" ng-show="diaCtrl.isInputInfoEnabled('orar')">
+                    <label for="name">Orar</label>
+                    <input type="text" class="form-control" name="orar" ng-model="diaCtrl.station.orar">
+                </div>
+                <div class="form-group" ng-show="diaCtrl.isInputInfoEnabled('imagine')">
+                    <label for="name">Imagine</label>
+                    <input type="text" class="form-control" name="imagine" ng-model="diaCtrl.station.imagine">
+                </div>
+                <div class="form-group" ng-show="diaCtrl.isInputInfoEnabled('numar_locuri')">
+                    <label for="name">Numar locuri</label>
+                    <input type="number" class="form-control" name="numar_locuri" step="1" ng-model="diaCtrl.station.numar_locuri">
+                </div>
+                <div class="form-group" ng-show="diaCtrl.isInputInfoEnabled('tip_orientare')">
+                    <label for="name">Tip orientare</label>
+                    <input type="text" class="form-control" name="tip_orientare" ng-model="diaCtrl.station.tip_orientare">
+                </div>
+                <div class="form-group" ng-show="diaCtrl.isInputInfoEnabled('tip_servicii')">
+                    <label for="name">Tip servicii</label>
+                    <input type="text" class="form-control" name="tip_servicii" ng-model="diaCtrl.station.tip_servicii">
+                </div>
+                <div class="form-group" ng-show="diaCtrl.isInputInfoEnabled('tip_lucrare')">
+                    <label for="name">Tip lucrare</label>
+                    <input type="text" class="form-control" name="tip_lucrare" ng-model="diaCtrl.station.tip_lucrare">
+                </div>
+                <div class="form-group" ng-show="diaCtrl.isInputInfoEnabled('durata_interventie')">
+                    <label for="name">Durata_interventie</label>
+                    <input type="number" class="form-control" name="durata_interventie" ng-model="diaCtrl.station.durata_interventie">
+                </div>
+
+            </div>
+            <div class="form-group">
+                <ul>
+                    <li ng-repeat="(key, errors) in addStationForm.$error track by $index">
+                        <strong>{{ key }}</strong> errors
+                        <ul>
+                            <li ng-repeat="e in errors">{{ e.$name }} are eroare: <strong>{{ key }}</strong>.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <span ng-show="diaCtrl.errorResponse">
+                    <span>{{diaCtrl.errorResponse}}</span>
+                </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="diaCtrl.save()" ng-disabled="!diaCtrl.enableSaveButton() || !addStationForm.$valid">Salveaza</button>
+                <button type="button" class="btn" ng-click="diaCtrl.cancel()">Închide</button>
+            </div>
+        </fieldset>
+    </form>
+</div>

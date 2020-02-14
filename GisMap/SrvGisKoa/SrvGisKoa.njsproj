@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>SrvGisKoa</Name>
+    <RootNamespace>SrvGisKoa</RootNamespace>
+    <ToolsVersionPromptShown>2.5</ToolsVersionPromptShown>
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
+    <NameOfLastUsedPublishProfile>devlinux</NameOfLastUsedPublishProfile>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>8863bf93-b9c9-4f44-a46f-81b467d0a6b8</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>app.ts</StartupFile>
+    <StartWebBrowser>True</StartWebBrowser>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <NodejsPort>80</NodejsPort>
+    <TypeScriptSourceMap>true</TypeScriptSourceMap>
+    <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+    <TypeScriptToolsVersion>2.5</TypeScriptToolsVersion>
+    <EnableTypeScript>true</EnableTypeScript>
+    <StartWebBrowser>True</StartWebBrowser>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="devlinux.pubxml" />
+    <None Include="prodlinux.pubxml" />
+    <None Include="devlinuxbistrita.pubxml" />
+    <Content Include="utils\ServiceMon\package-lock.json" />
+    <Content Include="utils\ServiceMon\package.json" />
+    <Content Include="utils\ServiceMon\public\css\bootstrap.css" />
+    <Content Include="utils\ServiceMon\public\css\font-awesome.css" />
+    <Content Include="utils\ServiceMon\public\favicon-16x16.png" />
+    <Content Include="utils\ServiceMon\public\favicon-32x32.png" />
+    <Content Include="utils\ServiceMon\public\favicon-96x96.png" />
+    <Content Include="utils\ServiceMon\public\favicon.ico" />
+    <Content Include="utils\ServiceMon\public\fonts\fontawesome-webfont.eot" />
+    <Content Include="utils\ServiceMon\public\fonts\fontawesome-webfont.svg" />
+    <Content Include="utils\ServiceMon\public\fonts\fontawesome-webfont.ttf" />
+    <Content Include="utils\ServiceMon\public\fonts\fontawesome-webfont.woff" />
+    <Content Include="utils\ServiceMon\public\fonts\fontawesome-webfont.woff2" />
+    <Content Include="utils\ServiceMon\public\fonts\FontAwesome.otf" />
+    <Content Include="utils\ServiceMon\public\index.html" />
+    <Content Include="utils\Watchdog\package.json" />
+    <Content Include="web.config" />
+    <TypeScriptCompile Include="admin\addSendToken.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="admin\isAuthenticated.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="admin\isAuthorized.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="admin\jwt.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="admin\localClientLogin.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="admin\localClientRegister.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="admin\localLogin.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="admin\localRegister.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="admin\passport-config.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="admin\passport-local-client.js">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="admin\userAuth.ts" />
+    <TypeScriptCompile Include="app.ts" />
+    <None Include="devgis.pubxml" />
+    <Content Include="tsconfig.json" />
+    <Content Include="package.json" />
+    <Content Include="README.md" />
+    <TypeScriptCompile Include="config.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="db\dbRemote-syncMTable.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="db\entity\admin.test.d.ts" />
+    <TypeScriptCompile Include="db\entity\custom.d.ts" />
+    <TypeScriptCompile Include="db\entity\log.test.d.ts" />
+    <TypeScriptCompile Include="db\entity\public.d.ts" />
+    <TypeScriptCompile Include="db\entity\log.d.ts" />
+    <TypeScriptCompile Include="db\db.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="db\entity\admin.d.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="db\entity\public.test.d.ts" />
+    <TypeScriptCompile Include="db\types.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="queries\admin.q.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="queries\asistentaSociala.q.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="queries\geoserverApi.q.ts" />
+    <TypeScriptCompile Include="queries\impozite.q.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="queries\metadata.q.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="queries\config.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="queries\data.q.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="queries\devices.q.ts" />
+    <TypeScriptCompile Include="queries\locatieAdresa.q.ts" />
+    <TypeScriptCompile Include="queries\redirect.q.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="queries\syncMTables.q.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="queries\transport.q.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="queries\urbanism.q.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\admin.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\asistentaSociala.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\data.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\devices.ts" />
+    <TypeScriptCompile Include="routes\geoserverApi.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\impozite.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\index.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\locatieAdresa.ts" />
+    <TypeScriptCompile Include="routes\metadata.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\redirect.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\syncMTables.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\transport.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\urbanism.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="services\generateDayRoutes.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="services\services.ts" />
+    <TypeScriptCompile Include="services\syncMTablesScheduler.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="services\syncMTablesTask.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="db\entity\" />
+    <Folder Include="layerItemImage\" />
+    <Folder Include="db\" />
+    <Folder Include="admin\" />
+    <Folder Include="geoserverRest\" />
+    <Folder Include="queries\" />
+    <Folder Include="routes\" />
+    <Folder Include="services\" />
+    <Folder Include="utils\" />
+    <Folder Include="utils\ServiceMon\" />
+    <Folder Include="utils\ServiceMon\public\" />
+    <Folder Include="utils\ServiceMon\public\app\" />
+    <Folder Include="utils\ServiceMon\public\css\" />
+    <Folder Include="utils\ServiceMon\public\fonts\" />
+    <Folder Include="utils\ServiceMon\public\scripts\" />
+    <Folder Include="utils\ServiceMon\public\scripts\i18n\" />
+    <Folder Include="utils\Watchdog\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="admin\utils.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="cluster.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="install.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="utils\ServiceMon\public\app\index.js" />
+    <Compile Include="utils\ServiceMon\public\scripts\angular-route.js" />
+    <Compile Include="utils\ServiceMon\public\scripts\angular-sanitize.js" />
+    <Compile Include="utils\ServiceMon\public\scripts\angular.js" />
+    <Compile Include="utils\ServiceMon\public\scripts\i18n\angular-locale_ro-ro.js" />
+    <Compile Include="utils\ServiceMon\server.js" />
+    <Compile Include="utils\Watchdog\index.js" />
+  </ItemGroup>
+  <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
+  <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:48022/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
+        <WebProjectProperties>
+          <StartPageUrl>
+          </StartPageUrl>
+          <StartAction>CurrentPage</StartAction>
+          <AspNetDebugging>True</AspNetDebugging>
+          <SilverlightDebugging>False</SilverlightDebugging>
+          <NativeDebugging>False</NativeDebugging>
+          <SQLDebugging>False</SQLDebugging>
+          <ExternalProgram>
+          </ExternalProgram>
+          <StartExternalURL>
+          </StartExternalURL>
+          <StartCmdLineArguments>
+          </StartCmdLineArguments>
+          <StartWorkingDirectory>
+          </StartWorkingDirectory>
+          <EnableENC>False</EnableENC>
+          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

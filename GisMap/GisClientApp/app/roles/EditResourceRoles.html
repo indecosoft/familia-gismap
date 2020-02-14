@@ -1,0 +1,63 @@
+﻿
+<div class="modal-content">
+    <!--<form name="resourceForm" novalidate>-->
+    <div class="modal-header">
+        <h4 class="modal-title">Administrare resurse si optiuni</h4>
+    </div>
+    <!---->
+    <div class="modal-body">
+        <fieldset ng-disabled="diaCtrl.disableInput">
+            <div class="form-group">
+                <label for="uiSelectAction">Selecteaza actiune</label>
+                <ui-select name="uiSelectAction" ng-model="diaCtrl.selectedAction" theme="selectize" title="Selecteaza actiune" ng-change="diaCtrl.onChangeAction(diaCtrl,$select.selected.name)">
+                    <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                    <ui-select-choices repeat="item in diaCtrl.actionList | filter: $select.search">
+                        <div>{{item.text}}</div>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+        </fieldset>
+        <!-- edit resursa optiuni rol -->
+        <edit-optiuni-resursa-rol add-edit-resursa-optiuni="diaCtrl.addEditResursaOptiuni" disable-input="diaCtrl.disableInput" selected-action="diaCtrl.selectedAction">
+        </edit-optiuni-resursa-rol>
+        <!--  -->
+        <!-- add edit role -->
+        <add-edit-role add-edit-role="diaCtrl.addEditRole" disable-input="diaCtrl.disableInput" selected-action="diaCtrl.selectedAction">
+        </add-edit-role>
+        <!--  -->
+        <!-- new or edit internal resource -->
+        <add-edit-internal-resource add-edit-resursa-interna="diaCtrl.addEditResursaInterna" disable-input="diaCtrl.disableInput" selected-action="diaCtrl.selectedAction">
+        </add-edit-internal-resource>
+        <!-- -->
+        <!-- add edit client -->
+        <add-edit-client add-edit-client="diaCtrl.addEditClient" disable-input="diaCtrl.disableInput" selected-action="diaCtrl.selectedAction">
+        </add-edit-client>
+
+        <add-res-opt-to-m-client add-opt-res-cli="diaCtrl.addOptResCli" disable-input="diaCtrl.disableInput" selected-action="diaCtrl.selectedAction">
+        </add-res-opt-to-m-client>
+
+        <!-- add edit style-->
+        <add-edit-style-settings add-edit-style-settings="diaCtrl.addEditStyleSettings" disable-input="diaCtrl.disableInput" selected-action="diaCtrl.selectedAction">
+        </add-edit-style-settings>
+        <!-- -->
+        <!-- add edit day routes task-->
+        <add-edit-day-routes-task selected-action="diaCtrl.selectedAction" disable-input="diaCtrl.disableInput">
+        </add-edit-day-routes-task>
+        <!-- -->
+        <!-- add edit map config settings-->
+        <add-edit-map-config-directive map-data="diaCtrl.mapData" add-edit-map-Config="diaCtrl.addEditMapViewSettings" selected-action="diaCtrl.selectedAction" disable-input="diaCtrl.disableInput">
+        </add-edit-map-config-directive>
+        <!---->
+        <edit-res-opt-rol-directive disable-input="diaCtrl.disableInput" selected-action="diaCtrl.selectedAction"></edit-res-opt-rol-directive>
+        <!-- -->
+        <add-edit-cat-directive disable-input="diaCtrl.disableInput" selected-action="diaCtrl.selectedAction"></add-edit-cat-directive>
+        <!-- -->
+        <client-categories-directive disable-input="diaCtrl.disableInput" selected-action="diaCtrl.selectedAction"></client-categories-directive>
+    </div>
+    <div class="modal-footer" ng-show="diaCtrl.selectedAction == null">
+        <div class="form-group">
+            <button type="button" class="btn btn-default" ng-click="diaCtrl.cancel()">Anuleaza</button>
+        </div>
+    </div>
+
+</div>

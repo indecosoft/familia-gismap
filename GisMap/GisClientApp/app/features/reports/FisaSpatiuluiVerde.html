@@ -1,0 +1,403 @@
+﻿<div class="modal-content" id="fisaSpatiuVerde">
+    <!--<div class="modal-header">
+        <h4 class="modal-title">Rapoarte</h4>
+    </div>-->
+    <div class="modal-body">
+        <!-- Header -->
+        <div ng-repeat="svRaport in diaCtrl.svRaports" print-section ng-class="!$last ? 'pageBrakeAfter': ''">
+            <div class="modal-header" style="text-align:center">
+                <h4 class="modal-title">FISA SPATIULUI VERDE</h4>
+            </div>
+            <div print-section>
+                <!--<h4>Anexa: Fisa spatiului verde</h4>-->
+                <table id="tblHeaderInfo" width="100%">
+                    <col width="10%" />
+                    <col width="22%" />
+                    <col width="14%" />
+                    <col width="18%" />
+                    <col width="14%" />
+                    <col width="18%" />
+                    <tbody>
+                        <tr>
+                            <td>{{diaCtrl.denumiriColoaneHeader.judetul}}:</td>
+                            <td>{{svRaport.headInfo.judet}}</td>
+                            <td>{{diaCtrl.denumiriColoaneHeader.sectiunePlan}}:</td>
+                            <td>{{svRaport.headInfo.sectiunePlan}}</td>
+                            <td>{{diaCtrl.denumiriColoaneHeader.codZonaValorica}}:</td>
+                            <td>{{svRaport.headInfo.codZonaValorica}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{diaCtrl.denumiriColoaneHeader.localitatea}}:</td>
+                            <td>{{svRaport.headInfo.localitatea}}</td>
+                            <td>{{diaCtrl.denumiriColoaneHeader.nrCadastral}}:</td>
+                            <td>{{svRaport.headInfo.nrCadastral}}</td>
+                            <td>{{diaCtrl.denumiriColoaneHeader.codZonaProtejata}}:</td>
+                            <td>{{svRaport.headInfo.codZonaProtejata}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{diaCtrl.denumiriColoaneHeader.codsiruta}}:</td>
+                            <td>{{svRaport.headInfo.codSiruta}}</td>
+                            <td>{{diaCtrl.denumiriColoaneHeader.nrCarteFunciara}}:</td>
+                            <td>{{svRaport.headInfo.nrCarteFunciara}}</td>
+                            <td>{{diaCtrl.denumiriColoaneHeader.codPostal}}:</td>
+                            <td>{{svRaport.headInfo.codPostal}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Create map image-->
+            <div print-section class="mapImageContainer">
+                <h5>1. SCHITA AMPLASAMENTULUI TERENULUI SPATIU VERDE</h5>
+                <img width="100%" id="mapImage" ng-src="{{diaCtrl.mapImgUrl}}" />
+            </div>
+
+            <!-- Adresa -->
+            <div print-section>
+                <h5>2. ADRESA:</h5>
+                <p>{{svRaport.adresa}}</p>
+            </div>
+            <!-- Tabel spatiu verde -->
+            <div print-section>
+                <h5>3. DATE DESPRE TERENUL SPATIU VERDE</h5>
+                <table id="tblSpatiuVerde" width="100%">
+                    <col width="11%" />
+                    <col width="11%" />
+                    <col width="11%" />
+                    <col width="11%" />
+                    <col width="11%" />
+                    <col width="11%" />
+                    <col width="11%" />
+                    <col width="11%" />
+                    <col width="11%" />
+                    <thead>
+                        <tr>
+                            <th>{{diaCtrl.denumiriColoaneSpatiuVerde.proprietar}}</th>
+                            <th>{{diaCtrl.denumiriColoaneSpatiuVerde.proprietate}}</th>
+                            <th>{{diaCtrl.denumiriColoaneSpatiuVerde.modAdministrare}}</th>
+                            <th>{{diaCtrl.denumiriColoaneSpatiuVerde.categorieDeFolosinta}}</th>
+                            <th>{{diaCtrl.denumiriColoaneSpatiuVerde.reglementareUrbanistica}}</th>
+                            <th>{{diaCtrl.denumiriColoaneSpatiuVerde.suprafataMasurataTerenExclusiv}}</th>
+                            <th>{{diaCtrl.denumiriColoaneSpatiuVerde.suprafataMasurataTerenIndiviziune}}</th>
+                            <th>{{diaCtrl.denumiriColoaneSpatiuVerde.totalTerenSpatiuVerde}}</th>
+                            <th>{{diaCtrl.denumiriColoaneSpatiuVerde.observatii}}</th>
+                        </tr>
+                        <tr>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+                            <th>8</th>
+                            <th>9</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="titem in svRaport.spatiiVerzi">
+                            <td>{{ titem.proprietar }}</td>
+                            <td>{{ titem.proprietate }}</td>
+                            <td>{{ titem.modAdministrare }}</td>
+                            <td>{{ titem.categorieDeFolosinta }}</td>
+                            <td>{{ titem.reglementareUrbanistica }}</td>
+                            <td>{{ titem.suprafataMasurataTerenExclusiv }}</td>
+                            <td>{{ titem.suprafataMasurataTerenIndiviziune }}</td>
+                            <td>{{ titem.totalTerenSpatiuVerde }}</td>
+                            <td>{{ titem.observatii }}</td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="7">Total teren spatiu verde</td>
+                            <td>{{svRaport.totalTerenSpatiiVerzi}}</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <!-- Tabel spatiu verde -->
+            <div print-section>
+                <h5>4. DATE PRIVIND CONSTRUCTIILE EXISTENTE PE TERENUL SPATIU VERDE</h5>
+                <table id="tblConstructii" width="100%">
+                    <col width="14%" />
+                    <col width="14%" />
+                    <col width="14%" />
+                    <col width="14%" />
+                    <col width="14%" />
+                    <col width="14%" />
+                    <col width="14%" />
+                    <thead>
+                        <tr>
+                            <th>{{diaCtrl.denumiriColoaneConstructie.proprietar}}</th>
+                            <th>{{diaCtrl.denumiriColoaneConstructie.proprietate}}</th>
+                            <th>{{diaCtrl.denumiriColoaneConstructie.modAdministrare}}</th>
+                            <th>{{diaCtrl.denumiriColoaneConstructie.nrCorpConstructie}}</th>
+                            <th>{{diaCtrl.denumiriColoaneConstructie.codGrupaDestinatie}}</th>
+                            <th>{{diaCtrl.denumiriColoaneConstructie.suprafataConstruitaLaSol}}</th>
+                            <th>{{diaCtrl.denumiriColoaneConstructie.observatii}}</th>
+                        </tr>
+                        <tr>
+                            <th>1</th>
+                            <th>2</th>
+                            <th>3</th>
+                            <th>4</th>
+                            <th>5</th>
+                            <th>6</th>
+                            <th>7</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="titem in svRaport.constructii">
+                            <td>{{ titem.proprietar }}</td>
+                            <td>{{ titem.proprietate }}</td>
+                            <td>{{ titem.modAdministrare }}</td>
+                            <td>{{ titem.nrCorpConstructie }}</td>
+                            <td>{{ titem.codGrupaDestinatie }}</td>
+                            <td>{{ titem.suprafataConstruitaLaSol }}</td>
+                            <td>{{ titem.observatii }}</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5">Total suprafata ocupata din terenul spatiu verde</td>
+                            <td>{{svRaport.totalSuprafataDinTerenSpatiuVerde}}</td>
+                            <td></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <!-- echipare edilitara -->
+            <div print-section>
+                <h5>5. ECHIPAREA EDILITARA A TERENULUI:</h5>
+                <p>{{svRaport.echipareEdilitara}}</p>
+            </div>
+
+            <!-- Date priviind vegetatia existenta in spatiul verde -->
+            <div print-section>
+                <h5>6. DATE PRIVIND VEGETATIA EXISTENTA PE TERENUL SPATIU VERDE:</h5>
+                <div>
+                    <table id="tblVegetatie" width="100%">
+                        <col width="5%" />
+                        <col width="14%" />
+                        <col width="14%" />
+                        <col width="14%" />
+                        <col width="14%" />
+                        <col width="5%" />
+                        <col width="5%" />
+                        <col width="5%" />
+                        <col width="14%" />
+                        <thead>
+                            <tr>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.nr}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.prescurtare}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.denumireStiintifica}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.denumirePopulara}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.numarExemplare}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.diametru}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.inaltime}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.varsta}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.observatii}}</th>
+                            </tr>
+                            <tr>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5</th>
+                                <th>6</th>
+                                <th>7</th>
+                                <th>8</th>
+                                <th>9</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-repeat="gitem in svRaport.vegetatieGroups">
+                            <tr>
+                                <td colspan="5">{{gitem.categorie || '-'}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr ng-repeat="titem in gitem.vegetatie">
+                                <td>{{ titem.nr }}</td>
+                                <td>{{ titem.prescurtare }}</td>
+                                <td>{{ titem.denumireStiintifica }}</td>
+                                <td>{{ titem.denumirePopulara }}</td>
+                                <td>{{ titem.numarExemplare }}</td>
+                                <td>{{ titem.diametru }}</td>
+                                <td>{{ titem.inaltime }}</td>
+                                <td>{{ titem.varsta }}</td>
+                                <td>{{ titem.observatii }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">{{'Total - ' + gitem.categorie}}</td>
+                                <td>{{gitem.total}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+
+
+
+                            <!--<tr>
+                        <td colspan="5">Total suprafata ocupata din terenul spatiu verde</td>
+                        <td>{{svRaport.totalSuprafataDinTerenSpatiuVerde}}</td>
+                        <td></td>
+                    </tr>-->
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <!-- Date priviind vegetatia izolata -->
+            <div print-section>
+                <h5>6. DATE PRIVIND VEGETATIA IZOLATA:</h5>
+                <div>
+                    <table id="tblVegetatie" width="100%">
+                        <col width="5%" />
+                        <col width="14%" />
+                        <col width="14%" />
+                        <col width="14%" />
+                        <col width="14%" />
+                        <col width="5%" />
+                        <col width="5%" />
+                        <col width="5%" />
+                        <col width="14%" />
+                        <thead>
+                            <tr>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.nr}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.prescurtare}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.denumireStiintifica}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.denumirePopulara}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.numarExemplare}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.diametru}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.inaltime}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.varsta}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.observatii}}</th>
+                            </tr>
+                            <tr>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5</th>
+                                <th>6</th>
+                                <th>7</th>
+                                <th>8</th>
+                                <th>9</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr ng-repeat="titem in svRaport.vegetatieIzolata">
+                                <td>{{ titem.nr }}</td>
+                                <td>{{ titem.prescurtare }}</td>
+                                <td>{{ titem.denumireStiintifica }}</td>
+                                <td>{{ titem.denumirePopulara }}</td>
+                                <td>{{ titem.numarExemplare }}</td>
+                                <td>{{ titem.diametru }}</td>
+                                <td>{{ titem.inaltime }}</td>
+                                <td>{{ titem.varsta }}</td>
+                                <td>{{ titem.observatii }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Date priviind vegetatia ocrotita -->
+            <div print-section>
+                <h5>6. DATE PRIVIND VEGETATIA OCROTITA:</h5>
+                <div>
+                    <table id="tblVegetatie" width="100%">
+                        <col width="5%" />
+                        <col width="14%" />
+                        <col width="14%" />
+                        <col width="14%" />
+                        <col width="14%" />
+                        <col width="5%" />
+                        <col width="5%" />
+                        <col width="5%" />
+                        <col width="14%" />
+                        <thead>
+                            <tr>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.nr}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.prescurtare}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.denumireStiintifica}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.denumirePopulara}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.numarExemplare}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.diametru}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.inaltime}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.varsta}}</th>
+                                <th>{{diaCtrl.denumiriColoaneVegetatie.observatii}}</th>
+                            </tr>
+                            <tr>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5</th>
+                                <th>6</th>
+                                <th>7</th>
+                                <th>8</th>
+                                <th>9</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr ng-repeat="titem in svRaport.vegetatieOcrotita">
+                                <td>{{ titem.nr }}</td>
+                                <td>{{ titem.prescurtare }}</td>
+                                <td>{{ titem.denumireStiintifica }}</td>
+                                <td>{{ titem.denumirePopulara }}</td>
+                                <td>{{ titem.numarExemplare }}</td>
+                                <td>{{ titem.diametru }}</td>
+                                <td>{{ titem.inaltime }}</td>
+                                <td>{{ titem.varsta }}</td>
+                                <td>{{ titem.observatii }}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot> </tfoot>
+                    </table>
+                </div>
+            </div>
+            <!-- Documente emise cu privire la spatiul verde -->
+            <div print-section>
+                <h5>7. DOCUMENTE EMISE CU PRIVIRE LA TERENUL SPATIU VERDE SI CONSTRUCTIILE EXISTENTE:</h5>
+                <p>{{svRaport.documenteEmise}}</p>
+            </div>
+            <!-- report footer-->
+            <div print-section>
+                <table id="tblReportFooter" width="100%">
+                    <col width="60%" />
+                    <col width="40%" />
+                    <tr>
+                        <td>Intocmit</td>
+                        <td>Verificat si aprobat</td>
+                    </tr>
+                    <tr>
+                        <td>extras din Registrul electronic al spatiilor verzi - Municipiul Baia Mare <br /> <a href="http://gis.indecosoft.net/">http://gis.indecosoft.net/</a></td>
+                        <td>prin HCL 237/2018</td>
+                    </tr>
+                    <tr>
+                        <td>Data:{{svRaport.printDate}}</td>
+                        <td>Data:23.04.2018</td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr><td>&nbsp;</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" print-btn print-landscape><i class="fa fa-print"></i> Print</button>
+        <button type="button" class="btn" ng-click="diaCtrl.cancel()">Inchide</button>
+    </div>
+    <script type="text/javascript">
+        $('.ngdialog-content').width('290mm');
+    </script>
+</div>

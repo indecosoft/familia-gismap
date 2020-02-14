@@ -1,0 +1,100 @@
+﻿<!-- add edit map config-->
+<div class="panel dialog-panel-no-margin" ng-if="vm.selectedAction.name == 'mapcfg-add' || vm.selectedAction.name == 'mapcfg-edit'">
+    <form name="resourceForm" novalidate>
+        <fieldset ng-disabled="vm.disableInput">
+            <div class="panel-body dialog-panel-no-padding">
+                <!---->
+                <div class="form-group" ng-show="vm.selectedAction.name == 'mapcfg-edit'">
+                    <label for="rol_uiSelRole">Selecteaza versiune</label>
+                    <ui-select name="uiSelmapConfig" ng-model="vm.addEditMapConfig.selectedView" theme="selectize" title="Selecteaza rol" ng-change="vm.onChangeConfig(diaCtrl,$select.selected)" required>
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.addEditMapConfig.availableViews | filter: $select.search">
+                            <div>{{item.text}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span ng-show="vm.errorResponse || resourceForm.uiSelmapConfig.$touched">
+                        <span ng-show="resourceForm.uiSelmapConfig.$error.required">Id Config este obligatoriu</span>
+                    </span>
+                </div>
+                <div ng-show="vm.selectedAction.name == 'mapcfg-add' || (vm.selectedAction.name == 'mapcfg-edit' && vm.addEditMapConfig.selectedView)">
+                    <div class="form-group">
+                        <label for="projection">Projection</label>
+                        <input type="text" class="form-control" id="projection" name="projection" ng-model="vm.addEditMapConfig.projection" required>
+                        <span ng-show="vm.errorResponse || resourceForm.rol_nume.$touched">
+                            <span ng-show="resourceForm.projection.$error.required">Proiectia este obligatorie</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="zoom">Zoom initial</label>
+                        <div class="row">
+                            <div class="col-xs-10">
+                                <input type="number" class="form-control" id="zoom" name="zoom" ng-model="vm.addEditMapConfig.zoom" min="0" max="100" step="1" required>
+                            </div>
+                            <div class="col-xs-1">
+                                <button class="btn btn-default" id="zoomfrommap" ng-click="vm.getMapZoom()" title="preia zoomul actual din harta">H</button>
+                            </div>
+                        </div>
+                        <span ng-show="vm.errorResponse || resourceForm.zoom.$touched">
+                            <span ng-show="resourceForm.zoom.$error.required">Zoom este obligatorie</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="zoomMin">Zoom minim</label>
+                        <input type="number" class="form-control" id="zoomMin" name="zoomMin" ng-model="vm.addEditMapConfig.minZoom" min="0" max="100" step="1" required>
+                        <span ng-show="vm.errorResponse || resourceForm.zoomMin.$touched">
+                            <span ng-show="resourceForm.zoomMin.$error.required">Zoom  minim este obligatorie</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="zoomMax">Zoom maxim</label>
+                        <input type="number" class="form-control" id="zoomMax" name="zoomMax" ng-model="vm.addEditMapConfig.maxZoom" min="0" max="100" step="1" required>
+                        <span ng-show="vm.errorResponse || resourceForm.zoomMax.$touched">
+                            <span ng-show="resourceForm.zoomMax.$error.required">Zoom maxim este obligatorie</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="centrux">Centru harta</label>
+                        <div class="row">
+                            <div class="col-xs-5">
+                                <input type="number" class="form-control" id="centrux" name="centrux" ng-model="vm.addEditMapConfig.centerLong" step="0.00000001" required>
+                            </div>
+                            <div class="col-xs-5">
+                                <input type="number" class="form-control" id="centruy" name="centruy" ng-model="vm.addEditMapConfig.centerLat" step="0.00000001" required>
+                            </div>
+                            <div class="col-lg-1">
+                                <button class="btn btn-default" id="centfrommap" ng-click="vm.getMapCenter()" title="preia centru actual din harta">H</button>
+                            </div>
+                        </div>
+                        <span ng-show="vm.errorResponse || resourceForm.centrux.$touched|| resourceForm.centruy.$touched">
+                            <span ng-show="resourceForm.centrux.$error.required || resourceForm.centrux.$error.required">centru x y  sunt obligatorii</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="basemap">Harta de baza</label>
+                        <input type="text" class="form-control" id="basemap" name="basemap" ng-model="vm.addEditMapConfig.basemap" required>
+                        <span ng-show="vm.errorResponse || resourceForm.basemap.$touched">
+                            <span ng-show="resourceForm.basemap.$error.required">Harta de baza este obligatorie</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="basemapconfig">Setari harta de baza</label>
+                        <textarea class="form-control" id="basemapconfig" name="basemapconfig" ng-model="vm.addEditMapConfig.basemapConfig" required></textarea>
+                    </div>
+                </div>
+                <!---->
+                <div class="form-group">
+                    <span ng-show="vm.errorResponse">
+                        <span>{{vm.errorResponse}}</span>
+                    </span>
+                </div>
+            </div>
+            <div class="panel-footer dialog-panel-no-padding">
+                <div class="form-group">
+                    <button type="button" class="btn btn-default" ng-click="vm.saveMapConfig()" ng-show="vm.selectedAction != null">Salveaza</button>
+                    <button type="button" class="btn btn-default" ng-click="vm.cancelMapConfig()">Anuleaza</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+</div>

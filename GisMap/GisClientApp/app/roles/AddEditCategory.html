@@ -1,0 +1,41 @@
+﻿<div class="panel dialog-panel-no-margin" ng-if="vm.selectedAction.name === 'add-cat' || vm.selectedAction.name === 'edit-cat'">
+    <form novalidate>
+        <div class="panel-body dialog-panel-no-padding">
+            <div class="well" ng-repeat="item in vm.categories" ng-if="vm.selectedAction.name === 'add-cat'">
+                <div class="form-group">
+                    <label>Cod categorie</label>
+                    <input type="text" class="form-control" ng-model="item.nume" required />
+                </div>
+                <div class="form-group">
+                    <label>Denumire</label>
+                    <input type="text" class="form-control" ng-model="item.descriere" required />
+                </div>
+            </div>
+
+            <div class="form-group" ng-if="vm.selectedAction.name === 'edit-cat'">
+                <label>Categorie</label>
+                <ui-select ng-model="vm.categoryModel" theme="selectize" ng-change="vm.onChangeCategory($select.selected)">
+                    <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.nume}}</ui-select-match>
+                    <ui-select-choices repeat="item in vm.categories" | filter: $select.search">
+                        <div>{{item.nume}}</div>
+                    </ui-select-choices>
+                </ui-select>
+
+                <div class="well" ng-if="vm.selectedCategory && vm.selectedCategory !== undefined">
+                    <div class="form-group">
+                        <label>Denumire</label>
+                        <input type="text" class="form-control" ng-model="vm.selectedCategory.descriere" required />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="panel-footer dialog-panel-no-padding">
+            <div class="form-group">
+                <button type="button" class="btn btn-default" ng-click="vm.save()" ng-show="vm.selectedAction != null">Salveaza</button>
+                <button type="button" class="btn btn-default" ng-click="vm.cancel()">Anuleaza</button>
+            </div>
+        </div>
+    </form>
+</div>

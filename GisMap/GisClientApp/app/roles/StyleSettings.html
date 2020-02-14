@@ -1,0 +1,126 @@
+﻿<div class="form-group">
+    
+    <div ng-if="vm.selectedType.name === 'point' || vm.selectedType.name == 'pointText'">
+        <div class="well">
+            <div>
+                <b>Circle fill</b>
+                <div>
+                    <color-picker-directive color-picker-data="vm.featureStyle.image.fill" selected-action="vm.selectedAction" id-color="{{'imageFill' + vm.id}}"></color-picker-directive>
+                </div>
+            </div>
+
+            <div>
+                <b>Circle stroke</b>
+                <div>
+                    <color-picker-directive color-picker-data="vm.featureStyle.image.stroke" selected-action="vm.selectedAction" id-color="{{'imageStroke' + vm.id}}"></color-picker-directive>
+                </div>
+            </div>
+
+            <div>
+                <b>Circle stroke width</b>
+                <input type="number" min="0" max="10" class="form-control" ng-model="vm.featureStyle.image.stroke.width" />
+            </div>
+
+            <div>
+                <b>Circle radius</b>
+                <input type="number" min="0" max="10" class="form-control" ng-model="vm.featureStyle.image.radius" />
+            </div>
+
+            <div ng-if="vm.selectedType.name == 'pointText'">
+                <div>
+                    <b>Text scale</b>
+                    <div><input type="number" class="form-control" ng-model="vm.featureStyle.text.scale" /></div>
+                </div>
+
+                <div>
+                    <b>Text offset x</b>
+                    <div><input type="number" class="form-control" ng-model="vm.featureStyle.text.offsetX" /></div>
+                </div>
+
+                <div>
+                    <b>Text offset y</b>
+                    <div><input type="number" class="form-control" ng-model="vm.featureStyle.text.offsetY" /></div>
+                </div>
+
+                <div>
+                    <b>Text fill</b>
+                    <color-picker-directive color-picker-data="vm.featureStyle.text.fill" selected-action="vm.selectedAction" id-color="{{'textFill' + vm.id}}"></color-picker-directive>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="vm.selectedType.name === 'poly' || vm.selectedType.name === 'polyReport' || vm.selectedType.name === 'line'">
+        <div class="well">
+            <div ng-if="vm.selectedType.name === 'poly' || vm.selectedType.name === 'polyReport'">
+                <b>Fill</b>
+                <div>
+                    <color-picker-directive color-picker-data="vm.featureStyle.fill" selected-action="vm.selectedAction" id-color="{{'imageFill' + vm.id}}"></color-picker-directive>
+                </div>
+            </div>
+
+            <div>
+                <b>Stroke</b>
+                <div>
+                    <color-picker-directive color-picker-data="vm.featureStyle.stroke" selected-action="vm.selectedAction" id-color="{{'imageStroke' + vm.id}}"></color-picker-directive>
+                </div>
+            </div>
+
+            <div>
+                <b>Stroke width</b>
+                <input type="number" min="0" max="10" class="form-control" ng-model="vm.featureStyle.stroke.width" />
+            </div>
+            <div ng-if="vm.selectedType.name == 'polyReport'">
+                <div>
+                    <b>Text scale</b>
+                    <div><input type="number" class="form-control" ng-model="vm.featureStyle.text.scale" /></div>
+                </div>
+
+                <div>
+                    <b>Text offset x</b>
+                    <div><input type="number" class="form-control" ng-model="vm.featureStyle.text.offsetX" /></div>
+                </div>
+
+                <div>
+                    <b>Text offset y</b>
+                    <div><input type="number" class="form-control" ng-model="vm.featureStyle.text.offsetY" /></div>
+                </div>
+
+                <div>
+                    <b>Text fill</b>
+                    <color-picker-directive color-picker-data="vm.featureStyle.text.fill" selected-action="vm.selectedAction" id-color="{{'textFill' + vm.id}}"></color-picker-directive>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="vm.selectedType.name == 'icon'">
+        <div class="well">
+            <div>
+                <b>Anchor</b>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon" style="padding: 2px">X</span>
+                        <input type="number" min="0" max="1" step="0.1" class="form-control" ng-model="vm.featureStyle.image.anchor[0]" />
+                        <span class="input-group-addon" style="padding: 2px">Y</span>
+                        <input type="number" min="0" max="1" step="0.1" class="form-control" ng-model="vm.featureStyle.image.anchor[1]" />
+                    </div>
+
+                </div>
+            </div>
+            <div>
+                <b>Anchor Origin</b>
+                <select class="form-control" ng-options="item for item in vm.anchorOrigin" ng-model="vm.featureStyle.image.selectedAnchor"></select>
+            </div>
+            <div>
+                <b>Scale</b>
+                <div><input type="number" class="form-control" ng-model="vm.featureStyle.image.scale" min="1" max="10" step="0.1"/></div>
+            </div>
+        </div>
+    </div>
+
+    <!--<textarea rows="4" style=" resize: vertical" class="form-control " id="style_sett" name="style_sett" ng-model="vm.addEditStyleSettings.style" required></textarea>
+    <span ng-show="vm.errorResponse || resourceForm.style_sett.$touched">
+        <span ng-show="resourceForm.style_sett.$error.required">stil este obligatoriu</span>
+    </span>-->
+</div>

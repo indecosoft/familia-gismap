@@ -1,0 +1,16 @@
+{
+  "name": "fs-watch",
+  "version": "1.0.0",
+  "description": "Watch for sorce code changes and restart",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "watch",
+    "restart",
+    "monitor "
+  ],
+  "author": "viorel filip",
+  "license": "ISC"
+}

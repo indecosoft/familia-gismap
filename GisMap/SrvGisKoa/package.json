@@ -1,0 +1,40 @@
+{
+  "name": "srv-gis-koa",
+  "version": "0.0.1",
+  "description": "SrvGisKoa",
+  "main": "app.js",
+  "author": {
+    "name": "daniel.palcau"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.46",
+    "@types/koa-bodyparser": "^4.2.0",
+    "@types/koa-passport": "^4.0.1",
+    "@types/koa-router": "^7.0.31",
+    "@types/node": "^9.6.28"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.3.0",
+    "koa": "^2.5.2",
+    "koa-bodyparser": "^4.2.1",
+    "koa-combine-routers": "^3.0.1",
+    "koa-jwt": "^3.3.2",
+    "koa-passport": "^4.0.1",
+    "koa-router": "^7.4.0",
+    "koa-static": "^4.0.2",
+    "koa2-formidable": "^1.0.2",
+    "moment": "^2.22.2",
+    "mssql": "^4.3.2",
+    "node-cron": "^1.2.1",
+    "nodemon": "^1.18.3",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7",
+    "pg": "^7.4.3",
+    "raw-body": "^2.3.3",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.2",
+    "url": "^0.11.0",
+    "zip-local": "^0.3.4"
+  }
+}

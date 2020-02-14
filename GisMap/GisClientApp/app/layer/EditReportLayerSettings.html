@@ -1,0 +1,39 @@
+﻿<div class="form-group">
+    <!-- report settings list -->
+    <div class="form-group" ng-repeat="repitem in vm.settingsList">
+        <!-- generic settings -->
+        <div class="well" >
+            <div class="form-group">
+                <button name="remRepSett" class="btn-xs btn-default pull-right" ng-click="vm.onRemoveReportSettings(repitem)">x</button>
+                <label for="">Nume formula calcul</label>
+                <input name="formula" type="text" class="form-control" ng-model="repitem.reportFormula"/>
+            </div>
+            <div class="form-group">
+                <label for="">Descriere</label>
+                <input name="desc" type="text" class="form-control" ng-model="repitem.description"/>
+            </div>
+            <div class="form-group">
+                <label for="">Campuri din raport (JSON)</label>
+                <textarea name="reportColumns" type="text" class="form-control" ng-model="repitem.reportColumns"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="">Strat sursa date</label>
+                <input name="nameResData" type="text" class="form-control" ng-model="repitem.nameResData"/>
+            </div>
+            <div class="form-group">
+                <label for="">Campuri din sursa (JSON)</label>
+                <textarea name="dataColumns" type="text" class="form-control" ng-model="repitem.dataColumns"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="">Valori predefinite (JSON)</label>
+                <textarea name="constants" type="text" class="form-control" ng-model="repitem.constants"></textarea>
+            </div>
+        </div>
+        <!-- todo specific settings-->
+
+    </div>
+    <!-- add new setting -->
+    <div class="form-group">
+        <button name="addRepSett" ng-click="vm.onAddReportSettings()">Adauga setare raport</button>
+    </div>
+</div>

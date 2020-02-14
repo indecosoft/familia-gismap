@@ -1,0 +1,31 @@
+﻿<div class="modal-content"  id="printFeaturesInfo">
+    <div print-section class="modal-header">
+        <h4 class="modal-title">Raport harta si detalii selectie</h4>
+    </div>
+    <div class="modal-body">
+        <!-- Create map image-->
+        <div print-section class="mapImageContainer">
+            <img width="100%" id="mapImage" ng-src="{{diaCtrl.mapImgUrl}}" />
+        </div>
+        <!--ToDo create table-->
+        <div print-section class="listOfTables" ng-repeat="featureTab in diaCtrl.featuresInTables">
+            <div class="row">
+                <div class="col-sm-9">
+                    <h5>{{featureTab.name}}</h5>
+                </div>
+                <div class="col-sm-3">
+                    <button class="pull-right" ng-show="diaCtrl.isAdmin" ng-click="diaCtrl.saveDefaultOptions(featureTab)">Salvare optiuni predefinite</button>
+                </div>
+            </div>
+            <div ui-grid="featureTab.gridOptions" ui-grid-selection ui-grid-resize-columns ui-grid-auto-resize class="gridTable"></div>
+        </div>
+    </div>
+    <div  class="modal-footer">
+        <button class="btn btn-primary" print-btn print-landscape ><i class="fa fa-print"></i> Print</button>
+        <button type="button" class="btn" ng-click="diaCtrl.cancel()">Inchide</button>
+    </div>
+    <script type="text/javascript">
+        $('.ngdialog-content').width('290mm');
+        
+    </script>
+</div>

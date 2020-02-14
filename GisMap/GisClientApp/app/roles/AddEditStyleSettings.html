@@ -1,0 +1,86 @@
+﻿<div class="panel dialog-panel-no-margin" ng-if="vm.selectedAction.name == 'style-edit' || vm.selectedAction.name == 'style-add'">
+    <form name="resourceForm" novalidate>
+        <fieldset ng-disabled="vm.disableInput">
+            <div class="panel-body dialog-panel-no-padding">
+                <!---->
+                <div class="form-group" ng-show="vm.selectedAction.name == 'style-edit'">
+                    <label for="style_uiSelect">Selecteaza stil</label>
+                    <ui-select name="style_uiSelect" ng-model="vm.addEditStyleSettings.selectedStyle" theme="selectize" title="Selecteaza tip resursa" ng-change="vm.onChangeStyleStting(vm,$select.selected)" required>
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.addEditStyleSettings.availableStyles | filter: $select.search">
+                            <div>{{item.text}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span ng-show="vm.errorResponse || resourceForm.style_uiSelect.$touched">
+                        <span ng-show="resourceForm.style_uiSelect.$error.required">Resursa este obligatoriu</span>
+                    </span>
+                </div>
+                <div ng-show="vm.selectedAction.name == 'style-add' || (vm.selectedAction.name == 'style-edit' && vm.addEditStyleSettings.selectedStyle != null)">
+                    <div class="form-group">
+                        <label for="style_nume">Nume stil</label>
+                        <input type="text" class="form-control" id="style_nume" name="style_nume" ng-model="vm.addEditStyleSettings.styleName" required>
+                        <span ng-show="vm.errorResponse || resourceForm.style_nume.$touched">
+                            <span ng-show="resourceForm.style_nume.$error.required">Nume stil este obligatoriu</span>
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="style-descriere">Descriere stil</label>
+                        <input type="text" class="form-control" id="style-descriere" name="style-descriere" ng-model="vm.addEditStyleSettings.descriere">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="style_uiTipStyle">Tip strat</label>
+                        <ui-select name="style_uiTipStyle" ng-model="vm.addEditStyleSettings.selectedType" theme="selectize" title="Selecteaza tip strat" required>
+                            <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                            <ui-select-choices repeat="item in vm.addEditStyleSettings.availableTypes | filter: $select.search">
+                                <div>{{item.text}}</div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <span ng-show="vm.errorResponse || resourceForm.style_uiTipStyle.$touched">
+                            <span ng-show="resourceForm.style_uiTipStyle.$error.required">Tip strat este obligatoriu</span>
+                        </span>
+                    </div>
+                    <div class="form-group" ng-show="vm.selectedAction.name == 'style-edit' && vm.addEditStyleSettings.selectedType.name == 'icon'">
+                        <label for="icon_nume">Nume imagine</label>
+                        <input type="text" class="form-control" id="icon_nume" name="icon_nume" ng-model="vm.addEditStyleSettings.icon" readonly>
+                    </div>
+                    <div class="form-group" ng-if="vm.addEditStyleSettings && vm.addEditStyleSettings.selectedType.name == 'icon'">
+                        <label for="asset">Incarca imagine</label>
+                        <!--<label for="asset" ng-show="!vm.isAddElseEdit">Incarca imagine noua</label>-->
+                        <input type="file" class="form-control" id="file" name="file" file-upload>
+                        <!--<input type="file" class="form-control" id="file" name="file"  onchange="angular.element(this).scope().filesSelected(this)">-->
+                        <span ng-show="resourceForm.$submitted || resourceForm.file.$touched">
+                            <span ng-show="resourceForm.file.$error.validFile">Selectați o imagine</span>
+                        </span>
+                    </div>
+                    <div>
+                        <label for="style_sett">Stil</label>
+                        <style-settings-directive name="styleSettings" id="styleSettings" selected-type="vm.addEditStyleSettings.selectedType" feature-style="vm.featureStyle" selected-action="vm.selectedAction" anchor-origin="vm.anchorOrigin"/>
+                    </div>
+                    <div>
+                        <span><input name="hasStyleOnSelect" type="checkbox" ng-model="vm.hasStyleOnSelect" />Setari pentru stil de selectie</span>
+                    </div>
+                    <div ng-if="vm.hasStyleOnSelect">
+                        <style-settings-directive name="styleSettingsOnSel" id="styleSettingsOnSel" selected-type="vm.addEditStyleSettings.selectedType" feature-style="vm.featureStyleOnSelect" selected-action="vm.selectedAction" anchor-origin="vm.anchorOrigin" />
+                    </div>
+
+                </div>
+
+                <!---->
+                <div class="form-group">
+                    <span ng-show="vm.errorResponse">
+                        <span>{{vm.errorResponse}}</span>
+                    </span>
+                </div>
+            </div>
+            <div class="panel-footer dialog-panel-no-padding">
+                <div class="form-group">
+                    <button type="button" class="btn btn-default" ng-click="vm.deleteStyleSettings()" ng-show="vm.selectedAction.name == 'style-edit'">Sterge</button>
+                    <button type="button" class="btn btn-default" ng-click="vm.saveStyleSettings()" ng-show="vm.selectedAction != null ">Salveaza</button>
+                    <button type="button" class="btn btn-default" ng-click="vm.cancelStyleSettings()">Anuleaza</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+</div>

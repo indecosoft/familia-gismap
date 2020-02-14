@@ -1,0 +1,76 @@
+﻿<div class="panel dialog-panel-no-margin" ng-if="vm.selectedAction.name == 'res-opt-rol'">
+    <form name="resourceForm" novalidate>
+        <fieldset ng-disabled="vm.disableInput">
+            <div class="panel-body dialog-panel-no-padding">
+                <!-- selectie rol -->
+                <div class="form-group">
+                    <label for="res_uiSelRol">Selecteaza rol</label>
+                    <ui-select name="res_uiSelRol" ng-model="vm.data.roles.selected" theme="selectize" title="Selecteaza rol" ng-change="vm.onChangeRole($select.selected)" required>
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.data.roles.available | filter: $select.search">
+                            <div>{{item.text}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span ng-show="vm.errorResponse || resourceForm.res_uiSelResursa.$touched">
+                        <span ng-show="resourceForm.res_uiSelResursa.$error.required">Rolul este obligatoriu</span>
+                    </span>
+                </div>
+                <!-- selectie tip resursa -->
+                <div class="form-group" ng-if="vm.data.roles.selected !== null">
+                    <label for="res_uiSelResType">Selecteaza tip resursa</label>
+                    <ui-select name="res_uiSelResType" ng-model="vm.data.resourceType.selected" theme="selectize" title="Selecteaza tip resursa" ng-change="vm.onChangeResourceType($select.selected)" required>
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.nume}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.data.resourceType.available | filter: $select.search">
+                            <div>{{item.nume}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <span ng-show="vm.errorResponse || resourceForm.res_uiSelResType.$touched">
+                        <span ng-show="resourceForm.res_uiSelResType.$error.required">Tipul resursei este obligatoriu</span>
+                    </span>
+                </div>
+                <!-- resurse -->
+                <div class="form-group" ng-if="vm.data.resourceType.selected !== null">
+                    <label for="res_uiSelRes">Resursa</label>
+
+                    <div ng-repeat="e in vm.data.resources.assigned">
+                        <!--<h4><input type="checkbox" ng-checked="{{e.checked}}" ng-click="vm.onCheckboxClicked(e)"/> {{ e.nume }} <button type="button" name="btnRemoveRol" class="btn btn-xs btn-default pull-right " ng-click="vm.removeResource(e)"> x </button></h4>-->
+                        <h4><input type="checkbox" ng-model="e.checked" ng-click="vm.onCheckboxClicked(e)" /> {{ e.nume }} <button type="button" name="btnRemoveRol" class="btn btn-xs btn-default pull-right " ng-click="vm.removeResource(e)"> x </button></h4>
+                        <div class="well">
+                            <select-options rol="{id: vm.data.roles.selected.id, name: vm.data.roles.selected.text, optiuni: e.optiuni}" optiuni="e.optiuni_default"></select-options>
+                        </div>
+                    </div>
+
+                    <!-- selecteaza resursa noua -->
+                    <label for="res_uiSelRes">Resurse disponibile</label>
+                    <div class="row">
+                        <div class="col-sm-8 padding-right-zero">
+                            <ui-select name="res_uiSelRes" ng-model="vm.data.resources.selected" theme="selectize" title="Selecteaza resursa" ng-change="vm.onChangeResource($select.selected)">
+                                <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.nume}}</ui-select-match>
+                                <ui-select-choices repeat="item in vm.remainingResources() | filter: $select.search">
+                                    <div>{{item.nume}}</div>
+                                </ui-select-choices>
+                            </ui-select>
+                        </div>
+                        <div class="col-sm-3 padding-left-zero">
+                            <button class="btn btn-default" ng-click="vm.addResource()" ng-disabled="vm.data.resources.selected == null">Adauga resursa</button>
+
+                        </div>
+                    </div>
+                    <!--<span ng-show="vm.errorResponse || resourceForm.res_uiSelRes.$touched">
+        <span ng-show="resourceForm.res_uiSelRes.$error.required">Resursa este obligatorie</span>
+    </span>-->
+                </div>
+            </div>
+            <!-- buttons -->
+            <div class="panel-footer dialog-panel-no-padding">
+                <div class="form-group">
+                    <button type="button" class="btn btn-default" ng-click="vm.selectAll()" ng-show="vm.data.resources.assigned.length > 0">Selecteaza</button>
+                    <button type="button" class="btn btn-default" ng-click="vm.deselectAll()" ng-show="vm.data.resources.assigned.length > 0">Deselecteaza</button>
+
+                    <button type="button" class="btn btn-default" ng-click="vm.saveResource()" ng-show="vm.selectedAction != null && vm.data.resources.assigned.length > 0">Salveaza</button>
+                    <button type="button" class="btn btn-default" ng-click="vm.cancelResource()">Anuleaza</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>

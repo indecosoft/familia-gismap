@@ -1,0 +1,66 @@
+﻿<html>
+
+<head>
+    <style>
+        .ng-cloak {
+            display: none !important;
+        }
+    </style>
+    <meta http-equiv="Content-Security-Policy" content="default-src *; img-src 'self' data: http://www.w3.org/ ; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval' http://* https://catering.indecosoft.ro ;">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/font-awesome.css" />
+
+</head>
+
+<body ng-app="app" ng-controller="Index as vm">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">
+            <i class="fa fa-fw fa-lg fa-cogs"></i> GisMap Admin Console
+        </a>
+    </nav>
+
+    <div class="card mb-3">
+        <div class="card">
+            <div class="card-body">
+                <textarea class="form-control" ng-model="vm.script" ng-enter="vm.shell()" placeholder="shell scripts..."></textarea>
+                <p class="card-text" ng-bind-html="vm.message">
+                </p>
+            </div>
+        </div>
+        <div class="card" ng-repeat="app in vm.apps">
+            <div class="card-body">
+                <h4 class="card-title">{{app.name}}</h4>
+                <h6 class="card-subtitle mb-2 text-muted">{{app.description}}</h6>
+                <p class="card-text" ng-class="app.textColor">
+                    state : {{app.status}} &nbsp;&nbsp;&nbsp;
+                    <a href="" class="card-link" ng-click="vm.status(app)">
+                        <i class="fa fa-lg fa-refresh" ng-class="app.isBusy"></i></a>
+                </p>
+                <p class="card-text text-danger" ng-if="app.error">{{app.error}}</p>
+                <a href="" class="card-link" ng-click="vm.service(app, app.linkText)">{{app.linkText}}</a>
+                <a href="" class="card-link" ng-click="vm.service(app, 'restart')">restart</a>
+                </a>
+            </div>
+        </div>
+    </div>
+    <ng-view></ng-view>
+
+    <!-- public libraries -->
+    <script src="scripts/angular.js"></script>
+    <script src="scripts/angular-route.js"></script>
+    <script src="scripts/angular-sanitize.js"></script>
+    <script src="scripts/i18n/angular-locale_ro-ro.js"></script>
+
+    <!-- aplication files -->
+    <script src="app/index.js"></script>
+</body>
+
+</html>

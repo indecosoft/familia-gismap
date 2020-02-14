@@ -1,0 +1,327 @@
+@-webkit-keyframes ngdialog-fadeout {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes ngdialog-fadeout {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes ngdialog-fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes ngdialog-fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.ngdialog {
+  box-sizing: border-box;
+}
+
+.ngdialog *,
+.ngdialog *:before,
+.ngdialog *:after {
+  box-sizing: inherit;
+}
+
+.ngdialog {
+  position: fixed;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  z-index: 10000;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.ngdialog.ngdialog-disabled-animation,
+.ngdialog.ngdialog-disabled-animation .ngdialog-overlay,
+.ngdialog.ngdialog-disabled-animation .ngdialog-content {
+  -webkit-animation: none!important;
+  animation: none!important;
+}
+
+.ngdialog-overlay {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.4);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  -webkit-backface-visibility: hidden;
+  -webkit-animation: ngdialog-fadein 0.5s;
+  animation: ngdialog-fadein 0.5s;
+}
+
+.ngdialog-no-overlay {
+  pointer-events: none;
+}
+
+.ngdialog.ngdialog-closing .ngdialog-overlay {
+  -webkit-backface-visibility: hidden;
+  -webkit-animation: ngdialog-fadeout 0.5s;
+  animation: ngdialog-fadeout 0.5s;
+}
+
+.ngdialog-content {
+  background: white;
+  -webkit-backface-visibility: hidden;
+  -webkit-animation: ngdialog-fadein 0.5s;
+  animation: ngdialog-fadein 0.5s;
+  pointer-events: all;
+}
+
+.ngdialog.ngdialog-closing .ngdialog-content {
+  -webkit-backface-visibility: hidden;
+  -webkit-animation: ngdialog-fadeout 0.5s;
+  animation: ngdialog-fadeout 0.5s;
+}
+
+.ngdialog-close:before {
+  font-family: 'Helvetica', Arial, sans-serif;
+  content: '\00D7';
+  cursor: pointer;
+}
+
+html.ngdialog-open,
+body.ngdialog-open {
+  overflow: hidden;
+}
+
+form[name=editSearchForm] .searchLayer{
+    padding: 5px 5px 5px 5px;
+    margin: 2px 2px 2px 2px;
+}
+
+form[name=editSearchForm] .searchNewLayer {
+    padding: 5px 5px 5px 5px;
+    margin: 2px 2px 2px 2px;
+}
+
+form[name=editSearchForm] .bufferDistdiv {
+    padding: 5px 5px 5px 5px;
+    margin: 2px 2px 2px 2px;
+}
+
+form[name=editSearchForm] .sugestItem {
+    padding: 5px 5px 5px 5px;
+    margin: 2px 2px 2px 2px;
+}
+
+
+form[name=editSearchForm] #bufDistI {
+    width: 64%;
+    display: inline-block;
+    
+}
+
+form[name=editSearchForm] #bufDistL {
+    width: 34%;
+    display: inline-block;
+    margin-right: -10px;
+}
+
+form[name=editSearchForm] button[name=btnRemoveSearchProp] {
+    width: 9%;
+    display: inline-block;
+}
+form[name=editSearchForm] input[name=propertyName] {
+    width: 51%;
+    display: inline-block;
+}
+form[name=editSearchForm] select[name=condition] {
+    width: 38%;
+    margin-right: -10px;
+    display: inline-block;
+}
+form[name=editSearchForm] input[name=searchText] {
+    margin-left: 10%;
+    width: 90%;
+}
+
+form[name=editSearchForm] button[name=btnAddSrcProp] {
+    width: 35%;
+    margin-right: -10px;
+    display: inline-block;
+}
+
+form[name=editSearchForm] select[name=newSrcProp] {
+    width: 64%;
+    display: inline-block;
+}
+
+form[name=editSearchForm] button[name=addNewSrcLayer] {
+    width: 35%;
+    margin-right: -10px;
+    display: inline-block;
+}
+
+form[name=editSearchForm] select[name=newSrcLayer] {
+    width: 64%;
+    display: inline-block;
+}
+
+/* addRouteForm */
+
+form[name=addRouteForm] .addnewpointwell {
+    padding: 5px 5px 5px 5px;
+    margin: 2px 2px 2px 2px;
+}
+
+form[name=addRouteForm] button[name=btnAddPoint] {
+    width: 35%;
+    margin-right: -0px;
+    display: inline-block;
+    margin-top: 0px;
+}
+
+form[name=addRouteForm] div[name=uiSelectPoint] {
+    width: 99%;
+    display: block;
+    margin-top: 10px;
+}
+
+form[name=addRouteForm] button[name=btnRemoveRtPoint] {
+    width: 9%;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+form[name=addRouteForm] input[name=rtPointName] {
+    width: 89%;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+/* resource form*/
+form[name=resourceForm] .well {
+    padding: 5px 5px 5px 5px !important;
+    margin: 2px 2px 2px 2px !important;
+}
+form[name=resourceForm] .sel-res-rol-option {
+    width: 64% !important;
+    display: inline-block !important;
+}
+
+form[name=resourceForm] .add-res-rol-option {
+    width: 35% !important;
+    margin-right: -10px;
+    display: inline-block !important;
+}
+
+/* layer form*/
+form[name=layerform] .well {
+    padding: 5px 5px 5px 5px !important;
+    margin: 2px 2px 2px 2px !important;
+}
+
+form[name=layerform] #div-add-style-cmb {
+    padding-right: 5px!important;
+}
+
+form[name=layerform] #div-add-style-btn {
+    padding-left: 5px !important;
+}
+
+/*detailsFeaturesInfo*/
+div#detailsFeaturesInfo .gridTable {
+    max-height: 900px;
+    min-height: 300px;
+    height: auto;
+}
+
+/* printFeatureInfo*/
+div#printFeaturesInfo div.modal-body {
+    overflow:unset;
+    height: auto !important;
+}
+
+div#printFeaturesInfo .ui-grid-render-container-body .ui-grid-viewport {
+    height: auto !important;
+}
+
+div#printFeaturesInfo .gridTable {
+    max-height: 200000px;
+    min-height: 400px;
+    height: auto !important;
+}
+
+@media print {
+    div#printFeaturesInfo div.mapImageContainer {
+        page-break-after: always;
+    }
+    div#printFeaturesInfo div.listOfTables {
+        page-break-after: always;
+    }
+    .pageBrakeAfter {
+        page-break-after: always;
+    }
+ 
+}
+/* fisa spatiu verde */
+@media print{
+    .ngdialog-open{
+        overflow: visible !important;
+    }
+}
+div#fisaSpatiuVerde table#tblHeaderInfo td {
+    /*border: 1px solid black;*/
+    border: hidden;
+}
+
+div#fisaSpatiuVerde table#tblSpatiuVerde th {
+    text-align: center;
+}
+
+div#fisaSpatiuVerde table#tblSpatiuVerde th, div#fisaSpatiuVerde table#tblSpatiuVerde td {
+    border: 1px solid black;
+    padding: 3px;
+}
+
+div#fisaSpatiuVerde table#tblConstructii th, div#fisaSpatiuVerde table#tblConstructii td {
+    border: 1px solid black;
+    padding: 3px;
+}
+
+div#fisaSpatiuVerde table#tblConstructii th {
+    text-align: center;
+}
+
+div#fisaSpatiuVerde table#tblVegetatie th, div#fisaSpatiuVerde table#tblVegetatie td {
+    border: 1px solid black;
+    padding: 3px;
+}
+
+div#fisaSpatiuVerde table#tblVegetatie th {
+    text-align: center;
+}
+
+div#fisaSpatiuVerde table#tblReportFooter th, div#fisaSpatiuVerde table#tblReportFooter td {
+    border: hidden;
+    text-align: center;
+}

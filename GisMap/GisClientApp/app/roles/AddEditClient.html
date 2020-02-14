@@ -1,0 +1,102 @@
+﻿<div class="panel dialog-panel-no-margin" ng-if="vm.selectedAction.name === 'client-add' || vm.selectedAction.name === 'client-edit'">
+    <form name="resourceForm" novalidate>
+        <fieldset ng-disabled="vm.disableInput">
+            <div class="panel-body dialog-panel-no-padding">
+                <!---->
+
+                <div class="form-group">
+                    <label>Tip client</label>
+                    <ui-select ng-model="vm.addEditClient.tipClient" theme="selectize" ng-change="vm.onChangeTipClient(vm,$select.selected)">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.tipClient | filter: $select.search">
+                            <div>{{item.name}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <div class="form-group">
+                    <label>Nume client</label>
+                    <input type="text" class="form-control" id="new_client_name" name="new_client_name" ng-model="vm.addEditClient.nume" required>
+                    <span ng-show="vm.errorResponse || resourceForm.new_client_name.$touched">
+                        <span ng-show="resourceForm.new_client_name.$error.required" style="color: red;">* Nume client este obligatoriu</span>
+                    </span>
+                </div>
+
+                <div class="form-group">
+                    <label for="rol_descriere">Descriere client</label>
+                    <textarea class="form-control" ng-model="vm.addEditClient.descriere"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Numar postal</label>
+                    <input class="form-control" ng-model="vm.addEditClient.numarPostal" />
+                </div>
+
+                <div class="form-group">
+                    <label>Strada</label>
+                    <input class="form-control" ng-model="vm.addEditClient.idStrada" />
+                </div>
+
+                <div class="form-group">
+                    <label>Judet</label>
+                    <ui-select ng-model="vm.addEditClient.judetSelectat" theme="selectize" ng-change="vm.onChangeJudet(vm,$select.selected)">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.nume}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.addEditClient.judet | filter: $select.search">
+                            <div>{{item.nume}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group">
+                    <label>Localitate</label>
+                    <ui-select ng-model="vm.addEditClient.localitateSelectata" theme="selectize" ng-change="vm.onChangeLocalitate(vm,$select.selected)">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.nume}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.addEditClient.localitate | filter: $select.search">
+                            <div>{{item.nume}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group">
+                    <label>Url</label>
+                    <input class="form-control" id="new_client_url" name="new_client_url" ng-model="vm.addEditClient.url" required />
+                    <span ng-show="vm.errorResponse || resourceForm.new_client_url.$touched">
+                        <span ng-show="resourceForm.new_client_name.$error.required" style="color: red;">* Url client este obligatoriu</span>
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label>Username</label>
+                    <input class="form-control" ng-model="vm.addEditClient.username" />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input class="form-control" ng-model="vm.addEditClient.password" />
+                </div>
+                <div class="form-group">
+                    <label>Format data-ora</label>
+                    <input class="form-control" ng-model="vm.addEditClient.formatDateTime" />
+                </div>
+                <div class="form-group">
+                    <label>Format data</label>
+                    <input class="form-control" ng-model="vm.addEditClient.formatDate" />
+                </div>
+                <div class="form-group">
+                    <label>Format ora</label>
+                    <input class="form-control" ng-model="vm.addEditClient.formatTime" />
+                </div>
+
+                <!---->
+                <div class="form-group">
+                    <span ng-show="vm.errorResponse">
+                        <span>{{vm.errorResponse}}</span>
+                    </span>
+                </div>
+            </div>
+            <div class="panel-footer dialog-panel-no-padding">
+                <div class="form-group">
+                    <button type="button" class="btn btn-default" ng-click="vm.saveClient()" ng-show="vm.selectedAction != null">Salveaza</button>
+                    <button type="button" class="btn btn-default" ng-click="vm.cancelClient()">Anuleaza</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+</div>

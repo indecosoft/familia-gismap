@@ -1,0 +1,43 @@
+﻿ <div class="form-group margin-zero">
+    <div class="form-grou" ng-repeat="opt in vm.rol.optiuni">
+        <div class="form-inline">
+            <!--<input type="checkbox" ng-model="opt.defaultAccess"  ng-readonly onclick="return false;" disabled />-->
+            <input type="checkbox" ng-model="opt.access" />
+            <label> &nbsp {{vm.formatSelectedItem(opt)}} </label>
+            <button type="button" name="btnRemoveRol" class="btn btn-xs btn-default pull-right " ng-click="vm.onRemoveOptionFromRol(opt)"> x </button>
+            <span class="pull-right">&nbsp;</span>
+            <button ng-show="opt.group === vm.optionGroupType.index || opt.group === vm.optionGroupType.item" data-toggle="collapse" data-target="#seloption{{vm.rol.nume + opt.nume + opt.idItem}}" class="btn btn-xs btn-default pull-right">v</button>
+
+        </div> 
+
+        <div class="panel panel-collapse collapse" id="seloption{{vm.rol.nume + opt.nume + opt.idItem}}" ng-show="opt.group === vm.optionGroupType.index || opt.group === vm.optionGroupType.item">
+            <div class="row">
+                <h5 for="res_opt_override{{opt.id}}" class="control-label col-sm-5"> Suprascrie setari </h5>
+                <div class="col-sm-2">
+                    <input type="checkbox" min="-1" step="1" class="form-control" id="res_opt_override{{opt.id}}"  name="res_opt_override{{opt.id}}" ng-model="opt.overrideDefaults" ng-change="vm.onOverrideChanged(opt)">
+                </div>
+            </div>
+            <fieldset ng-show="opt.overrideDefaults">
+                <div class="row" ng-show="opt.group === vm.optionGroupType.item || opt.group === vm.optionGroupType.index">
+                    <h5 for="res_opt_idItem{{opt.id}}" class="control-label col-sm-5"> Identificator element </h5>
+                    <div class="col-sm-7">
+                        <input type="number" min="-1" step="1" class="form-control" id="res_opt_idItem{{opt.id}}" name="res_opt_idItem{{opt.id}}" ng-model="opt.idItem">
+                    </div>
+                </div>
+
+                <div class="row" ng-show="opt.group === vm.optionGroupType.item">
+                    <h5 for="res_opt_descriere{{opt.id}}" class="control-label col-sm-5">Denumire element</h5>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" id="res_opt_descriere{{opt.id}}" name="res_opt_descriere{{opt.id}}" ng-model="opt.descriere">
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div> 
+    <div class="form-inline">
+        <select class="form-control sel-res-rol-option" ng-model="vm.newoption" ng-options="o as vm.formatSelectedItemOpt(o) for o in vm.remaingOptions()">
+            <option value=""> Selecteaza optiune </option>
+        </select> 
+        <button type="button" name="addNewOptToRol" class="btn btn-default add-res-rol-option" ng-click="vm.onAddOptiuneToRol()"> Adauga optiune </button>       
+    </div> 
+</div> 

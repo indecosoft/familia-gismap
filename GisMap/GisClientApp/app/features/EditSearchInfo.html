@@ -1,0 +1,80 @@
+﻿<div class="modal-content">
+    <form name="editSearchForm" enctype="multipart/form-data" ng-submit="diaCtrl.save(ngDialogData)" novalidate>
+        <fieldset ng-disabled="diaCtrl.disableInput">
+            <div class="modal-header">
+                <h4 class="modal-title">Cautare informatii</h4>
+            </div>
+            <div class="modal-body">
+                <uib-tabset active="diaCtrl.searchType == 'multilayer'? 0 : 1" justified="true">
+                    <uib-tab index="0" heading="Cautare multistrat" select="diaCtrl.changeSearchType('0')"></uib-tab>
+                    <uib-tab index="1" heading="Cautare dupa obiectiv" select="diaCtrl.changeSearchType('1')"></uib-tab>
+                </uib-tabset>
+                <div class="bufferDistdiv form-inline well" ng-if="diaCtrl.searchType === 'layerfeature'">
+                    <select id="bufDistI" name="bufferDistance" class="form-control" ng-model="diaCtrl.bufferDistance">
+                        <option value="10" selected>10 m</option>
+                        <option value="20">20 m</option>
+                        <option value="50">50 m</option>
+                        <option value="100">100 m</option>
+                        <option value="500">500 m</option>
+                        <option value="1000">1000 m</option>
+                    </select>
+                    <label id="bufDistL">Distanta imprejur</label>
+                </div>
+                <div class="searchLayer well" ng-repeat="srcLayer in diaCtrl.searchOnLayer">
+                    <div class="form-inline" style="margin-bottom:10px">
+                        <label>{{srcLayer.layer.name}} </label>
+                        <button type="button" name="btnRemoveSrcLayer" class="btn btn-default pull-right" ng-click="diaCtrl.removeSearchLayer(srcLayer)"> x </button>
+                    </div>
+                    <!--Search property list -->
+                    <div class="searchCondition" style="margin-bottom:5px" ng-repeat="srcProp in srcLayer.conditions">
+                        <div class="form-inline">
+                            <button type="button" name="btnRemoveSearchProp" class="btn btn-default" ng-click="diaCtrl.removeSearchProperty(srcLayer, srcProp)"> x </button>
+                            <input type="text" name="propertyName" class="form-control" readonly ng-model="srcProp.propertyName" />
+                            <select name="condition" class="form-control" ng-model="srcProp.condition" ng-options="o as o.text for o in diaCtrl.conditionOperator"></select>
+                        </div>
+                        <!-- <input type="text" name="searchText" class="form-control" ng-model="srcProp.searchText" placeholder="Introduce text"/>-->
+                        <input type="text" name="searchText" class="form-control" autocomplete="off" ng-model="srcProp.searchText"
+                               uib-typeahead="o for o in diaCtrl.buildPropertySearchList(srcProp.propertyName, srcLayer, $viewValue) | limitTo:100"
+                               typeahead-show-hint="true" typeahead-min-length="0" />
+                        <!-- filter:$viewValue-->
+                    </div>
+                    <!-- Add new search on property-->
+                    <div class="form-inline" ng-if="diaCtrl.buildPropertySelectList(srcLayer).length > 0">
+                        <select name="newSrcProp" class="form-control" ng-model="srcLayer.newSrcProperty" ng-options="o as o for o in diaCtrl.buildPropertySelectList(srcLayer)">
+                            <option value="">Selecteaza proprietate</option>
+                        </select>
+                        <button type="button" name="btnAddSrcProp" class="btn btn-default" ng-click="diaCtrl.addSearchProperty(srcLayer)">Adauga cautare</button>
+                    </div>
+
+                </div>
+                <!-- add new search on layer-->
+                <div class="searchNewLayer form-inline well" ng-if="diaCtrl.addSearchVisible()">
+                    <select name="newSrcLayer" class="form-control" ng-model="diaCtrl.newSearchOnLayerName" ng-options="o as o.text for o in diaCtrl.buildLayerSelectList()">
+                        <option value="">Selecteaza strat</option>
+                    </select>
+                    <button type="button" name="addNewSrcLayer" class="btn btn-default" ng-click="diaCtrl.addSearchLayer()">Adauga strat</button>
+                </div>
+                <!-- search sugestions -->
+                <div class="searchSugestion" ng-if="diaCtrl.searchType === 'layerfeature'">
+                    <button type="button" class="btn btn-default" ng-click="diaCtrl.sugest()" ng-disabled="!diaCtrl.enableSugestButton()" ng-hide="diaCtrl.searchType !== 'layerfeature'">Sugestii obiectiv</button>
+                    <span>Selecteaza un obiectiv din lista</span>
+                    <div class="sugestItem well" ng-repeat="feature in diaCtrl.sugestionList"  ng-click="diaCtrl.selectSugestion(feature)">
+                        <p >_id_: {{feature.id}}</p>
+                        <p ng-repeat="(key, val) in feature.values">{{key}}: {{val}}</p>
+                    </div>
+                </div>
+                <!--Todo-->
+            </div>
+            <div class="form-group">
+                <span ng-show="diaCtrl.errorResponse">
+                    <span>{{diaCtrl.errorResponse}}</span>
+                </span>
+            </div>
+            <div class="modal-footer">
+               
+                <button type="button" class="btn btn-default" ng-click="diaCtrl.search()" ng-disabled="!diaCtrl.enableSearchButton()">Cauta</button>
+                <button type="button" class="btn" ng-click="diaCtrl.cancel()">Renunta</button>
+            </div>
+        </fieldset>
+    </form>
+</div>

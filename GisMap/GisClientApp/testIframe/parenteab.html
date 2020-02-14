@@ -1,0 +1,142 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Parent Window</title>
+</head>
+<body>
+
+    <h4>Parent Window</h4>
+    <p> <button id="message_button">filtru pe strada</button>Send Message localitate = 'BAIA MARE' and judet = 'MARAMURES'  and name = 'Bulevardul București':</p>
+    <p> <button id="message_button2">filtru pe localitate</button>Send Message localitate = 'BAIA MARE' and judet = 'MARAMURES':</p>
+    <p> <button id="message_button3">sterge filtru</button></p>
+    <p> <button id="message_button5">creaza ruta</button></p>
+
+    <div id="mapframe"></div>
+
+    <div id="results"></div>
+    <br />
+
+    <script>
+        // addEventListener support for IE8
+        function bindEvent(element, eventName, eventHandler) {
+            if (element.addEventListener) {
+                element.addEventListener(eventName, eventHandler, false);
+            } else if (element.attachEvent) {
+                element.attachEvent('on' + eventName, eventHandler);
+            }
+        }
+        //var iframeSource = '../index.html#!?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjI2LCJjbGkiOjQsImV4cCI6MTUzNDE2MDEwMiwiaWF0IjoxNTMzMTIzMzAyfQ.vgnqDgjdU8k9OK24PYd09TEQKPlYYhuIjQ1zWwKks5M';
+        var iframeSource = '../index.html#!?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEwMiwiY2xpIjo0LCJleHAiOjE1NDE1MDAxMDIsImlhdCI6MTU0MDQ1OTcwMn0.HuiN1hDexh1BcYET_qtqDOX0KNmTU3KurXOa23vp-a4';
+        //var iframeSource = '../index.html#!?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjExMSwiY2xpIjo0LCJleHAiOjE1NDE1MDc5NjAsImlhdCI6MTU0MDQ2NzU2MH0.Lu0qQZJlzpqdrZYuNEJGmZak5fQ2yntVsHp0ueEgEPY';
+
+
+        // Create the iframe
+        var iframe = document.createElement('iframe');
+        iframe.setAttribute('src', iframeSource);
+        iframe.setAttribute('id', 'the_iframe');
+        iframe.style.width = 1000 + 'px';
+        iframe.style.height = 600 + 'px';
+        document.getElementById('mapframe').appendChild(iframe);
+        //document.body.appendChild(iframe);
+        // Send a message to the child iframe
+        var iframeEl = document.getElementById('the_iframe'),
+            messageButton = document.getElementById('message_button'),
+            messageButton2 = document.getElementById('message_button2'),
+            messageButton3 = document.getElementById('message_button3'),
+            messageButton4 = document.getElementById('message_button4'),
+            messageButton5 = document.getElementById('message_button5'),
+            startDate = document.getElementById('start_date'),
+            endDate = document.getElementById('end_date'),
+            results = document.getElementById('results');
+        // Send a message to the child iframe
+        var sendMessage = function (msg) {
+            // Make sure you are sending a string, and to stringify JSON
+            iframeEl.contentWindow.postMessage(msg, '*');
+        };
+        // Send random messge data on every button click
+        bindEvent(messageButton, 'click', function (e) {
+            var message = `{"type":"cqlFilter","token":"","userfilter":[{"layer":"Strazi localitati","set":"localitate = 'BAIA MARE' and judet = 'MARAMURES'  and name = 'Bulevardul București'"}]}`;
+            sendMessage(message);
+        });
+
+        bindEvent(messageButton2, 'click', function (e) {
+            //var message = `{"type":"cqlFilter","token":"","userfilter":[{"layer":"Strazi localitati","set":"localitate = 'BAIA MARE' and judet = 'MARAMURES'"}]}`;
+            var message = `{"type":"cqlFilter","token":"","userfilter":[{"layer":"Rute ad-hoc","set":"id = 1263"},{"layer":"Puncte ruta ad-hoc","set":"idRoute = 1263"} ]}`;
+
+            sendMessage(message);
+        });
+        bindEvent(messageButton3, 'click', function (e) {
+            var message = '{"type":"cqlFilter","token":"","userfilter":[{"layer":"Strazi localitati","set":""}]}';
+             sendMessage(message);
+        });
+        bindEvent(messageButton5, 'click', function (e) {
+            var x1 = 23.57450456;
+            var y1 = 47.64596755;
+           // var message = '{"type":"generateRoute","token":"","routeData":{"messageId":1234, "layerName":"Rute ad-hoc","optimizeOrderTSP":false, "coordinates": [[23.5622536,47.65756665],[23.57450456,47.64596755],[23.57566846,47.66324677]]}}';
+            var message = '{"type":"generateRoute","token":"","routeData":{"messageId":1234, "layerName":"Rute ad-hoc","optimizeOrderTSP":false,"restrictByClientArea":true, "filterRoute": true, ' +
+                '"coordinates": [[' + (x1 + Math.random() / 50) + ',' + (y1 + Math.random() / 50) + '],[' + (x1 + Math.random() / 100) + ',' + (y1 + Math.random() / 100) + '], [' + (x1 + Math.random() / 50) + ',' + (y1 + Math.random() / 50) +']]}}';
+            message = '{"type":"generateRoute","token":"","routeData":{"messageId":1234,"layerName":"Rute ad-hoc","optimizeOrderTSP":true,"restrictByClientArea":true, "filterRoute": true, ' +
+            '"coordinates":[[23.5638931,47.6514303],[23.5629294,47.6529058],[23.5653953,47.6522018],[23.5695486,47.6511298],[23.5600379,47.6504772],[23.5615186,47.6519321],[23.5624475,47.653685],[23.5628033,47.650761]]}}';
+            message = '{"type":"generateRoute","token":"","routeData":{"messageId":1234,"layerName":"Rute ad-hoc","optimizeOrderTSP":false,"restrictByClientArea":true, "filterRoute": true, ' +
+                '"locationType": "uuid_address", "routingType": "car",' +
+                '"coordinates":["FA58AD9C-CE2C-405A-9223-96C2F9D3FC18","BFD9A331-CEA5-4A57-A5E3-1F7871CD3D6F","2578FFAA-3CD1-45BA-86D7-B397E2891AD5"]}}';
+            message =`{"type":"generateRoute","token":"","routeData":{"messageId":1234,"layerName":"Rute ad-hoc","optimizeOrderTSP":true,"restrictByClientArea":true, "locationType": "uuid_address","routingType": "car", "filterRoute": true, "coordinates":["1719D012-EB3E-4D79-9C6E-4B83C379D361","52AFBADC-BBF7-4E5C-9E75-A2BB9CB7EF78","D850AF04-5949-4761-AB53-FC1300A18372","B5D7B504-340F-4365-BCD8-E90E2A137E18","6E56CE00-DD7C-4F93-A699-8505D8A9D9DB","6F8EDAF1-3C78-404E-A916-22FF9603CFB7","359146B7-534E-4728-8433-6E95A05671F6","7DB592FE-493C-48C1-9F92-B506474A727B","6389C677-17AE-4540-80D6-D3D2D6B0662E","7DB592FE-493C-48C1-9F92-B506474A727B","EC63CBB6-9785-4FC1-9D5C-91A43E919C6F","7CBDBC7C-B516-4C71-99A4-A66353F57981","7CBDBC7C-B516-4C71-99A4-A66353F57981","AF6BBB08-CF6F-4EA1-A320-1C94E93648B0","D101AAB0-A3F4-4714-940B-2491ACCD7B63","9C911339-F77B-4AEE-B77F-3FDEADA67A5B","AAFC444A-D4D9-4A37-BA5F-B78A9E81CB83","0302DB5F-1616-4835-93FF-14BB058C3A03"]}}`
+            sendMessage(message);
+        });
+        //bindEvent(messageButton4, 'click', function (e) {
+        //    var random = Math.random();
+        //    var startd = startDate.value;
+        //    var endd = endDate.value;
+        //    var message = '{"type":"sendMapClick","token":"","coordinates":[123,456]}';
+
+        //    sendMessage(message);
+        //});
+       
+        // Listen to message from child window
+        bindEvent(window, 'message', function (e) {
+            results.innerHTML = e.data;
+            let tmpData = JSON.parse(e.data);
+            if (tmpData['type'] && tmpData['type'] === "featureExtraInfo") {
+                try {
+                    let data = tmpData['data']['info'];
+                    for (var i = 0; i < data.length; i++) {
+                        let currentItem = data[i];
+                        if (currentItem.item === 'cnp') {
+                            currentItem.value = '248';
+                        }
+                        if (currentItem.item === 'nume') {
+                            currentItem.value = 'ddd';
+                        }
+                        if (currentItem.item === 'prenume') {
+                            currentItem.value = 'vvv';
+                        }
+                    }
+                    sendMessage(JSON.stringify(tmpData));
+                } catch (e) {
+
+                }
+            } else if (tmpData['type'] && tmpData['type'] === "featureListExtraInfo") {
+                if (Array.isArray(tmpData['data']['items']) && tmpData['data']['items'].length > 0) {
+                    for (var i = 0; i < tmpData['data']['items'].length; i++) {
+                        let dataItem = tmpData['data']['items'][i]['info'];
+                        for (var j = 0; j < dataItem.length; j++) {
+                            let currentItem = dataItem[j];
+                            if (currentItem.item === 'cnp') {
+                                currentItem.value = '248' + i.toString();
+                            }
+                            if (currentItem.item === 'nume') {
+                                currentItem.value = 'ddd' + i.toString();
+                            }
+                            if (currentItem.item === 'prenume') {
+                                currentItem.value = 'vvv' + i.toString();
+                            }
+                        }
+                    }
+                    sendMessage(JSON.stringify(tmpData));
+                }
+            }
+        });
+    </script>
+</body>
+</html>

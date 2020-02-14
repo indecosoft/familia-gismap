@@ -1,0 +1,20 @@
+﻿<section>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon" style="padding: 2px">R</span>
+            <input type="number" min="0" max="255" class="form-control" ng-model="vm.colorPickerData.color[0]" ng-change="vm.changeColor()" />
+            <span class="input-group-addon" style="padding: 2px">G</span>
+            <input type="number" min="0" max="255" class="form-control" ng-model="vm.colorPickerData.color[1]" ng-change="vm.changeColor()"/>
+            <span class="input-group-addon" style="padding: 2px">B</span>
+            <input type="number" min="0" max="255" class="form-control" ng-model="vm.colorPickerData.color[2]" ng-change="vm.changeColor()" />
+            <span class="input-group-addon" style="padding: 2px">A</span>
+            <input type="number" min="0" max="1" step="0.1" class="form-control" ng-model="vm.colorPickerData.color[3]" ng-change="vm.changeColor()"/>
+            <span class="input-group-btn">
+                <button type="button" id="idColor" class="btn" data-toggle="collapse" data-target="#{{ vm.idColor }}" ng-style="vm.buttonStyle"><img src="./img/painter-palette.png" /></button>
+            </span>
+        </div>
+        <div id="{{ vm.idColor }}" class="collapse">
+            <color-picker ng-model="vm.color" ng-click="vm.convertColor()"></color-picker>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,59 @@
+﻿<div class="modal-content">
+    <form name="addRouteForm" novalidate>
+        <div class="modal-header">
+            <h4 class="modal-title" ng-show="diaCtrl.isAddElseEdit">Adaugare traseu</h4>
+            <h4 class="modal-title" ng-show="!diaCtrl.isAddElseEdit">Modificare traseu</h4>
+        </div>
+        <div class="modal-body">
+            <fieldset ng-disabled="diaCtrl.disableInput">
+                <div class="form-group" ng-show="!diaCtrl.isAddElseEdit">
+                    <label for="name">Nume</label>
+                    <ui-select name="uiSelectRoute" class="" ng-model="diaCtrl.newRoute" theme="selectize" title="Selecteaza ruta" ng-change="diaCtrl.onChangeRoute(diaCtrl,$select.selected)">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.name}}</ui-select-match>
+                        <ui-select-choices repeat="item in diaCtrl.routeList | filter: $select.search">
+                            <div>{{item.name}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group" ng-show="diaCtrl.isAddElseEdit">
+                    <label for="name">Nume</label>
+                    <input type="text" class="form-control" id="username" name="username" ng-model="diaCtrl.name" required>
+                    <span ng-show="loginForm.$submitted || loginForm.name.$touched">
+                        <span ng-show="loginForm.username.$error.required">Nume ruta este obligatoriu</span>
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label>Statii</label>
+                    <div class="addnewpointwell well">
+                        <div class="routePointsClass form-inline" ng-repeat="rtPoint in diaCtrl.pointList">
+                            <button type="button" name="btnRemoveRtPoint" class="btn btn-default" ng-click="diaCtrl.removeRoutePoint(rtPoint)"> x </button>
+                            <input type="text" name="rtPointName" class="form-control" readonly ng-model="rtPoint.name" />
+                        </div>
+                        <!-- Add new point-->
+                        <div class="routeNewPointClass form-inline">
+                            <ui-select name="uiSelectPoint" class="" ng-model="diaCtrl.newPoint" theme="selectize" title="Selecteaza statie" ng-change="diaCtrl.onChangePoint(diaCtrl,$select.selected)">
+                                <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.name}}</ui-select-match>
+                                <ui-select-choices repeat="item in diaCtrl.sourceList | filter: $select.search">
+                                    <div>{{item.name}}</div>
+                                </ui-select-choices>
+                            </ui-select>
+                            <button type="button" name="btnAddPoint" class="btn btn-default" ng-click="diaCtrl.addRoutePoint()">Adauga statie</button>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span ng-show="diaCtrl.errorResponse">
+                        <span>{{diaCtrl.errorResponse}}</span>
+                    </span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-left" ng-click="diaCtrl.editOnMap()" ng-disabled="!diaCtrl.enableEditLocatii()">Editeaza locatii</button>
+                    <button type="button" class="btn btn-default" ng-click="diaCtrl.delete()" ng-show="!diaCtrl.isAddElseEdit" ng-disabled="!diaCtrl.newRoute.text">Sterge</button>
+                    <button type="button" class="btn btn-default" ng-click="diaCtrl.save()" ng-disabled="!diaCtrl.enableSaveButton()">Salveaza</button>
+                    <button type="button" class="btn" ng-click="diaCtrl.cancel()">Renunta</button>
+                </div>
+            </fieldset>
+        </div>
+    </form>
+</div>

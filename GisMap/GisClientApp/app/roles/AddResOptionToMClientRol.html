@@ -1,0 +1,74 @@
+﻿<div class="panel dialog-panel-no-margin" ng-if="vm.selectedAction.name === 'opt-res-cli-add'">
+    <form name="resourceForm" novalidate>
+        <fieldset ng-disabled="vm.disableInput">
+            <div class="panel-body dialog-panel-no-padding">
+                <!---->
+                <div class="form-group">
+                    <label for="uiSelectResType">Tip resursa</label>
+                    <ui-select name="uiSelectResType" ng-model="vm.addOptResCli.selectedType" theme="selectize" title="Selecteaza tip resursa" ng-change="vm.onChangeResursaOptType(vm,$select.selected)">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.text}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.addOptResCli.availableTypes | filter: $select.search">
+                            <div>{{item.text}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group">
+                    <label for="userMult">Nume resursa</label>
+                    <ui-select name="uiSelectUser" ng-model="vm.addOptResCli.selectedResursa" theme="selectize" title="Selecteaza strat" ng-change="vm.onChangeResursaOpt(vm,$select.selected)">
+                        <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.nume}}</ui-select-match>
+                        <ui-select-choices repeat="item in vm.resourcesForSelectedType() | filter: $select.search">
+                            <div>{{item.nume}}</div>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+                <div class="form-group">
+                    <label>Optiuni</label>
+                    <div class="form-group">
+                        <select-options rol="vm.rol" optiuni="vm.addOptResCli.availableOptions"></select-options>
+                    </div>
+                    <div class="form-group">
+                        <label>Client</label>
+                        <div class="form-group">
+                            <div class="well" ng-repeat="rol in vm.addOptResCli.selectedClients">
+                                <div class="form-inline" style="margin-bottom:10px">
+                                    <label>Selectare roluri pentru {{rol.nume}} </label>
+                                    <button type="button" name="btnRemoveRol" class="btn btn-xs btn-default pull-right" ng-click="vm.onRemoveClient(rol)"> x </button>
+                                </div>
+
+                                <div class="form-inline" ng-repeat="selRoles in rol.selectedRoles">
+                                    <span class="ml-auto mr-auto"><b>{{ selRoles.nume }}</b></span>
+                                    <button type="button" name="btnRemoveRol" class="btn btn-xs btn-default pull-right" ng-click="vm.onRemoveRole(selRoles, $parent.$index)"> x </button>
+                                </div>
+
+                                <div class="form-inline">
+                                    <select class="form-control sel-res-rol-option" ng-model="r.nume" ng-options="r as r.nume for r in rol.roles" ng-change="vm.onChangeRole(r)"></select>
+                                    <button type="button" name="addNewOptToRol" class="btn btn-default add-res-rol-option" ng-click="vm.addRol($index)"> Adauga rol </button>
+                                </div>
+                            </div>
+                        </div>
+                        <ui-select ng-model="vm.addOptResCli.selectedClient" theme="selectize" title="Selecteaza strat" ng-change="vm.onChangeClient(vm,$select.selected)">
+                            <ui-select-match placeholder="Selecteaza sau cauta in lista...">{{$select.selected.nume}}</ui-select-match>
+                            <ui-select-choices repeat="item in vm.addOptResCli.availableClients | filter: $select.search">
+                                <div>{{item.nume}}</div>
+                            </ui-select-choices>
+                        </ui-select>
+                        <button ng-click="vm.addClient()" class="btn btn-default">Adauga client</button>
+                    </div>
+                </div>
+                <!---->
+                <div class="form-group">
+                    <span ng-show="vm.errorResponse">
+                        <span>{{vm.errorResponse}}</span>
+                    </span>
+                </div>
+            </div>
+            <div class="panel-footer dialog-panel-no-padding">
+                <div class="form-group">
+                    <button type="button" class="btn btn-default" ng-click="vm.addInternalResource()" ng-show="vm.selectedAction != null">Salveaza</button>
+                    <button type="button" class="btn btn-default" ng-click="vm.cancelInternalResource()">Anuleaza</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+
+</div>

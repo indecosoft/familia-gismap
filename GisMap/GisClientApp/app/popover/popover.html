@@ -1,0 +1,23 @@
+﻿<section ng-controller="MapController as vm">
+    <div ng-repeat="data in vm.PopoverService.data">{{ data }}</div>
+    <div class="btn-group" style="width: 100%; padding-top: 10px">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="width: 100%">
+            Butoane
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" style="width: 100%">
+            <li>
+                <a href="#">Editeaza detalii</a>
+            </li>
+            <li>
+                <a href="#">Editeaza geometrie</a>
+            </li>
+            <li>
+                <a href="#">Raport</a>
+            </li>
+            <li>
+                <a href="#">Zona</a>
+            </li>
+        </ul>
+    </div>
+</section>
