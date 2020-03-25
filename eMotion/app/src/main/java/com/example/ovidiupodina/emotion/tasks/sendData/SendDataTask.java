@@ -1,10 +1,6 @@
 package com.example.ovidiupodina.emotion.tasks.sendData;
 
-import android.app.Notification;
 import android.os.AsyncTask;
-import android.util.Log;
-
-import com.example.ovidiupodina.emotion.database.Constants;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -23,13 +19,10 @@ public class SendDataTask extends AsyncTask<String, Void, String> {
     private com.example.ovidiupodina.emotion.tasks.sendData.ISendDataListener ISendDataListener;
 
     private ArrayList<String> ids;
-    private String data = "";
 
     public SendDataTask(com.example.ovidiupodina.emotion.tasks.sendData.ISendDataListener ISendDataListener, ArrayList<String> ids) {
         this.ISendDataListener = ISendDataListener;
         this.ids = ids;
-
-        Log.e(SendDataTask.class.getSimpleName(), "Send data");
     }
 
     @Override
@@ -45,23 +38,6 @@ public class SendDataTask extends AsyncTask<String, Void, String> {
 
             OutputStream os = connection.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, StandardCharsets.UTF_8));
-
-//            data = this.ISendDataListener.onReadFile();
-//            this.ISendDataListener.onClearFile();
-//
-//            if (data != null && !data.equals("")) {
-//                String[] objs = data.split(";");
-//
-//                JSONArray array = new JSONArray();
-//                for (String obj : objs) {
-//                    array.put(new JSONObject(obj));
-//                }
-//                writer.write(array.toString());
-//                writer.flush();
-//            } else {
-//                Log.w("$$$$$$$$$$$$$$$$$$$$", "$$$$$$$$$$$$$$$$$");
-//                return null;
-//            }
 
             writer.write(strings[1]);
             writer.flush();
@@ -80,11 +56,7 @@ public class SendDataTask extends AsyncTask<String, Void, String> {
                 in.close();
                 return sb.toString();
             }
-
-            Log.e(SendDataTask.class.getSimpleName(), "Else: " + connection.getResponseMessage());
-
         } catch (IOException e) {
-            Log.e(SendDataTask.class.getSimpleName(), "Error: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -95,29 +67,9 @@ public class SendDataTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String res) {
         super.onPostExecute(res);
-        String body = res;
 
-        if (res == null) {
-            body = "Nu s-a putut realiza conexiunea la server! (datele nu au fost trimise)";
-//            try {
-//                if (data != null && !data.equals("")) {
-//                    JSONArray jData = new JSONArray(data);
-//                    StringBuilder d = new StringBuilder();
-//                    for (int i = 0; i < jData.length(); i++) {
-//                        d.append(jData.get(i)).append(";");
-//                    }
-//
-//                    ISendDataListener.onWriteFile(d.toString());
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-        } else {
+        if (res != null) {
             this.ISendDataListener.onSendDataDone(ids);
         }
-
-        Log.e(SendDataTask.class.getSimpleName(), "onPostExecute: " + body);
-        Notification.Builder nb = ISendDataListener.onGetAndroidChannelNotification("Data!", body);
-        ISendDataListener.onGetManager().notify(Constants.RES_SEND_DATA, nb.build());
     }
 }

@@ -10,4 +10,5 @@ public class Config {
     public int valMinPulse = 60;
     public double safeLatitude = 0.0;
     public double safeLongitude = 0.0;
+    public String appVersion = "v1.0.0";
 }

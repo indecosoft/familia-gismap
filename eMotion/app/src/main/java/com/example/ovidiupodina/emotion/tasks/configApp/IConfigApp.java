@@ -6,5 +6,4 @@ public interface IConfigApp {
     void onGetLoc();
     void onGetPulse();
     void onSendData();
-    void onNotify(String res);
 }

@@ -124,7 +124,7 @@ public class MainActivity extends WearableActivity implements Config.IConfig {
     }
 
     public void getConfig(@NonNull String imei) {
-        new Config(this).execute("https://gisdev.indecosoft.net/devices/get-device-config/" + imei);
+        new Config(this).execute("https://gis.indecosoft.net/chat/api/get-device-config/" + imei);
     }
 
     public void getImei() {

@@ -1,12 +1,10 @@
 package com.example.ovidiupodina.emotion.tasks.configApp;
 
-import android.net.wifi.hotspot2.ConfigParser;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.ovidiupodina.emotion.data.Storage;
 import com.example.ovidiupodina.emotion.geofacing.Punct;
-import com.example.ovidiupodina.emotion.storage.Database;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,8 +61,6 @@ public class ConfigAppTask extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String res) {
         super.onPostExecute(res);
 
-        Log.e(ConfigAppTask.class.getSimpleName(), "" + res);
-
         if (res != null) {
             try {
                 JSONObject object = new JSONObject(res);
@@ -84,8 +80,6 @@ public class ConfigAppTask extends AsyncTask<String, Void, String> {
                         );
 
 
-               //String alert = object.getString("panicPhoneNumbers");
-
                 String safeArea = object.getString("geolocationSafeArea");
 
                 if (safeArea != null) {
@@ -101,17 +95,15 @@ public class ConfigAppTask extends AsyncTask<String, Void, String> {
                             Storage.getInstance().getGeofancing().addNewPoint(new Punct(Double.parseDouble(point[1]), Double.parseDouble(point[0])));
                         }
                     }
-                } else {
+                }
 
+                JSONObject safeDistance = object.getJSONObject("geolocationSafeDistance");
+
+                if (safeDistance != null) {
                     Storage.getInstance().setGeofacing(false);
                     Storage.getInstance().setDistance(true);
-
-                    JSONObject safeDistance = object.getJSONObject("geolocationSafeDistance");
-
-                    if (safeDistance != null) {
-                        Storage.getInstance().setDistancePoint(new Punct(safeDistance.getDouble("latitude"), safeDistance.getDouble("longitude")));
-                        Storage.getInstance().setRaza(safeDistance.getInt("maxValue"));
-                    }
+                    Storage.getInstance().setDistancePoint(new Punct(Storage.getInstance().getConfig().safeLatitude, Storage.getInstance().getConfig().safeLongitude));
+                    Storage.getInstance().setRaza(safeDistance.getInt("maxValue"));
                 }
 
             } catch (JSONException e) {
@@ -125,6 +117,5 @@ public class ConfigAppTask extends AsyncTask<String, Void, String> {
         iConfigApp.onGetPulse();
         iConfigApp.onSaveData();
         iConfigApp.onSendData();
-        iConfigApp.onNotify(res);
     }
 }

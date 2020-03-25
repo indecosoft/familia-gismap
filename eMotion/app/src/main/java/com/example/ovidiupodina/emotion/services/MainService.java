@@ -31,7 +31,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.ovidiupodina.emotion.database.Constants;
@@ -75,6 +74,7 @@ public class MainService extends Service implements LocationListener, SensorEven
     private LocationManager locationManager;
 
     private int contorValAcc = 0;
+    private int battery;
 
     private float pulse = -1;
     private float steps;
@@ -102,10 +102,8 @@ public class MainService extends Service implements LocationListener, SensorEven
     private SimpleDateFormat dateFormat;
     private PowerManager.WakeLock wl;
 
-
     // config
     private String IMEI = null;
-    //private List<String> numbers;
 
     BroadcastReceiver dataReceiver = new BroadcastReceiver() {
         @Override
@@ -124,14 +122,9 @@ public class MainService extends Service implements LocationListener, SensorEven
             String action = intent.getAction();
 
             if (action != null && action.equals(Intent.ACTION_POWER_CONNECTED)) {
-                Toast.makeText(context, "Power connected!", Toast.LENGTH_SHORT).show();
                 new ConfigAppTask(MainService.this).execute(Constants.CONFIG_URL + IMEI);
-                sendAlerts();
             }
 
-            if (action != null && action.equals(Intent.ACTION_POWER_DISCONNECTED)) {
-                Toast.makeText(context, "Power disconnected!", Toast.LENGTH_SHORT).show();
-            }
         }
     };
 
@@ -140,9 +133,6 @@ public class MainService extends Service implements LocationListener, SensorEven
     public void onCreate() {
         super.onCreate();
 
-        //sendAlerts();
-
-        //numbers = new ArrayList<>();
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.UK);
 
@@ -163,6 +153,7 @@ public class MainService extends Service implements LocationListener, SensorEven
         }
 
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        batteryLevel();
     }
 
     @Override
@@ -282,7 +273,7 @@ public class MainService extends Service implements LocationListener, SensorEven
             return new Notification.Builder(getApplicationContext(), Constants.ANDROID_CHANNEL_ID)
                     .setContentTitle(title)
                     .setContentText(body)
-                    .setSmallIcon(R.mipmap.icon_box)
+                    .setSmallIcon(R.mipmap.icon)
                     .setAutoCancel(true);
         }
         return null;
@@ -348,12 +339,7 @@ public class MainService extends Service implements LocationListener, SensorEven
     }
 
     private void writeFile() {
-        Log.e(MainService.class.getSimpleName(), "Save data");
-
-        Log.d("MainService", "writeFile: " + latitude + ":" + longitude);
-
         String[] safe = Database.getInstance(this).getDb().getSafeZone();
-
         if (gps) {
             Database.getInstance(this).getDb().updateSafeZone(safe[0], "" + latitude, "" + longitude);
             if (Storage.getInstance().getGeofacing()) {
@@ -370,8 +356,9 @@ public class MainService extends Service implements LocationListener, SensorEven
                 }
             }
 
-            new AlertTask(this).execute(Constants.NEW_ALERT_URL, IMEI, "POINT(" + longitude + " " + latitude + ")", alertaZona, "0");
-            // efectuare apel...
+            if (Storage.getInstance().getDistance() || Storage.getInstance().getGeofacing()) {
+                new AlertTask(this).execute(Constants.NEW_ALERT_URL, IMEI, "POINT(" + longitude + " " + latitude + ")", alertaZona, "0");
+            }
         }
 
         JSONObject obj = new JSONObject();
@@ -392,11 +379,9 @@ public class MainService extends Service implements LocationListener, SensorEven
                     .put("bloodGlucose", "")
                     .put("oxygenSaturation", "")
                     .put("extension", "")
-                    .put("idClient", Storage.getInstance().getConfig().idClient);
-
-            // trebe sters
-            Notification.Builder nb = getAndroidChannelNotification("Valori masurare!", "IMEI: " + IMEI + ", Data: " + dateFormat.format(new Date()) + ", Puls: " + pulse + ", Pasi: " + (steps - auxSteps) + ", Lat: " + safe[1] + ", Long: " + safe[2] + ", GPS: " + gps);
-            getManager().notify(12345, nb.build());
+                    .put("idClient", Storage.getInstance().getConfig().idClient)
+                    .put("battery", battery)
+                    .put("appVersion", Storage.getInstance().getConfig().appVersion);
 
             gps = false;
             sendPanicAlerts = false;
@@ -420,6 +405,9 @@ public class MainService extends Service implements LocationListener, SensorEven
                 int level = -1;
                 if (rawLevel >= 0 && scale > 0) {
                     level = (rawLevel * 100) / scale;
+                    battery = level;
+                } else {
+                    battery = -1;
                 }
 
                 if (level <= 20) {
@@ -514,7 +502,6 @@ public class MainService extends Service implements LocationListener, SensorEven
                     sensorManager.unregisterListener(MainService.this, pulseSensor);
                     batteryLevel();
                     if (pulse >= 0) {
-
                         if (pulse < Storage.getInstance().getConfig().valMinPulse) {
                             Notification.Builder nb = getAndroidChannelNotification("Puls", "Aveti pulsul prea mic! (" + pulse + " bpm)");
                             getManager().notify(Constants.PULSE_NOTIFICATION_ID, nb.build());
@@ -570,9 +557,8 @@ public class MainService extends Service implements LocationListener, SensorEven
             }
         }
 
-        Log.e(MainService.class.getSimpleName(), data.toString());
-
         new SendDataTask(this, ids).execute(Constants.DATA_URL, data.toString());
+        sendAlerts();
     }
 
     private void sendAlerts() {
@@ -589,14 +575,9 @@ public class MainService extends Service implements LocationListener, SensorEven
                 e.printStackTrace();
             }
         }
-
-        new MissedAlerts(this, ids).execute(data.toString());
-    }
-
-    @Override
-    public void onNotify(String res) {
-        Notification.Builder nb = getAndroidChannelNotification("Config!", res == null ? "Nu s-a putut realiza conexiunea la server" : res);
-        getManager().notify(Constants.RES_CONFIG_DATA, nb.build());
+        if (data.length() > 0) {
+            new MissedAlerts(this, ids).execute(data.toString());
+        }
     }
 
     @Override
@@ -641,6 +622,5 @@ public class MainService extends Service implements LocationListener, SensorEven
     @Override
     public void clearData(ArrayList<String> ids) {
         ids.forEach(e -> Database.getInstance(MainService.this).getDb().delete(DatabaseHelper.TABLE_ALERTS, e));
-
     }
 }

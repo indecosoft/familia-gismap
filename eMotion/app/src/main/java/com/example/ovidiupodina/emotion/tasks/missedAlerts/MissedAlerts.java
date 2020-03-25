@@ -70,10 +70,8 @@ public class MissedAlerts extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
 
-        if (s == null) {
-            return;
+        if (s != null) {
+            iMissedAlerta.clearData(ids);
         }
-
-        iMissedAlerta.clearData(ids);
     }
 }

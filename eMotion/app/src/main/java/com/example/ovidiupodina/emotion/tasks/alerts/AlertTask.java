@@ -97,17 +97,8 @@ public class AlertTask extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String res) {
         super.onPostExecute(res);
 
-        String body;
-
         if (res != null) {
-            body = res;
-        } else {
-            body = "Nu s-a putut realiza conexiunea la server!";
-            Log.e("AlertTask", "" + alert);
             iAlertTask.onAlertError(alert);
         }
-
-        Notification.Builder nb = iAlertTask.onGetAndroidChannelNotification(this.tipAlerta, body);
-        iAlertTask.onGetManager().notify(Constants.RES_SEND_DATA, nb.build());
     }
 }
