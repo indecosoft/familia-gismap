@@ -346,18 +346,16 @@ public class MainService extends Service implements LocationListener, SensorEven
                 if (!Storage.getInstance().getGeofancing().contains(new Punct(latitude, longitude))) {
                     Notification.Builder nb = getAndroidChannelNotification("Alerta!", "Ati iesit din zona permisa!");
                     getManager().notify(Constants.GEOFANCING_NOTIFICATION_ID, nb.build());
+                    new AlertTask(this).execute(Constants.NEW_ALERT_URL, IMEI, "POINT(" + longitude + " " + latitude + ")", alertaZona, "0");
                 }
             }
 
             if (Storage.getInstance().getDistance()) {
-                if (Math.sqrt((Math.pow(latitude - Storage.getInstance().getDistancePoint().getX(), 2) + Math.pow(longitude - Storage.getInstance().getDistancePoint().getY(), 2))) > Storage.getInstance().getRaza()) {
+                if ((Math.sqrt((Math.pow(latitude - Storage.getInstance().getDistancePoint().getX(), 2) + Math.pow(longitude - Storage.getInstance().getDistancePoint().getY(), 2)))) * 100000 > Storage.getInstance().getRaza()) {
                     Notification.Builder nb = getAndroidChannelNotification("Alerta!", "Ati iesit din zona permisa!");
                     getManager().notify(Constants.GEOFANCING_NOTIFICATION_ID, nb.build());
+                    new AlertTask(this).execute(Constants.NEW_ALERT_URL, IMEI, "POINT(" + longitude + " " + latitude + ")", alertaZona, "0");
                 }
-            }
-
-            if (Storage.getInstance().getDistance() || Storage.getInstance().getGeofacing()) {
-                new AlertTask(this).execute(Constants.NEW_ALERT_URL, IMEI, "POINT(" + longitude + " " + latitude + ")", alertaZona, "0");
             }
         }
 

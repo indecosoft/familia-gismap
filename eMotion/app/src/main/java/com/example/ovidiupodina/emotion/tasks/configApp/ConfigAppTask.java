@@ -79,14 +79,9 @@ public class ConfigAppTask extends AsyncTask<String, Void, String> {
                                 object.getDouble("safeLongitude")
                         );
 
-
                 String safeArea = object.getString("geolocationSafeArea");
 
-                if (safeArea != null) {
-
-                    Storage.getInstance().setGeofacing(true);
-                    Storage.getInstance().setDistance(false);
-
+                if (!safeArea.equals("null")) {
                     String[] points = safeArea.split(",");
 
                     for (String p : points) {
@@ -95,15 +90,17 @@ public class ConfigAppTask extends AsyncTask<String, Void, String> {
                             Storage.getInstance().getGeofancing().addNewPoint(new Punct(Double.parseDouble(point[1]), Double.parseDouble(point[0])));
                         }
                     }
+                    Storage.getInstance().setGeofacing(true);
+                    Storage.getInstance().setDistance(false);
                 }
 
                 JSONObject safeDistance = object.getJSONObject("geolocationSafeDistance");
 
                 if (safeDistance != null) {
-                    Storage.getInstance().setGeofacing(false);
-                    Storage.getInstance().setDistance(true);
                     Storage.getInstance().setDistancePoint(new Punct(Storage.getInstance().getConfig().safeLatitude, Storage.getInstance().getConfig().safeLongitude));
                     Storage.getInstance().setRaza(safeDistance.getInt("maxValue"));
+                    Storage.getInstance().setGeofacing(false);
+                    Storage.getInstance().setDistance(true);
                 }
 
             } catch (JSONException e) {
