@@ -8,7 +8,7 @@ public class Constants {
     public static final String ANDROID_CHANNEL_ID = "FAMILIA_CHANNEL_ID";
     public static final String ANDROID_CHANNEL_NAME = "FAMILIA_CHANNEL_NAME";
 
-    private static final String type = ""; // "dev" / ""
+    private static final String type = "dev"; // "dev" / ""
     private static final String BASE_URL = "https://gis" + type + ".indecosoft.net/chat/api";
 
     public static final String DATA_URL = BASE_URL + "/save-device-measurements";
