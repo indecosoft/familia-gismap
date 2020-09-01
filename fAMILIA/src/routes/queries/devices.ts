@@ -1,6 +1,6 @@
 export function selectLastConfigImei(imei: string) {
     return {
-        text: 'SELECT "id", "idClient", "idPersoana", "dataStart", "dataStop", "imei", st_astext("geolocationSafeArea") as "geolocationSafeArea", "geolocationSafeDistance", "stepCounter" \
+        text: 'SELECT "id", "idClient", "idPersoana", "dataStart", "dataStop", "imei", st_astext("geolocationSafeArea") as "geolocationSafeArea", "geolocationSafeDistance", "stepCounter", \
                 "bloodPressureSystolic", "bloodPressureDiastolic", "bloodPressurePulseRate", "bloodGlucose", "socializationActive", "panicPhoneNumbers", "medication", \
                 "datetime", "dataSendInterval", "oxygenSaturation", "locationSendInterval", "safeLatitude", "safeLongitude" \
 	            FROM admin."deviceConfig" WHERE "imei"=$1 \
@@ -20,13 +20,13 @@ export function selectConfigImeiPerioada(imei: string, datetime: string) {
     };
 }
 
-export function insertConfig(idClient = 0, idPersoana: number, dataStart: any, dataStop = null, imei: number, geolocationSafeArea = null, geolocationSafeDistance = {}, stepCounter = {}, bloodPressureSystolic = {}, bloodPressureDiastolic = {}, bloodPressurePulseRate = {}, bloodGlucose = {}, oxygenSaturation = {}, socializationActive: boolean, panicPhoneNumbers: any, medication = {}, dataSendInterval: any, locationSendInterval: any, assistant: any, safeLatitude: any, safeLongitude: any) {
+export function insertConfig(idClient = 0, idPersoana: number, dataStart: any, dataStop = null, imei: number, geolocationSafeArea = null, geolocationSafeDistance = {}, stepCounter = {}, bloodPressureSystolic = {}, bloodPressureDiastolic = {}, bloodPressurePulseRate = {}, bloodGlucose = {}, oxygenSaturation = {}, socializationActive: boolean, panicPhoneNumbers: any, medication = {}, dataSendInterval: any, locationSendInterval: any, assistant: any, safeLatitude: any, safeLongitude: any, tipDispozitiv: number) {
     return {
         text: 'INSERT INTO admin."deviceConfig"( \
 	             "idClient", "idPersoana", "dataStart", "dataStop", "imei", "geolocationSafeArea", "geolocationSafeDistance", "stepCounter", "bloodPressureSystolic", "bloodPressureDiastolic", \
-                 "bloodPressurePulseRate", "bloodGlucose", "socializationActive", "panicPhoneNumbers", "medication", "dataSendInterval", "oxygenSaturation", "locationSendInterval", assistant, "safeLatitude", "safeLongitude") \
-                VALUES($1, $2, $3, $4, $5, ST_GeomFromText($6), $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21) returning "id"',
-        values: [idClient, idPersoana, dataStart, dataStop, imei, geolocationSafeArea, geolocationSafeDistance, stepCounter, bloodPressureSystolic, bloodPressureDiastolic, bloodPressurePulseRate, bloodGlucose, socializationActive, panicPhoneNumbers, medication, dataSendInterval, oxygenSaturation, locationSendInterval, assistant, safeLatitude, safeLongitude]
+                 "bloodPressurePulseRate", "bloodGlucose", "socializationActive", "panicPhoneNumbers", "medication", "dataSendInterval", "oxygenSaturation", "locationSendInterval", assistant, "safeLatitude", "safeLongitude", "tipDispozitiv") \
+                VALUES($1, $2, $3, $4, $5, ST_GeomFromText($6), $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22) returning "id"',
+        values: [idClient, idPersoana, dataStart, dataStop, imei, geolocationSafeArea, geolocationSafeDistance, stepCounter, bloodPressureSystolic, bloodPressureDiastolic, bloodPressurePulseRate, bloodGlucose, socializationActive, panicPhoneNumbers, medication, dataSendInterval, oxygenSaturation, locationSendInterval, assistant, safeLatitude, safeLongitude, tipDispozitiv]
     }
 }
 
@@ -41,23 +41,23 @@ export function updateConfigImei(idClient = 0, idPersoana: any, dataStart: any, 
     };
 }
 
-export function updateConfigImeiById(id: any, idClient = 0, idPersoana: any, dataStart: any, dataStop = null, imei: any, geolocationSafeArea = null, geolocationSafeDistance = {}, stepCounter = {}, bloodPressureSystolic = {}, bloodPressureDiastolic = {}, bloodPressurePulseRate = {}, bloodGlucose = {}, oxygenSaturation = {}, socializationActive: any, panicPhoneNumbers: any, medication = {}, dataSendInterval: any, locationSendInterval: any, assistant: any, safeLatitude: any, safeLongitude: any) {
+export function updateConfigImeiById(id: any, idClient = 0, idPersoana: any, dataStart: any, dataStop = null, imei: any, geolocationSafeArea = null, geolocationSafeDistance = {}, stepCounter = {}, bloodPressureSystolic = {}, bloodPressureDiastolic = {}, bloodPressurePulseRate = {}, bloodGlucose = {}, oxygenSaturation = {}, socializationActive: any, panicPhoneNumbers: any, medication = {}, dataSendInterval: any, locationSendInterval: any, assistant: any, safeLatitude: any, safeLongitude: any, userAsisoc: string, tipDispozitiv: number) {
     return {
         text: 'UPDATE admin."deviceConfig" SET \
                "idClient"=$1,"dataStart"=$2, "dataStop"=$3,"geolocationSafeArea"=ST_GeomFromText($4), "geolocationSafeDistance"=$5, "stepCounter"=$6,\
                 "bloodPressureSystolic"=$7, "bloodPressureDiastolic"=$8, "bloodPressurePulseRate"=$9, "bloodGlucose"=$10, "socializationActive"=$11, "panicPhoneNumbers"=$12,\
-                "medication"=$13, "datetime"=$14, "dataSendInterval"=$15, "oxygenSaturation"=$16, "locationSendInterval"=$18, assistant = $19, "safeLatitude" = $20, "safeLongitude" = $21\
+                "medication"=$13, "datetime"=$14, "dataSendInterval"=$15, "oxygenSaturation"=$16, "locationSendInterval"=$18, assistant = $19, "safeLatitude" = $20, "safeLongitude" = $21, "userAsisoc" = $22, "tipDispozitiv" = $23\
                 WHERE "id"=$17',
-        values: [idClient, dataStart, dataStop, geolocationSafeArea, geolocationSafeDistance, stepCounter, bloodPressureSystolic, bloodPressureDiastolic, bloodPressurePulseRate, bloodGlucose, socializationActive, panicPhoneNumbers, medication, "now()", dataSendInterval, oxygenSaturation, id, locationSendInterval, assistant, safeLatitude, safeLongitude]
+        values: [idClient, dataStart, dataStop, geolocationSafeArea, geolocationSafeDistance, stepCounter, bloodPressureSystolic, bloodPressureDiastolic, bloodPressurePulseRate, bloodGlucose, socializationActive, panicPhoneNumbers, medication, "now()", dataSendInterval, oxygenSaturation, id, locationSendInterval, assistant, safeLatitude, safeLongitude, userAsisoc, tipDispozitiv]
     };
 }
 
-export function updateOldMeasurements(idClient = 0, idPersoanaOld: any, imei: any, dataStart: any, idPersoanaNew: any) {
+export function updateOldMeasurements(idClient = 0, idPersoanaOld: any, imei: any, dataStart: any, idPersoanaNew: any, userAsisc: string) {
     return {
         text: 'UPDATE public."deviceMeasurement" SET \
-               "idPersoana"=$1\
+               "idPersoana"=$1, "userAsisoc" = $6\
                 WHERE "idClient"=$2 AND "idPersoana"=$3 AND "imei"=$4 AND "dateTimeISO">$5',
-        values: [idPersoanaNew, idClient, idPersoanaOld, imei, dataStart]
+        values: [idPersoanaNew, idClient, idPersoanaOld, imei, dataStart, userAsisc]
     };
 }
 

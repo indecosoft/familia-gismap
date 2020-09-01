@@ -37,18 +37,40 @@ export async function saveDeviceConfig(ctx: Koa.Context) {
             let setariImei = await executeQuery(queries.selectLastConfigImei(setariDevice.imei));
             if (setariImei.length != 0) {
                 if (setariImei[0].idPersoana == setariDevice.idPersoana && setariImei[0].dataStop == null) {
-                    await executeQuery(queries.updateConfigImeiById(setariImei[0].id, setariDevice.idClient, setariDevice.idPersoana, setariDevice.dataStart, setariDevice.dataStop, setariDevice.imei, setariDevice.geolocationSafeArea, setariDevice.geolocationSafeDistance, setariDevice.stepCounter, setariDevice.bloodPressureSystolic, setariDevice.bloodPressureDiastolic, setariDevice.bloodPressurePulseRate, setariDevice.bloodGlucose, setariDevice.oxygenSaturation, setariDevice.socializationActive, setariDevice.panicPhoneNumbers, setariDevice.medication, setariDevice.dataSendInterval, setariDevice.locationSendInterval, setariDevice.assistant, setariDevice.safeLatitude, setariDevice.safeLongitude));
+                    await executeQuery(queries.updateConfigImeiById(setariImei[0].id, setariDevice.idClient,
+                        setariDevice.idPersoana, setariDevice.dataStart, setariDevice.dataStop, setariDevice.imei,
+                        setariDevice.geolocationSafeArea, setariDevice.geolocationSafeDistance, setariDevice.stepCounter,
+                        setariDevice.bloodPressureSystolic, setariDevice.bloodPressureDiastolic,
+                        setariDevice.bloodPressurePulseRate, setariDevice.bloodGlucose, setariDevice.oxygenSaturation,
+                        setariDevice.socializationActive, setariDevice.panicPhoneNumbers, setariDevice.medication,
+                        setariDevice.dataSendInterval, setariDevice.locationSendInterval, setariDevice.assistant,
+                        setariDevice.safeLatitude, setariDevice.safeLongitude, setariDevice.userAsisoc, setariDevice.deviceType || 0));
                 } else if (setariImei[0].idPersoana != setariDevice.idPersoana) {
                     //update measurements
-                    await executeQuery(queries.updateOldMeasurements(setariDevice.idClient, setariImei[0].idPersoana, setariDevice.Imei, setariDevice.dataStart, setariDevice.idPersoana));
-                    await executeQuery(queries.updateConfigImeiById(setariImei[0].id, setariImei[0].idClient, setariImei[0].idPersoana, setariImei[0].dataStart, setariDevice.dataStart, setariImei[0].imei, setariImei[0].geolocationSafeArea, setariImei[0].geolocationSafeDistance, setariImei[0].stepCounter, setariImei[0].bloodPressureSystolic, setariImei[0].bloodPressureDiastolic, setariImei[0].bloodPressurePulseRate, setariImei[0].bloodGlucose, setariImei[0].oxygenSaturation, setariImei[0].socializationActive, setariImei[0].panicPhoneNumbers, setariImei[0].medication, setariImei[0].dataSendInterval, setariImei[0].locationSendInterval, setariDevice.assistant, setariDevice.safeLatitude, setariDevice.safeLongitude));
+                    await executeQuery(queries.updateOldMeasurements(setariDevice.idClient, setariImei[0].idPersoana,
+                        setariDevice.Imei, setariDevice.dataStart, setariDevice.idPersoana, setariDevice.userAsisoc));
+                    await executeQuery(queries.updateConfigImeiById(setariImei[0].id, setariImei[0].idClient,
+                        setariImei[0].idPersoana, setariImei[0].dataStart, setariDevice.dataStart, setariImei[0].imei,
+                        setariImei[0].geolocationSafeArea, setariImei[0].geolocationSafeDistance, setariImei[0].stepCounter,
+                        setariImei[0].bloodPressureSystolic, setariImei[0].bloodPressureDiastolic, setariImei[0].bloodPressurePulseRate,
+                        setariImei[0].bloodGlucose, setariImei[0].oxygenSaturation, setariImei[0].socializationActive,
+                        setariImei[0].panicPhoneNumbers, setariImei[0].medication, setariImei[0].dataSendInterval,
+                        setariImei[0].locationSendInterval, setariDevice.assistant, setariDevice.safeLatitude, setariDevice.safeLongitude, setariDevice.userAsisoc, setariDevice.deviceType));
                     result = await executeQuery(queries.insertConfig(setariDevice.idClient, setariDevice.idPersoana,
                         setariDevice.dataStart, setariDevice.dataStop, setariDevice.imei, setariDevice.geolocationSafeArea,
                         setariDevice.geolocationSafeDistance, setariDevice.stepCounter, setariDevice.bloodPressureSystolic,
                         setariDevice.bloodPressureDiastolic, setariDevice.bloodPressurePulseRate, setariDevice.bloodGlucose,
                         setariDevice.oxygenSaturation, setariDevice.socializationActive, setariDevice.panicPhoneNumbers,
                         setariDevice.medication, setariDevice.dataSendInterval, setariDevice.locationSendInterval,
-                        setariDevice.assistant, setariDevice.safeLatitude, setariDevice.safeLongitude));
+                        setariDevice.assistant, setariDevice.safeLatitude, setariDevice.safeLongitude, setariDevice.deviceType || 0));
+                } else if (setariImei[0].idPersoana == setariDevice.idPersoana && setariImei[0].dataStop != null) {
+                    result = await executeQuery(queries.insertConfig(setariDevice.idClient, setariDevice.idPersoana,
+                        setariDevice.dataStart, setariDevice.dataStop, setariDevice.imei, setariDevice.geolocationSafeArea,
+                        setariDevice.geolocationSafeDistance, setariDevice.stepCounter, setariDevice.bloodPressureSystolic,
+                        setariDevice.bloodPressureDiastolic, setariDevice.bloodPressurePulseRate, setariDevice.bloodGlucose,
+                        setariDevice.oxygenSaturation, setariDevice.socializationActive, setariDevice.panicPhoneNumbers,
+                        setariDevice.medication, setariDevice.dataSendInterval, setariDevice.locationSendInterval,
+                        setariDevice.assistant, setariDevice.safeLatitude, setariDevice.safeLongitude, setariDevice.deviceType || 0));
                 }
             } else {
                 result = await executeQuery(queries.insertConfig(setariDevice.idClient, setariDevice.idPersoana,
@@ -57,7 +79,7 @@ export async function saveDeviceConfig(ctx: Koa.Context) {
                     setariDevice.bloodPressureDiastolic, setariDevice.bloodPressurePulseRate, setariDevice.bloodGlucose,
                     setariDevice.oxygenSaturation, setariDevice.socializationActive, setariDevice.panicPhoneNumbers,
                     setariDevice.medication, setariDevice.dataSendInterval, setariDevice.locationSendInterval,
-                    setariDevice.assistant, setariDevice.safeLatitude, setariDevice.safeLongitude));
+                    setariDevice.assistant, setariDevice.safeLatitude, setariDevice.safeLongitude, setariDevice.deviceType || 0));
             }
 
             ctx.status = 200;
@@ -157,33 +179,39 @@ export async function saveDeviceAlerts(ctx: Koa.Context) {
         if (data.imei && data.coordonate && data.tipAlerta && data.valoare != null) {
             executeQuery({
                 text: `select "idPersoana", "panicPhoneNumbers"
-                           from admin."deviceConfig"
-                           where imei = $1`, values: [data.imei]
+                       from admin."deviceConfig"
+                       where imei = $1
+                       order by id desc
+                       limit 1`, values: [data.imei]
             })
                 .then((res: any) => {
                     let message;
                     switch (data.tipAlerta) {
                         case 'iesireZonaPermisa':
-                            message = `Persoana ${res[0].idPersoana} a parasit zona de siguranta. Coordonatele sale sunt ${data.coordonate}`;
+                            message = `Persoana ${res[0].idPersoana} a parasit zona de siguranta. Coordonatele sale sunt ${data.coordonate.substring(6, data.coordonate.length - 1).split(' ').reverse().join(' ')}`;
                             break;
                         case 'puls':
-                            message = `Pacientul ${res[0].idPersoana} are pulsul ${data.valoare}. Coordonatele sale sunt ${data.coordonate}`;
+                            message = `Pacientul ${res[0].idPersoana} are pulsul ${data.valoare}. Coordonatele sale sunt ${data.coordonate.substring(6, data.coordonate.length - 1).split(' ').reverse().join(' ')}`;
                             break;
                         default:
                             message = null;
                     }
-                    rp.get({
-                        url: "https://secure.smslink.ro/sms/gateway/communicate/",
-                        qs: {
-                            connection_id: "A277257A34117C23",
-                            password: "Indeco2016#",
-                            to: res[0].panicPhoneNumbers[0],
-                            test: 1,
-                            message
+                    if (message) {
+                        for (let i = 0; i < res[0].panicPhoneNumbers.length; i++) {
+                            rp.get({
+                                url: "https://secure.smslink.ro/sms/gateway/communicate/",
+                                qs: {
+                                    connection_id: "A277257A34117C23",
+                                    password: "Indeco2016#",
+                                    to: res[0].panicPhoneNumbers[i],
+                                    test: 0,
+                                    message
+                                }
+                            }, (e: any, r: any, b: any) => {
+                                console.log({e, b});
+                            });
                         }
-                    }, (e: any, r: any, b: any) => {
-                        console.log({e, b});
-                    });
+                    }
                 }).catch(console.error);
             ctx.body = (await executeQuery(queries.insertAlert(data.imei, data.coordonate, data.tipAlerta, parseInt(data.valoare), data.idClient, data.idPersAsisoc, data.dateTime)))[0] || 'Saved';
         } else {
@@ -244,6 +272,33 @@ export async function getDeviceAlertsClientStartStopImei(ctx: Koa.Context) {
     } catch (e) {
         console.log(`routes -> devices: ${e.message || e}`);
         ctx.status = e.status || 500;
+        ctx.body = e.message || e;
+    }
+}
+
+export async function getDeviceBattery(ctx: Koa.Context) {
+    try {
+        const params = ctx.params;
+
+        if (!params || !params.imei || !params.start || !params.stop) {
+            ctx.throw(422);
+        }
+
+        ctx.body = await executeQuery({
+            text: `
+                select imei, battery, "appVersion", "dateTimeISO"
+                from "deviceMeasurement"
+                where imei = $1
+                  and "dateTimeISO" >= TO_TIMESTAMP($2, 'YYYY-MM-DD HH24:MI:SS')
+                  and "dateTimeISO" <= TO_TIMESTAMP($3, 'YYYY-MM-DD HH24:MI:SS')
+                  and battery is not null
+                order by id;
+            `,
+            values: [params.imei, `${params.start} 00:00:00`, `${params.stop} 23:59:59`]
+        })
+    } catch (e) {
+        console.log(`${ctx.path}: ${e.message || e}`);
+        ctx.status = e.status;
         ctx.body = e.message || e;
     }
 }

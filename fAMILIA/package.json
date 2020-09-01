@@ -7,7 +7,6 @@
   "author": "Ovidiu Podina",
   "license": "ISC",
   "dependencies": {
-    "@types/request": "^2.48.4",
     "base64-img": "^1.0.4",
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^8.5.1",
@@ -21,6 +20,7 @@
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
+    "@types/request": "^2.48.4",
     "@types/pg": "^7.14.1",
     "@types/bcryptjs": "^2.4.2",
     "@types/jsonwebtoken": "^8.3.7",

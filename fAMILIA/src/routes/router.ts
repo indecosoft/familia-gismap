@@ -33,6 +33,7 @@ router
     .post('/myProfile', verifyToken, mobile.myProfile)
     .post('/firstSetup', verifyToken, mobile.firstSetup)
     .post('/consult', verifyToken, mobile.consult)
+    .post('/consultByImei', verifyToken, mobile.consultByImei)
     .post('/updateLocation', verifyToken, mobile.updateLocation)
     .post('/newSharingPeople', verifyToken, mobile.newSharingPeople)
     .post('/nearMe', verifyToken, mobile.nearMe)
@@ -40,6 +41,7 @@ router
     .post('/getUsersDataSharing', verifyToken, mobile.usersDataSharing)
     .post('/deleteSharingPeople', verifyToken, mobile.deleteSharingPeople)
     .post('/getSharedPeople', verifyToken, mobile.sharedPeople)
+    .get('/getAllBenefits', verifyToken, asisoc.getBenefits)
     // imei
     .post('/getDayRec', verifyImei, mobile.getDayRec)
     .post('/smartband/sleep', verifyImei, mobile.smartbandSleep)
@@ -57,10 +59,12 @@ router
     .post('/deleteMedicine', asisoc.deleteMedicine)
     .post('/addMedicine', asisoc.addMedicine)
     .post('/asisocVisit', asisoc.asisocVisit)
+    .post('/delete-all-user-data', asisoc.deleteAllUserData)
     // gis
     .get('/get-devices-config', devices.getDevicesConfig)
     .get('/get-device-alerts/:idClient', devices.getDeviceAlertsClient)
     .get('/get-device-alerts/:idClient/:start/:stop/:imei*', devices.getDeviceAlertsClientStartStopImei)
+    .get('/get-device-battery/:imei/:start/:stop', devices.getDeviceBattery)
     .post('/save-device-config/', devices.saveDeviceConfig)
     .post('/get-device-measurements/', devices.getDeviceMeasurement)
     .post('/update-device-alert', devices.updateDeviceAlert);

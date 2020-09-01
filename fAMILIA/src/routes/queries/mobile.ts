@@ -7,8 +7,17 @@ export function userLoginQuery(email: string, password: string, imei: string) {
 
 export function getUserDataQuery(email: string) {
     return {
-        text: `SELECT id, "idClient", "idPersAsisoc", email, imei, nume, tip, logins, avatar FROM "ingrijiriPaleative".users 
-                        WHERE email  = $1`,
+        text: `SELECT id,
+                      "idClient",
+                      "idPersAsisoc",
+                      email,
+                      imei,
+                      nume,
+                      tip,
+                      logins,
+                      avatar
+               FROM "ingrijiriPaleative".users
+               WHERE email = $1`,
         values: [email]
     }
 }
@@ -22,8 +31,9 @@ export function userPasswordResetQuery(email: string, password: string) {
 
 export function findUserQuery(email: string) {
     return {
-        text: `SELECT * FROM "ingrijiriPaleative".users 
-                        WHERE email = $1`,
+        text: `SELECT *
+               FROM "ingrijiriPaleative".users
+               WHERE email = $1`,
         values: [email]
     }
 }
@@ -44,16 +54,21 @@ export function register(email: string, password: string, name: string, imei: st
 
 export function updateFirstLoginQuery(email: string, avatar: string, genter: string, dateOfBirth: string) {
     return {
-        text: `UPDATE "ingrijiriPaleative".users SET logins = true, avatar = $2, sex = $3, "dataNastere" = $4 
-                        WHERE email = $1`,
+        text: `UPDATE "ingrijiriPaleative".users
+               SET logins        = true,
+                   avatar        = $2,
+                   sex           = $3,
+                   "dataNastere" = $4
+               WHERE email = $1`,
         values: [email, avatar, genter, dateOfBirth]
     }
 }
 
 export function nearMeQuery(email: string) {
     return {
-        text: `SELECT email, nume, avatar FROM "ingrijiriPaleative".users 
-                        WHERE email != $1`,
+        text: `SELECT email, nume, avatar
+               FROM "ingrijiriPaleative".users
+               WHERE email != $1`,
         values: [email]
     }
 }
@@ -67,16 +82,21 @@ export function isNearQuery(userId: number, id: number, distance: number) {
 
 export function getAvatarQuery(email: string) {
     return {
-        text: `SELECT avatar FROM "ingrijiriPaleative".users 
-                        WHERE email = $1`,
+        text: `SELECT avatar
+               FROM "ingrijiriPaleative".users
+               WHERE email = $1`,
         values: [email]
     }
 }
 
 export function getUserMedsQuery(idClient: number, before: string, after: string) {
     return {
-        text: `SELECT * FROM "ingrijiriPaleative"."usersMedicine" 
-                        WHERE "idUser"=$1 and timestamp >= $2 and timestamp <= $3 and taken is null`,
+        text: `SELECT *
+               FROM "ingrijiriPaleative"."usersMedicine"
+               WHERE "idUser" = $1
+                 and timestamp >= $2
+                 and timestamp <= $3
+                 and taken is null`,
         values: [idClient, before, after]
     }
 }
@@ -97,36 +117,44 @@ export function inserNewSharingPeopleQuery(from: string, dest: string) {
 
 export function getSharingPeopleQuery(email: string) {
     return {
-        text: `SELECT id, nume as name, email, imei FROM "ingrijiriPaleative".users 
-                        WHERE id IN (
-                            SELECT uds."idFrom" FROM "ingrijiriPaleative"."usersDataSharing" uds
-                                WHERE uds."idDest" = (
-                                    SELECT id FROM "ingrijiriPaleative".users
-                                        WHERE email = $1
-                                )
-                        )`,
+        text: `SELECT id, nume as name, email, imei
+               FROM "ingrijiriPaleative".users
+               WHERE id IN (
+                   SELECT uds."idFrom"
+                   FROM "ingrijiriPaleative"."usersDataSharing" uds
+                   WHERE uds."idDest" = (
+                       SELECT id
+                       FROM "ingrijiriPaleative".users
+                       WHERE email = $1
+                   )
+               )`,
         values: [email]
     }
 }
 
 export function getSharedPeopleQuery(id: string) {
     return {
-        text: `SELECT nume as name, email, avatar FROM "ingrijiriPaleative".users 
-                        WHERE id IN (
-                            SELECT "idDest" FROM "ingrijiriPaleative"."usersDataSharing"
-                                WHERE "idFrom" = $1
-                        )`,
+        text: `SELECT nume as name, email, avatar
+               FROM "ingrijiriPaleative".users
+               WHERE id IN (
+                   SELECT "idDest"
+                   FROM "ingrijiriPaleative"."usersDataSharing"
+                   WHERE "idFrom" = $1
+               )`,
         values: [id]
     }
 }
 
 export function deleteSharingPeopleQuery(idFrom: string, emailDest: string) {
     return {
-        text: `DELETE FROM "ingrijiriPaleative"."usersDataSharing" 
-                        WHERE "idFrom" = $1 AND "idDest" = (
-                            SELECT id FROM "ingrijiriPaleative".users
-                                WHERE email = $2
-                        )`,
+        text: `DELETE
+               FROM "ingrijiriPaleative"."usersDataSharing"
+               WHERE "idFrom" = $1
+                 AND "idDest" = (
+                   SELECT id
+                   FROM "ingrijiriPaleative".users
+                   WHERE email = $2
+               )`,
         values: [idFrom, emailDest]
     }
 }
@@ -154,86 +182,107 @@ export function firstSetupQuery(idUser: string, idDisease: string) {
 
 export function insertConsultationQuery(idClient: number, idAssistant: number, idPatient: number, startTime: string, endTime: string, activity: string, details: string, longitude: string, latitude: string) {
     return {
-        text: `INSERT INTO "ingrijiriPaleative".consultatii("idClient", "idAsistent", "idPacient", "oraStart", "oraStop", "activitati", "detalii", "locatie") 
-                        VALUES ($1, $2, $3, $4, $5, $6, $7, ST_SetSRID(ST_MakePoint($8, $9), 4326))`,
+        text: `INSERT INTO "ingrijiriPaleative".consultatii("idClient", "idAsistent", "idPacient", "oraStart",
+                                                            "oraStop", "activitati", "detalii", "locatie")
+               VALUES ($1, $2, $3, $4, $5, $6, $7, ST_SetSRID(ST_MakePoint($8, $9), 4326))`,
         values: [idClient, idAssistant, idPatient, startTime, endTime, activity, details, longitude, latitude]
     }
 }
 
 export function bloodPressureQuery(imei: string, date: string) {
     return {
-        text: `SELECT AVG("bloodPressureSystolic")::INTEGER as systolic, 
-                      AVG("bloodPressureDiastolic")::INTEGER as diastolic, 
-                      AVG("bloodPressurePulseRate")::INTEGER as "pulseRate", 
-                      date("dateTimeISO") as date FROM public."deviceMeasurement" 
-                WHERE IMEI = $1 AND "dateTimeISO" > $2 AND "bloodPressureSystolic" > 0 
-                GROUP BY date("dateTimeISO")`,
+        text: `SELECT AVG("bloodPressureSystolic")::INTEGER  as systolic,
+                      AVG("bloodPressureDiastolic")::INTEGER as diastolic,
+                      AVG("bloodPressurePulseRate")::INTEGER as "pulseRate",
+                      date("dateTimeISO")                    as date
+               FROM public."deviceMeasurement"
+               WHERE IMEI = $1
+                 AND "dateTimeISO" > $2
+                 AND "bloodPressureSystolic" > 0
+               GROUP BY date("dateTimeISO")`,
         values: [imei, date]
     }
 }
 
 export function bloodGlucoseQuery(imei: string, date: string) {
     return {
-        text: `SELECT AVG("bloodGlucose")::INTEGER, date("dateTimeISO") as date FROM public."deviceMeasurement" 
-                        WHERE IMEI = $1 AND "dateTimeISO" > $2 AND "bloodGlucose" > 0
-                        GROUP BY date("dateTimeISO")`,
+        text: `SELECT AVG("bloodGlucose")::INTEGER, date("dateTimeISO") as date
+               FROM public."deviceMeasurement"
+               WHERE IMEI = $1
+                 AND "dateTimeISO" > $2
+                 AND "bloodGlucose" > 0
+               GROUP BY date("dateTimeISO")`,
         values: [imei, date]
     }
 }
 
 export function smartbandQuery(imei: string, date: string) {
     return {
-        text: `SELECT "sleepType", "sleepSeconds", "dateTimeISO" as date FROM public."deviceMeasurement" 
-                        WHERE IMEI = $1 AND "dateTimeISO" > $2 AND "sleepType" IS NOT NULL`,
+        text: `SELECT "sleepType", "sleepSeconds", "dateTimeISO" as date
+               FROM public."deviceMeasurement"
+               WHERE IMEI = $1
+                 AND "dateTimeISO" > $2
+                 AND "sleepType" IS NOT NULL`,
         values: [imei, date]
     }
 }
 
 export function bloodPressureDayQuery(imei: string, date: string) {
     return {
-        text: `SELECT "bloodPressureSystolic" as systolic, 
-                      "bloodPressureDiastolic" as diastolic, 
-                      "bloodPressurePulseRate" as "pulseRate", 
-                      "dateTimeISO" as "date"
-                    FROM public."deviceMeasurement"
-                    WHERE IMEI = $1 AND date("dateTimeISO") = $2 AND "bloodPressureSystolic" > 0
-                    ORDER BY "dateTimeISO"`,
+        text: `SELECT "bloodPressureSystolic"  as systolic,
+                      "bloodPressureDiastolic" as diastolic,
+                      "bloodPressurePulseRate" as "pulseRate",
+                      "dateTimeISO"            as "date"
+               FROM public."deviceMeasurement"
+               WHERE IMEI = $1
+                 AND date("dateTimeISO") = $2
+                 AND "bloodPressureSystolic" > 0
+               ORDER BY "dateTimeISO"`,
         values: [imei, date]
     }
 }
 
 export function bloodGlucoseDayQuery(imei: string, date: string) {
     return {
-        text: `SELECT "bloodGlucose", "dateTimeISO" as date FROM public."deviceMeasurement"
-                        WHERE IMEI = $1 AND date("dateTimeISO") = $2 AND "bloodGlucose" > 0`,
+        text: `SELECT "bloodGlucose", "dateTimeISO" as date
+               FROM public."deviceMeasurement"
+               WHERE IMEI = $1
+                 AND date("dateTimeISO") = $2
+                 AND "bloodGlucose" > 0`,
         values: [imei, date]
     }
 }
 
 export function smartBandDayQuery(imei: string, date: string) {
     return {
-        text: `SELECT "sleepType", "sleepSeconds", "dateTimeISO" as date FROM public."deviceMeasurement"
-                        WHERE IMEI = $1 AND date("dateTimeISO") = $2 AND "sleepType" IS NOT NULL`,
+        text: `SELECT "sleepType", "sleepSeconds", "dateTimeISO" as date
+               FROM public."deviceMeasurement"
+               WHERE IMEI = $1
+                 AND date("dateTimeISO") = $2
+                 AND "sleepType" IS NOT NULL`,
         values: [imei, date]
     }
 }
 
 export function getBenefits() {
     return {
-        text: `SELECT * FROM "ingrijiriPaleative"."usersBenefits"`,
+        text: `SELECT *
+               FROM "ingrijiriPaleative"."usersBenefits"`,
         values: []
     }
 }
 
 export function medicineHistory(idClient: number, idPersAsisoc: number, start: string, stop: string) {
     return {
-        text: `select um.* from "ingrijiriPaleative".users u
-	                inner join "ingrijiriPaleative"."usersMedicine" um
-		                on um."idUser" = u.id
-	                where u."idClient" = $1 AND u."idPersAsisoc" = $2
-                        AND date(um.timestamp) >= $3
-                        AND date(um.timestamp) <= $4
-                    ORDER BY um.timestamp`,
+        text: `select um.*
+               from "ingrijiriPaleative".users u
+                        inner join "ingrijiriPaleative"."usersMedicine" um
+                                   on um."idUser" = u.id
+               where u."idClient" = $1
+                 AND u."idPersAsisoc" = $2
+                 AND date(um.timestamp) >= $3
+                 AND date(um.timestamp) <= $4
+               ORDER BY um.timestamp`,
         values: [idClient, idPersAsisoc, start, stop]
     }
 }
@@ -241,6 +290,16 @@ export function medicineHistory(idClient: number, idPersAsisoc: number, start: s
 export function benefit(idClient: string, idPersAsisoc: string, start: string, stop: string, tip = null) {
     return {
         text: `SELECT "ingrijiriPaleative"."asisocConsult"($1)`,
-        values: [{ idClient, idPersAsisoc, start, stop, tip }]
+        values: [{idClient, idPersAsisoc, start, stop, tip}]
+    }
+}
+
+export function getUserLocation(imei: string) {
+    return {
+        text: `select st_astext(ul.location)
+               from "ingrijiriPaleative".users u
+                        inner join "ingrijiriPaleative"."usersLocation" ul on ul."idUser" = u.id
+               where u.imei = $1`,
+        values: [imei]
     }
 }

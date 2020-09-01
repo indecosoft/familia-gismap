@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="fAMILIA CALL/app" />
-      <module fileurl="file://$PROJECT_DIR$/fAMILIA CALL.iml" filepath="$PROJECT_DIR$/fAMILIA CALL.iml" group="fAMILIA CALL" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fAMILIA_CALL.iml" filepath="$PROJECT_DIR$/.idea/modules/fAMILIA_CALL.iml" group="fAMILIA_CALL" />
     </modules>
   </component>
 </project>

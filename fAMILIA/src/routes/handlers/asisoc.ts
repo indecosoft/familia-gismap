@@ -1,5 +1,5 @@
 import Koa from 'koa';
-import {executeQuery} from '../../db';
+import {executeQuery, getClient} from '../../db';
 import * as queries from './../queries/mobile';
 import {clients} from '../../socket/socket';
 import {Socket} from 'net';
@@ -70,16 +70,19 @@ export async function medicineHistory(ctx: Koa.Context) {
 }
 
 export async function userLocation(ctx: Koa.Context) {
+    const req = ctx.params;
     try {
-        const req = ctx.params;
-
         if (!req || !req.imei) ctx.throw(422);
 
         let socket: { imei: string, socket: Socket } = (clients.filter(e => e.imei == req.imei) as Array<{ imei: any, socket: Socket }>)[0];
-
         if (!socket) {
-            ctx.status = 404;
-            return ctx.body = {message: 'Utilizatorul nu este online'};
+            let res = await getLocationFromDB(req.imei);
+            if (res.data) {
+                return ctx.body = res;
+            } else {
+                ctx.status = res.status;
+                return ctx.body = {message: res.message};
+            }
         }
 
         socket.socket.emit('get-location');
@@ -87,9 +90,35 @@ export async function userLocation(ctx: Koa.Context) {
         ctx.body = {data: await location(socket.socket)};
 
     } catch (error) {
-        console.error(`RoutesHandlers -> userLocation -> ${error}`);
-        ctx.status = 500;
-        ctx.body = error;
+        if (error == 'WS timeout') {
+            let res = await getLocationFromDB(req.imei);
+            if (res.data) {
+                ctx.body = res;
+            } else {
+                ctx.status = res.status;
+                ctx.body = {message: res.message};
+            }
+        } else {
+            console.error(`RoutesHandlers -> userLocation -> ${error}`);
+            ctx.status = 500;
+            ctx.body = error;
+        }
+    }
+}
+
+async function getLocationFromDB(imei: string) {
+    let location = await executeQuery(queries.getUserLocation(imei));
+    if (!location || !location.length || !location[0]) {
+        return {status: 404, message: 'Utilizatorul nu este online'};
+    }
+
+    location = location[0].st_astext.substring(6, location[0].st_astext.length - 1).split(' ');
+
+    return {
+        data: {
+            latitude: parseFloat(location[0]),
+            longitude: parseFloat(location[1])
+        }
     }
 }
 
@@ -122,10 +151,15 @@ export async function configJoc(ctx: Koa.Context) {
         } else if (req.idClient && req.idPersAsisoc && req.idCategorie) {
             res = (await executeQuery({
                 text: `INSERT INTO "ingrijiriPaleative"."configJoc"("idClient", "idPersAsisoc", "idCategorie")
-                        SELECT $1,  $2, $3 WHERE NOT EXISTS (
-                            SELECT 1 FROM "ingrijiriPaleative"."configJoc"
-                               WHERE "idClient" = $1 and "idPersAsisoc" = $2 and "idCategorie" = $3
-                            ) returning id;`,
+                       SELECT $1, $2, $3
+                       WHERE NOT EXISTS(
+                               SELECT 1
+                               FROM "ingrijiriPaleative"."configJoc"
+                               WHERE "idClient" = $1
+                                 and "idPersAsisoc" = $2
+                                 and "idCategorie" = $3
+                           )
+                       returning id;`,
                 values: [req.idClient, req.idPersAsisoc, req.idCategorie]
             }))[0];
         }
@@ -246,6 +280,86 @@ export async function asisocVisit(ctx: Koa.Context) {
     }
 }
 
+export async function deleteAllUserData(ctx: Koa.Context) {
+    const client = await getClient();
+
+    try {
+        const req: { idClient: number, idPers: number, imei: string, dataStart: string, userAsisoc: string } = ctx.request.body;
+
+        if (!req || !req.idClient || !req.idPers || !req.imei || !req.dataStart || !req.userAsisoc) {
+            ctx.throw(422, {message: 'Date incomplete!'});
+        }
+
+        let deleted = (await client.query(`
+            DELETE
+            FROM admin."deviceConfig"
+            WHERE "idClient" = $1
+              AND "idPersoana" = $2
+              AND imei = $3
+              AND "dataStart" = $4
+            returning *;
+        `, [req.idClient, req.idPers, req.imei, req.dataStart]) as any).rows[0];
+
+        if (!deleted) {
+            ctx.throw(422, {message: 'Nu exista config pentru persoana respectiva!'});
+        }
+
+        await client.query(`
+            INSERT INTO log."deviceConfig"(id, "idClient", "idPersoana", "dataStart", "dataStop", "imei",
+                                           "geolocationSafeArea", "geolocationSafeDistance", "stepCounter",
+                                           "bloodPressureSystolic", "bloodPressureDiastolic",
+                                           "bloodPressurePulseRate", "bloodGlucose", "socializationActive",
+                                           "panicPhoneNumbers", "medication", "dataSendInterval", "oxygenSaturation",
+                                           "locationSendInterval", assistant, "safeLatitude", "safeLongitude",
+                                           "userAsisoc")
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22,
+                    $23)
+        `, [deleted.id, deleted.idClient, deleted.idPersoana, deleted.dataStart, deleted.dataStop,
+            deleted.imei, deleted.geolocationSafeArea, deleted.geolocationSafeDistance, deleted.stepCounter,
+            deleted.boolPressureSystolic, deleted.bloodPressureDiastolic, deleted.bloodPressurePulseRate,
+            deleted.bloodGlucose, deleted.socializationActive, deleted.panicPhoneNumbers, deleted.medication,
+            deleted.dataSendInterval, deleted.oxygenSaturation, deleted.locationInterval, deleted.assistant,
+            deleted.safeLatitude, deleted.safeLongitude, req.userAsisoc
+        ]);
+
+        await client.query(`DELETE
+                            FROM "ingrijiriPaleative".users
+                            WHERE "idClient" = $1
+                              AND "idPersAsisoc" = $2`,
+            [req.idClient, req.idPers]);
+
+        await client.query(`DELETE
+                            FROM "ingrijiriPaleative"."configJoc"
+                            WHERE "idClient" = $1
+                              AND "idPersAsisoc" = $2`,
+            [req.idClient, req.idPers]);
+
+        await client.query(`DELETE
+                            FROM public."alerteDispozitive"
+                            WHERE imei = $1
+                              AND "idClient" = $2
+                              AND "idPersAsisoc" = $3`, [req.imei, req.idClient, req.idPers]);
+
+        await client.query(`DELETE
+                            FROM public."deviceMeasurement"
+                            WHERE imei = $1
+                              AND "idClient" = $2
+                              AND "idPersoana" = $3`, [req.imei, req.idClient, req.idPers]);
+
+        await client.query('COMMIT');
+
+        ctx.body = {message: 'Datele au fost sterse!'};
+
+    } catch (e) {
+        await client.query('ROLLBACK');
+        console.log(`${ctx.method} ${ctx.path}: ${e.message || e}`);
+        ctx.status = e.status || e;
+        ctx.body = e.message || e;
+    } finally {
+        client.release();
+    }
+}
+
 const location = (client: any) => new Promise((res, rej) => {
     client.removeListener('send-location', console.log);
 
@@ -301,7 +415,7 @@ const updateVisit = (data: IVisit) => new Promise(async (res, rej) => {
                        "dataStop"   = $2,
                        "frecventa"  = $3,
                        "idClient"   = $5
-                       where "idAsisoc" = $4`,
+                   where "idAsisoc" = $4`,
             values: [idAsistent, data.dataStop, data.frecventa, data.idAsisoc, data.idClient]
         }).then(res).catch(rej);
     } catch (e) {

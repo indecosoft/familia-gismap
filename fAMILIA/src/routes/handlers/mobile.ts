@@ -8,10 +8,12 @@ import config from './../../config';
 import {executeQuery, getClient, clientQuery} from '../../db';
 import {generateToken, checkToken} from '../../middleware';
 import {users} from '../../socket/socket';
+import {generareUtilizatoriFictivi} from "../../generareUtilizatoriFictivi";
 
 const transporter = nodemailer.createTransport(config.configTransporter);
 
 export async function login(ctx: Koa.Context) {
+    // body: {email, password, imei}
     try {
         if (ctx.request.body.email && ctx.request.body.password && ctx.request.body.imei) {
             let resDB = (await executeQuery(queries.userLoginQuery(ctx.request.body.email, ctx.request.body.password, ctx.request.body.imei)))[0].userLogin;
@@ -34,6 +36,7 @@ export async function login(ctx: Koa.Context) {
 }
 
 export async function register(ctx: Koa.Context) {
+    // body: {name, email, password, imei}
     try {
         if (ctx.request.body.name && ctx.request.body.email && ctx.request.body.password && ctx.request.body.imei) {
             (await executeQuery(queries.register(ctx.request.body.email, ctx.request.body.password, ctx.request.body.name, ctx.request.body.imei)))[0].register === true ? ctx.body = {status: 2} : ctx.body = {status: 0};
@@ -42,12 +45,14 @@ export async function register(ctx: Koa.Context) {
             ctx.body = {status: 0};
         }
     } catch (e) {
+        console.log('Error -> register: ', e.message || e);
         ctx.throw(e.status || 500, {message: e.message || e});
     }
 
 }
 
 export async function passwordReset(ctx: Koa.Context) {
+    // body: {email, newPassword}
     try {
         if ((await executeQuery(queries.findUserQuery(ctx.request.body.email))).length === 1) {
             let url = `${config.serverUrl}api/passwordReset/${await generateToken(ctx.request.body, true)}`;
@@ -65,6 +70,7 @@ export async function passwordReset(ctx: Koa.Context) {
 }
 
 export async function passwordUpdate(ctx: Koa.Context) {
+    // token: {email, newPassword}
     try {
         if (ctx.params.token !== undefined) {
             let data = await checkToken(ctx.params.token) as any;
@@ -139,7 +145,9 @@ export async function confirmMedicine(ctx: Koa.Context) {
         if (req && req.length && done) {
             for (let i = 0; i < req.length; i++) {
                 await executeQuery({
-                    text: `update "ingrijiriPaleative"."usersMedicine" set taken = $2 where uuid = $1`,
+                    text: `update "ingrijiriPaleative"."usersMedicine"
+                           set taken = $2
+                           where uuid = $1`,
                     values: [req[i].uuid, req[i].date]
                 });
             }
@@ -164,14 +172,22 @@ export async function myProfile(ctx: Koa.Context) {
     try {
         if (ctx.method === 'GET') {
             return ctx.body = (await executeQuery({
-                text: `select u.nume, u.email, u."dataNastere", u.sex, u.avatar, (
-	                    select array(select row_to_json(res) from (
-		                    select nb.cod id, nb.denumire from "ingrijiriPaleative"."usersDiseases" ud
-			                    inner join "ingrijiriPaleative"."nomenclatorBoli" nb on nb.cod = ud."idDisease"
-		                        where ud."idUser" = u.id
-	                        ) res)
-                        ) afectiuni
-                    from "ingrijiriPaleative".users u where u.id = $1;`,
+                text: `select u.nume,
+                              u.email,
+                              u."dataNastere",
+                              u.sex,
+                              u.avatar,
+                              (
+                                  select array(select row_to_json(res)
+                                               from (
+                                                        select nb.cod id, nb.denumire
+                                                        from "ingrijiriPaleative"."usersDiseases" ud
+                                                                 inner join "ingrijiriPaleative"."nomenclatorBoli" nb on nb.cod = ud."idDisease"
+                                                        where ud."idUser" = u.id
+                                                    ) res)
+                              ) afectiuni
+                       from "ingrijiriPaleative".users u
+                       where u.id = $1;`,
                 values: [ctx.user.id]
             }))[0];
         }
@@ -187,18 +203,25 @@ export async function myProfile(ctx: Koa.Context) {
                 await client.query("BEGIN");
 
                 await clientQuery(client, {
-                    text: `update "ingrijiriPaleative".users set nume = $2, "dataNastere" = $3, sex = $4 where id = $1`,
+                    text: `update "ingrijiriPaleative".users
+                           set nume          = $2,
+                               "dataNastere" = $3,
+                               sex           = $4
+                           where id = $1`,
                     values: [ctx.user.id, req.nume, req.dataNastere, req.sex]
                 });
 
                 await clientQuery(client, {
-                    text: `delete from "ingrijiriPaleative"."usersDiseases" where "idUser" = $1`,
+                    text: `delete
+                           from "ingrijiriPaleative"."usersDiseases"
+                           where "idUser" = $1`,
                     values: [ctx.user.id]
                 });
 
                 for (let i = 0; i < req.afectiuni.length; i++) {
                     await clientQuery(client, {
-                        text: `insert into "ingrijiriPaleative"."usersDiseases"("idUser", "idDisease") values ($1, $2)`,
+                        text: `insert into "ingrijiriPaleative"."usersDiseases"("idUser", "idDisease")
+                               values ($1, $2)`,
                         values: [ctx.user.id, req.afectiuni[i].cod]
                     });
                 }
@@ -233,11 +256,15 @@ export async function myProfile(ctx: Koa.Context) {
 export async function gamesCategories(ctx: Koa.Context) {
     try {
         ctx.body = await executeQuery({
-            text: `select cc.* from "ingrijiriPaleative"."categoriiCognitive" cc
-                        inner join "ingrijiriPaleative"."configJoc" cj on cj."idCategorie" = cc.id
-                        inner join "ingrijiriPaleative".users u on u."idClient" = cj."idClient" and u."idPersAsisoc" = cj."idPersAsisoc"
-                        where u."idClient" = $1 and u."idPersAsisoc" = $2;`,
-            values: [ctx.user.idClient, ctx.user.idPersAsisoc]});
+            text: `select cc.*
+                   from "ingrijiriPaleative"."categoriiCognitive" cc
+                            inner join "ingrijiriPaleative"."configJoc" cj on cj."idCategorie" = cc.id
+                            inner join "ingrijiriPaleative".users u
+                                       on u."idClient" = cj."idClient" and u."idPersAsisoc" = cj."idPersAsisoc"
+                   where u."idClient" = $1
+                     and u."idPersAsisoc" = $2;`,
+            values: [ctx.user.idClient, ctx.user.idPersAsisoc]
+        });
     } catch (e) {
         ctx.throw(e.status || 500, {message: e.message || e});
     }
@@ -247,11 +274,15 @@ export async function missedMedicine(ctx: Koa.Context) {
     try {
         if (ctx.params && ctx.params.userId) {
             let res = await executeQuery({
-                text: `SELECT * FROM (
-	                        select *, ROW_NUMBER () OVER (ORDER BY timestamp desc)
-		                        from "ingrijiriPaleative"."usersMedicine"
-		                        where "idUser" = $1 and timestamp < now() and taken is null
-                       ) ROW_NUMBER WHERE ROW_NUMBER BETWEEN $2 + 1 AND $2 + 25;`,
+                text: `SELECT *
+                       FROM (
+                                select *, ROW_NUMBER() OVER (ORDER BY timestamp desc)
+                                from "ingrijiriPaleative"."usersMedicine"
+                                where "idUser" = $1
+                                  and timestamp < now()
+                                  and taken is null
+                            ) ROW_NUMBER
+                       WHERE ROW_NUMBER BETWEEN $2 + 1 AND $2 + 25;`,
                 values: [ctx.params.userId, ctx.params.page || 0]
             });
 
@@ -268,11 +299,14 @@ export async function medicineList(ctx: Koa.Context) {
     try {
         if (ctx.params && ctx.params.userId) {
             let res = await executeQuery({
-                text: `SELECT * FROM (
-                            select *, ROW_NUMBER () OVER (ORDER BY timestamp)
+                text: `SELECT *
+                       FROM (
+                                select *, ROW_NUMBER() OVER (ORDER BY timestamp)
                                 from "ingrijiriPaleative"."usersMedicine"
-                                where "idUser" = $1 and timestamp >= now()
-                       ) ROW_NUMBER WHERE ROW_NUMBER BETWEEN $2 + 1 AND $2 + 25;`,
+                                where "idUser" = $1
+                                  and timestamp >= now()
+                            ) ROW_NUMBER
+                       WHERE ROW_NUMBER BETWEEN $2 + 1 AND $2 + 25;`,
                 values: [ctx.params.userId, ctx.params.page || 0]
             });
             return ctx.body = res;
@@ -288,10 +322,53 @@ export async function consult(ctx: Koa.Context) {
     try {
         let assistantData = await checkToken(ctx.request.headers.authorization.split(' ')[1]) as any;
         let clientData = await checkToken(ctx.request.body.qrCodeData.clientToken) as any;
-        if (assistantData.idClient && assistantData.id && clientData.id && ctx.request.body.dateTimeStart && ctx.request.body.dateTimeStop && ctx.request.body.details.benefit && ctx.request.body.details.details && ctx.request.body.location.longitude && ctx.request.body.location.latitude) {
+        if (assistantData.idClient && assistantData.id && clientData.id && ctx.request.body.dateTimeStart
+            && ctx.request.body.dateTimeStop && ctx.request.body.details.benefit && ctx.request.body.details.details
+            && ctx.request.body.location.longitude && ctx.request.body.location.latitude) {
             ctx.body = {
                 status: 2,
                 res: await executeQuery(queries.insertConsultationQuery(assistantData.idClient, assistantData.id, clientData.id, ctx.request.body.dateTimeStart, ctx.request.body.dateTimeStop, ctx.request.body.details.benefit, ctx.request.body.details.details, ctx.request.body.location.longitude, ctx.request.body.location.latitude))
+            };
+        } else {
+            ctx.body = {status: 0};
+        }
+    } catch (e) {
+        ctx.throw(e.status || 500, {message: e.message || e});
+    }
+}
+
+export async function consultByImei(ctx: Koa.Context) {
+    try {
+        let assistantData = await checkToken(ctx.request.headers.authorization.split(' ')[1]) as any;
+        let clientData = await executeQuery({
+            text: `SELECT id
+                   FROM "ingrijiriPaleative".users
+                   WHERE imei = $1`, values: [ctx.request.body.imei]
+        });
+
+        if (!clientData || !clientData[0] || !clientData[0].id) {
+            await generareUtilizatoriFictivi();
+        } else {
+            clientData = await executeQuery({
+                text: `SELECT id
+                       FROM "ingrijiriPaleative".users
+                       WHERE imei = $1`, values: [ctx.request.body.imei]
+            });
+            if (!clientData || !clientData[0] || !clientData[0].id) {
+                ctx.throw(404);
+            }
+        }
+
+
+        if (assistantData.idClient && assistantData.id && clientData[0].id && ctx.request.body.dateTimeStart
+            && ctx.request.body.dateTimeStop && ctx.request.body.details.benefit && ctx.request.body.details.details
+            && ctx.request.body.location.longitude && ctx.request.body.location.latitude) {
+            ctx.body = {
+                status: 2,
+                res: await executeQuery(queries.insertConsultationQuery(assistantData.idClient, assistantData.id,
+                    clientData[0].id, ctx.request.body.dateTimeStart, ctx.request.body.dateTimeStop,
+                    ctx.request.body.details.benefit, ctx.request.body.details.details,
+                    ctx.request.body.location.longitude, ctx.request.body.location.latitude))
             };
         } else {
             ctx.body = {status: 0};
@@ -508,9 +585,12 @@ export async function getUserBenefits(ctx: Koa.Context) {
     try {
         return ctx.body = {
             status: 2, data: await executeQuery({
-                text: `select distinct ub.* from "ingrijiriPaleative"."usersAsisocBenefits" uab
-	                        inner join "ingrijiriPaleative"."usersBenefits" ub on ub.id = uab."idBeneficiu"
-	                        where uab."idPacient" = $1 and now() >= uab."dataStart" and now() <= uab."dataStop"`,
+                text: `select distinct ub.*
+                       from "ingrijiriPaleative"."usersAsisocBenefits" uab
+                                inner join "ingrijiriPaleative"."usersBenefits" ub on ub.id = uab."idBeneficiu"
+                       where uab."idPacient" = $1
+                         and uab."dataStart" <= current_date
+                         and uab."dataStop" is null`,
                 values: [ctx.params.pacient || 0]
             })
         }

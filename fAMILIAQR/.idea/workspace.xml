@@ -7,79 +7,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a28c26ee-880d-4945-a006-42cf3c81d94e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../eMotion/app/src/main/res/mipmap-xhdpi/icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../fAMILIACALL/app/src/main/res/mipmap-xxhdpi/call.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/qr.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eMotion/.idea/caches/gradle_models.ser" beforeDir="false" afterPath="$PROJECT_DIR$/../eMotion/.idea/caches/gradle_models.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eMotion/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../eMotion/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eMotion/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../eMotion/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eMotion/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../eMotion/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eMotion/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../eMotion/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fAMILIACALL/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fAMILIACALL/.idea/modules/fAMILIA_CALL.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/fAMILIA_QR.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../eMotion/app/src/main/java/com/example/ovidiupodina/emotion/database/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/../eMotion/app/src/main/java/com/example/ovidiupodina/emotion/database/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eMotion/app/src/main/java/com/example/ovidiupodina/emotion/models/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/../eMotion/app/src/main/java/com/example/ovidiupodina/emotion/models/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eMotion/app/src/main/java/com/example/ovidiupodina/emotion/services/MainService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../eMotion/app/src/main/java/com/example/ovidiupodina/emotion/services/MainService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eMotion/app/src/main/java/com/example/ovidiupodina/emotion/tasks/alerts/AlertTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/../eMotion/app/src/main/java/com/example/ovidiupodina/emotion/tasks/alerts/AlertTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eMotion/app/src/main/java/com/example/ovidiupodina/emotion/tasks/configApp/ConfigAppTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/../eMotion/app/src/main/java/com/example/ovidiupodina/emotion/tasks/configApp/ConfigAppTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eMotion/app/src/main/java/com/example/ovidiupodina/emotion/tasks/configApp/IConfigApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../eMotion/app/src/main/java/com/example/ovidiupodina/emotion/tasks/configApp/IConfigApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eMotion/app/src/main/java/com/example/ovidiupodina/emotion/tasks/missedAlerts/MissedAlerts.java" beforeDir="false" afterPath="$PROJECT_DIR$/../eMotion/app/src/main/java/com/example/ovidiupodina/emotion/tasks/missedAlerts/MissedAlerts.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eMotion/app/src/main/java/com/example/ovidiupodina/emotion/tasks/sendData/SendDataTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/../eMotion/app/src/main/java/com/example/ovidiupodina/emotion/tasks/sendData/SendDataTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eMotion/app/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../eMotion/app/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eMotion/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../eMotion/app/src/main/res/values/dimens.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../eMotion/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../eMotion/app/src/main/res/values/strings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.gradle/5.4.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.gradle/5.4.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.gradle/5.4.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.gradle/5.4.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.idea/libraries/Gradle__com_google_android_gms_play_services_base_16_0_1_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.idea/libraries/Gradle__com_google_android_gms_play_services_base_16_0_1_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.idea/libraries/Gradle__com_google_android_gms_play_services_basement_16_0_1_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.idea/libraries/Gradle__com_google_android_gms_play_services_basement_16_0_1_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.idea/libraries/Gradle__com_google_android_gms_play_services_tasks_16_0_1_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.idea/libraries/Gradle__com_google_android_gms_play_services_tasks_16_0_1_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.idea/libraries/Gradle__com_google_android_gms_play_services_wearable_16_0_1_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.idea/libraries/Gradle__com_google_android_gms_play_services_wearable_16_0_1_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.idea/libraries/Gradle__com_google_android_support_wearable_2_4_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.idea/libraries/Gradle__com_google_android_support_wearable_2_4_0_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fAMILIACALL/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/app/src/main/AndroidManifest.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../fAMILIACALL/app/src/main/java/com/example/familiacall/activities/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../fAMILIACALL/app/src/main/java/com/example/familiacall/activities/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fAMILIACALL/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fAMILIACALL/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fAMILIACALL/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../fAMILIACALL/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../fAMILIACALL/fAMILIA CALL.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_base_16_0_1_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_base_16_0_1_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_basement_16_0_1_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_basement_16_0_1_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_tasks_16_0_1_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_tasks_16_0_1_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_wearable_16_0_1_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_gms_play_services_wearable_16_0_1_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_support_wearable_2_4_0_aar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_android_support_wearable_2_4_0_aar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fAMILIA QR.iml" beforeDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -151,31 +117,24 @@
   </component>
   <component name="ProjectId" id="1ZZ4F3PfIGDS7NRy6TwbmyNlfyN" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="720GX9A220398" />
     <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-01-29T13:24:22.577Z" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Indeco\familia-devices\fAMILIAQR\app\src\main\res\mipmap-xxhdpi" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
