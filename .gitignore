@@ -3,3 +3,5 @@
 **/*.pubxml
 **/config.ts
 node_modules
+GisServerApp
+.gitignore
