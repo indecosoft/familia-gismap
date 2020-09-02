@@ -53,7 +53,7 @@
                 this.addEditRole.selectedRole = null;
                 //
                 this.disableInput = true;
-                this.userSettingsSrvs.getAvailableRoles()
+                this.userSettingsSrvs.role.getAvailableRoles()
                     .then((roles) => {
                         if (roles) {
                             this.addEditRole.availableRoles = roles;
@@ -85,7 +85,7 @@
             this.addEditRole.descriere = "";
             //
             this.disableInput = true;
-            this.userSettingsSrvs.getRoleFromStorage(this.addEditRole.selectedRole.id)
+            this.userSettingsSrvs.role.getRoleFromStorage(this.addEditRole.selectedRole.id)
                 .then((role) => {
                     if (role) {
                         this.addEditRole.id = role.id;
@@ -127,7 +127,7 @@
             }
             //
             this.disableInput = true;
-            this.userSettingsSrvs.setAddRoleToStorage(this.addEditRole)
+            this.userSettingsSrvs.role.setAddRoleToStorage(this.addEditRole)
                 .then((success) => {
                     if (success) {
                         //this.$scope.closeThisDialog(true);
@@ -160,7 +160,7 @@
             }
             //
             this.disableInput = true;
-            this.userSettingsSrvs.setUpdateRoleToStorage(this.addEditRole)
+            this.userSettingsSrvs.role.setUpdateRoleToStorage(this.addEditRole)
                 .then((success) => {
                     if (success) {
                         //this.$scope.closeThisDialog(true);
@@ -193,7 +193,7 @@
             }
             //
             this.disableInput = true;
-            this.userSettingsSrvs.setDeleteRoleFromStorage(this.addEditRole)
+            this.userSettingsSrvs.role.setDeleteRoleFromStorage(this.addEditRole)
                 .then((success) => {
                     if (success) {
                         //this.$scope.closeThisDialog(true);

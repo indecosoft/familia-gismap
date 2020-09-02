@@ -2,7 +2,8 @@
     export const reportLayerFormula = {
         count: "count",
         sum: "sum",
-        average: "average"
+        average: "average",
+        percent: "percent"
     }
 
     export function reportFormulaCheckParams(reportInfo: ILayerReportSettings):boolean {
@@ -16,6 +17,9 @@
                 break;
             case reportLayerFormula.average:
                 result = reportAverageCheckParams(reportInfo);
+                break;
+            case reportLayerFormula.percent:
+                result = reportPercentCheckParams(reportInfo);
                 break;
             default:
                 result = false;
@@ -33,6 +37,9 @@
                 break;
             case reportLayerFormula.average:
                 reportAverage(reportInfo, repFeature, dataFeatures);
+                break;
+            case reportLayerFormula.percent:
+                reportPercent(reportInfo, repFeature, dataFeatures);
                 break;
             default:
                 
@@ -53,7 +60,7 @@
             });
             repFeature.set(reportInfo.reportColumns['result'], result)
         } catch (e) {
-            throw new Error(`count ${repFeature.getId()} : ${e.message}`);
+            throw new Error(`count ${repFeature.getId()} : ${e.message || ""}`);
         }
     }
     //
@@ -73,9 +80,9 @@
                     }
                 }
             });
-            repFeature.set(reportInfo.reportColumns['result'], result)
+            repFeature.set(reportInfo.reportColumns['result'], result.toFixed(2))
         } catch (e) {
-            throw new Error(`sum ${repFeature.getId()} : ${e.message}`);
+            throw new Error(`sum ${repFeature.getId()} : ${e.message || ""}`);
         }
     }
 
@@ -101,7 +108,33 @@
             }
             repFeature.set(reportInfo.reportColumns['result'], result)
         } catch (e) {
-            throw new Error(`sum ${repFeature.getId()} : ${e.message}`);
+            throw new Error(`sum ${repFeature.getId()} : ${e.message || ""}`);
+        }
+    }
+
+    //
+    export function reportPercentCheckParams(reportInfo: Gis.ILayerReportSettings): boolean {
+        return ("result" in reportInfo.reportColumns)
+            && ('input1' in reportInfo.dataColumns)
+            && ('input2' in reportInfo.reportColumns);
+    }
+    export function reportPercent(reportInfo: Gis.ILayerReportSettings, repFeature: ol.Feature, dataFeatures: Array<ol.Feature>) {
+        try {
+            let result = 0;
+            let count = 0
+            dataFeatures.forEach((sitem) => {
+                if (sitem["searchFilterOut"] === 'false') {
+                    count++;
+                }
+            });
+            let refTotal = Number(repFeature.get(reportInfo.reportColumns['input2']));
+
+            if (!isNaN(refTotal) && refTotal > 0 && count > 0) {
+                result = (count * 100) / refTotal;
+            }
+            repFeature.set(reportInfo.reportColumns['result'], result.toFixed(2))
+        } catch (e) {
+            throw new Error(`percent ${repFeature.getId()} : ${e.message || ""}`);
         }
     }
 }

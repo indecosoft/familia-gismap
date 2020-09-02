@@ -4,7 +4,7 @@ import * as request from 'request';
 import * as zip from 'zip-local';
 import * as path from 'path';
 import { prepareQuery } from './../db/db';
-import { insertTaskGeoApi, updateTaskGeoApi, createSchema } from './../queries/geoserverApi.q';
+import { insertTaskGeoApi, updateTaskGeoApi, createSchema, insertSpireMosaicEntry, selectSpireMosaicEntry } from './../queries/geoserverApi.q';
 import * as config from './../config';
 
 export const taskActionMode = {
@@ -591,3 +591,78 @@ function getTaskImportStatus(importId, taskId) {
     })
 }
 
+export const SpireMosaicType: any = {
+    ndvi: "ndvi",
+    psri: "psri",
+    ireci: "ireci",
+    ndwi: "ndwi",
+    ndsi: "ndsi",
+    bi: "bi",
+    ci: "ci",
+    rgb: "rgb",
+    fc: "fc"
+}
+
+export async function spireMosaicLayerAddData(ctx: Router.IRouterContext) {
+    try {
+        //get params
+        let fields = JSON.parse(ctx.request.body['config']);
+        //
+        if (!fields.the_geom || fields.the_geom === '') {
+            console.error("lipseste the_geom");
+            throw new Error("lipseste the_geom");
+        }
+        if (!fields.location || fields.location === '') {
+            console.error("lipseste location");
+            throw new Error("lipseste location");
+        }
+        if (!fields.ingestion || fields.ingestion === '') {
+            console.error("lipseste ingestion");
+            throw new Error("lipseste ingestion");
+        }
+        if (!fields.type || fields.type === '' || fields.type !== SpireMosaicType[fields.type]) {
+            console.error("tipul mosaicului lipseste sau nu este definit");
+            throw new Error("tipul mosaicului lipseste sau nu este definit")
+        }
+        //get file
+        let files = ctx.request['files'];
+        if (files === undefined || files.length === 0 || files.file.name === undefined) {
+            console.error("lipseste fisier");
+            throw new Error("lipseste fisier");
+        }
+        //check if entry exists
+        var rezSelect = await prepareQuery(selectSpireMosaicEntry(fields.type, fields.location)).execAsSys();
+        if (rezSelect.length > 0) {
+            console.error("datele exista deja");
+            throw new Error("datele exista deja");
+        }
+        //save file
+        try {
+            let spirePath = config.default.spireMosaicStorePath + '' + fields.type;
+            if (spirePath === undefined || spirePath.length === 0) {
+                spirePath = __dirname + '/../geoserverRest/'+ fields.type;
+            }
+            let spireStorePath = path.resolve(spirePath + '/' + fields.location);
+            //
+            let rs = fs.createReadStream(files.file.path);
+            let ws = fs.createWriteStream(spireStorePath);
+            let wrsPromise: Promise<any> = new Promise((resolve, reject) => {
+                ws.on('end', () => resolve('success'));
+                ws.on('error', e => reject(e));
+                rs.on('error', e => reject(e));
+                rs.on('end', () => resolve('success'));
+            });
+            rs.pipe(ws);
+            await wrsPromise;
+        } catch (e) {
+            throw new Error("eroare salvare fisier")
+        }
+        //save in db
+        await prepareQuery(insertSpireMosaicEntry(fields.type, fields.location, fields.the_geom, fields.ingestion)).execAsSys();
+        ctx.status = 200;
+    } catch (e) {
+        console.error(e.message);
+        ctx.body = "Eroare salvare date: " + e.message;
+        ctx.status = 500;
+    }
+}

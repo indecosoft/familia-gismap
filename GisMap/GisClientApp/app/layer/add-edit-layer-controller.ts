@@ -173,7 +173,7 @@
             this.disableInput = true;
             this.errorResponse = "Incarcare date strat";
             this.asignedLStyles = [];
-            return this.userSettingsService.getAvailableStylesForLayerType(this.layer.featureType)
+            return this.userSettingsService.layerStyle.getAvailableStylesForLayerType(this.layer.featureType)
                 .then((styles) => {
                     this.availableLStyles = styles;
                 }).catch((reason) => {
@@ -189,12 +189,12 @@
         private loadLayerDataFromStorage(layerId: any) {
             this.disableInput = true;
             this.errorResponse = "Incarcare date strat";
-            this.userSettingsService.getLayerFromStorage(this.refLayer.id)
+            this.userSettingsService.layer.getLayerFromStorage(this.refLayer.id)
                 .then((layerdata) => {
                     if (layerdata) {
                         this.layer = layerdata;
                         if (this.layer.category) {
-                            this.userSettingsService.getAssignedCategories().then(res => {
+                            this.userSettingsService.category.getAssignedCategories().then(res => {
                                 this.categories = res.data.assignedCategories
 
                                 this.categories.forEach(e => {
@@ -238,13 +238,13 @@
                     }
                 })
                 .then(() => {
-                    return this.userSettingsService.getAvailableStylesForLayerType(this.layer.featureType)
+                    return this.userSettingsService.layerStyle.getAvailableStylesForLayerType(this.layer.featureType)
                         .then((styles) => {
                             this.availableLStyles = styles;
                         })
                 })
                 .then(() => {
-                    return this.userSettingsService.getAssignedStylesForLayer(this.layer.id)
+                    return this.userSettingsService.layerStyle.getAssignedStylesForLayer(this.layer.id)
                         .then((styles) => {
                             this.asignedLStyles = styles;
                         });
@@ -324,7 +324,7 @@
             //
             if (this.isAddElseEdit) {
                 //strat nou
-                this.userSettingsService.setAddLayerToStorage(this.layer, this.selectedDestAction.name, this.file, this.files, this.asignedLStyles, reportsSettingsStatus.result)
+                this.userSettingsService.layer.setAddLayerToStorage(this.layer, this.selectedDestAction.name, this.file, this.files, this.asignedLStyles, reportsSettingsStatus.result)
                     .then((layerId) => {
                         if (layerId >= 0) {
                             this.$log.info("stratul" + this.layer.name + "a fost creat cu id " + layerId);
@@ -343,7 +343,7 @@
                     })
             } else {
                 this.layer.category = this.categoryModel.nume;
-                this.userSettingsService.setUpdateLayerToStorage(this.layer, this.selectedDestAction.name, this.file, this.files, tmpStyles, reportsSettingsStatus.result)
+                this.userSettingsService.layer.setUpdateLayerToStorage(this.layer, this.selectedDestAction.name, this.file, this.files, tmpStyles, reportsSettingsStatus.result)
                     .then((success) => {
                         if (success) {
                             this.$log.info("stratul" + this.layer.name + "a fost modificat");
@@ -401,7 +401,7 @@
             } catch (e) {
                 tmp.status = false;
                 tmp.result = null;
-                this.$log.error('eroare parsare configurare raport');
+                this.$log.error('eroare parsare configurare raport ' + e.message || "");
             }
             //
             return tmp;

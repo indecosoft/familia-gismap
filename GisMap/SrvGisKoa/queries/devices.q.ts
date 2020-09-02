@@ -77,13 +77,13 @@ export function updateOldMeasurements(idClient = 0, idPersoanaOld, imei, dataSta
 }
 
 //Measurements
-export function insertMeasurements(idClient = 0, idPersoana, imei, dateTimeISO, latitudine, longitudine, lastLocation, stepCounter, bloodPressureSystolic, bloodPressureDiastolic, bloodPressurePulseRate, bloodGlucose, sendPanicAlerts, oxygenSaturation, extension, sleepType, sleepSeconds, dailyActivity): IQuery<{ id: number }[]> {
+export function insertMeasurements(idClient = 0, idPersoana, imei, dateTimeISO, latitudine, longitudine, lastLocation, stepCounter, bloodPressureSystolic, bloodPressureDiastolic, bloodPressurePulseRate, bloodGlucose, sendPanicAlerts, oxygenSaturation, extension, sleepType, sleepSeconds, dailyActivity, battery: number | null): IQuery<{ id: number }[]> {
     let query = {
         text: `INSERT INTO public."deviceMeasurement"( \
 	             "idClient", "idPersoana", "imei", "dateTimeISO", "geolocation","lastLocation", "stepCounter", "bloodPressureSystolic", "bloodPressureDiastolic", \
-                 "bloodPressurePulseRate", "bloodGlucose", "sendPanicAlerts", "extension", "oxygenSaturation", "sleepType", "sleepSeconds", "dailyActivity") \
-                VALUES($1, $2, $3, $4, st_setsrid(st_point($6, $5), 4326), $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) returning "id"`,
-        values: [idClient, idPersoana, imei, dateTimeISO, latitudine, longitudine, lastLocation, stepCounter, bloodPressureSystolic, bloodPressureDiastolic, bloodPressurePulseRate, bloodGlucose, sendPanicAlerts, extension, oxygenSaturation, sleepType, sleepSeconds, dailyActivity]
+                 "bloodPressurePulseRate", "bloodGlucose", "sendPanicAlerts", "extension", "oxygenSaturation", "sleepType", "sleepSeconds", "dailyActivity", battery) \
+                VALUES($1, $2, $3, $4, st_setsrid(st_point($6, $5), 4326), $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19) returning "id"`,
+        values: [idClient, idPersoana, imei, dateTimeISO, latitudine, longitudine, lastLocation, stepCounter, bloodPressureSystolic, bloodPressureDiastolic, bloodPressurePulseRate, bloodGlucose, sendPanicAlerts, extension, oxygenSaturation, sleepType, sleepSeconds, dailyActivity, battery]
     }
 
     return query;

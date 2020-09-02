@@ -11,12 +11,13 @@ module Gis {
         basemap: string;
         basemapConfig: any;
     }
-    
+
     export interface ICategory {
         id: number;
         code: string;
         name: string;
         layers: ILayer[];
+        defaultIndex?: number;
     }
 
     export interface ILayer {
@@ -51,11 +52,12 @@ module Gis {
         menuFeatureItems?: Array<IMenuFeatureItem>;
 
         style?: ILStyles;
-        reports?:  Array<ILayerReportSettings>;
+        reports?: Array<ILayerReportSettings>;
 
         sourceType?: string;
         defaultIndex?: number;
         manualRefresh?: boolean;
+        setAsTopLayer?: boolean;
     }
 
     export interface ILStyles {
@@ -99,7 +101,7 @@ module Gis {
         { name: ESearchCondition.same, text: "exact" },
         { name: ESearchCondition.notTheSame, text: "diferit" }
     ]
-    
+
     export interface IFeatureInfo {
         name: string;
         type: string;
@@ -114,14 +116,14 @@ module Gis {
         features: ol.Collection<ol.Feature>;
     }
 
-    export interface ISelectFeatureConnected  {
+    export interface ISelectFeatureConnected {
         layer: ol.layer.Vector;
         feature: ol.Feature;
         connectedConstructii: Array<ISelectedFeatures>;
         connectedVegetatie: Array<ISelectedFeatures>;
     }
 
-    export var featureId =  "_id_";
+    export var featureId = "_id_";
 
     export var featureType = {
         point: "point",
@@ -143,7 +145,7 @@ module Gis {
         icon: 'Icon'
     }
 
-    export function featureTypeForVector(featureType: string):boolean {
+    export function featureTypeForVector(featureType: string): boolean {
         return (featureType === Gis.featureType.point
             || featureType === Gis.featureType.line
             || featureType === Gis.featureType.poly
@@ -170,7 +172,7 @@ module Gis {
         { name: Gis.featureType.tile, text: "Raster" },
         { name: Gis.featureType.image, text: "Imagine" },
         { name: Gis.featureType.pointText, text: "Puncte cu descriere" },
-        { name: Gis.featureType.polyReport, text: "Zone raport cu strat conex"}
+        { name: Gis.featureType.polyReport, text: "Zone raport cu strat conex" }
     ]
 
     export const styleTypeName: Array<IItemNT> = [
@@ -242,7 +244,7 @@ module Gis {
         group?: string;
     }
 
-    export interface IOptiuneRes extends IOptiune{
+    export interface IOptiuneRes extends IOptiune {
         access?: boolean;
         idResursa?: number;
     }
@@ -327,11 +329,14 @@ module Gis {
         addRoute: "addRoute",
         editRoute: "editRoute",
         refreshLayer: "refreshLayer",
-        editLayer:"editLayer",
+        editLayer: "editLayer",
         regenerateRoutes: "regenerateRoutes",//
         generateRoute: "generateRoute",
         addTransportRoute: "addTransportRoute",
-        editTransportRoute: "editTransportRoute"
+        editTransportRoute: "editTransportRoute",
+        animateTimeRaster: "animateTimeRaster",
+        setAsTopLayer: "setAsTopLayer",
+        downloadShapefile: "downloadShapefile"
         //infoLocatiiConexe: "infoLocatiiConexe"
     }
     export const authType = {
@@ -348,11 +353,11 @@ module Gis {
         auth_user_is_defined: '/auth/user-is-defined',
         data_save_current_user_info: '/data/save-current-user-info',
         data_save_user_roles: '/data/save-user-roles',
-        data_layer : '/data/layer',
+        data_layer: '/data/layer',
         data_add_layer: '/data/add-layer',
         data_update_layer: '/data/update-layer',
         data_save_resursa_optiuni: '/data/save-resursa-optiuni',
-        data_save_resursa_roles_optiuni:'/data/save-resursa-roles-optiuni',
+        data_save_resursa_roles_optiuni: '/data/save-resursa-roles-optiuni',
         data_save_resursa_roles: '/data/save-resursa-roles',
         data_resursa_roles: '/data/resursa-roles',
         data_add_resursa_interna: '/data/add-resursa-interna',
@@ -375,6 +380,7 @@ module Gis {
         menu_visible: 'menu-visible',
         search_visible: 'search-visible',
         menu_category_hide_if_empty: 'menu-category-hide-if-empty',
+        menu_category_index: 'menu-category-index',
         // menu_multi_feature_view_info: 'menu-multi-feature-view-info',
         menu_multi_feature_report: 'menu-multi-feature-report',
         menu_multi_feature_details: 'menu-multi-feature-details',
@@ -390,8 +396,10 @@ module Gis {
 
         data_add_category: '/data/add-category',
         data_edit_category: '/data/edit-category',
-        data_client_edit_category: '/data/client-edit-category'
-       
+        data_client_edit_category: '/data/client-edit-category',
+        control_coordinates_visible: 'control-coordinates-visible',
+        control_coordinates_use_map_projection: 'control-coordinates-use-map-projection'
+
     }
 
     export const authOpt = {
@@ -409,7 +417,7 @@ module Gis {
         add_layer: "add-layer",
         refresh_layer: "refresh-layer",
         //
-        
+
         in_add_feature: "in-add-feature",
         in_edit_feature: "in-edit-feature",
         in_info_feature: "in-info-feature",
@@ -425,6 +433,7 @@ module Gis {
         //
         active_layer_at_init: "active-layer-at-init",
         in_hide_menu_category: "in-hide-menu-category",
+        in_index_menu_category: "in-index-menu-category",
         //
         message_selected_features_info: "message-selected-features-info",
         in_message_selected_features_info: "in-message-selected-features",
@@ -444,7 +453,7 @@ module Gis {
         route_points_layer: "route-points-layer",
         route_segments_layer: "route-segments-layer",
         //
-        in_layer_menu_index : "in-layer-menu-index",
+        in_layer_menu_index: "in-layer-menu-index",
         //"": "",
 
         //
@@ -456,7 +465,7 @@ module Gis {
         select_layer_feature: 'select-layer-feature',
         generate_report: 'generate-report',
         //
-        connected_layer_activate_insert:'connected-layer-activate-insert',
+        connected_layer_activate_insert: 'connected-layer-activate-insert',
         connected_layer_name: 'connected-layer-name',
         in_connected_layer_source: 'in-connected-layer-source',
         in_connected_layer_dest: 'in-connected-layer-dest',
@@ -470,7 +479,16 @@ module Gis {
         //
         info_connected_features: 'info-connected-features',
         in_info_connected_features: 'in-info-connected-features',
-        
+        //
+        animate_time_raster: 'animate-time-raster',
+        animate_time_raster_source: 'animate-time-raster-source',
+        animate_time_raster_column: 'animate-time-raster-column',
+        //
+        raster_select_info: 'raster-select-info',
+        //layer menu action
+        set_as_top_layer: 'set-as-top-layer',
+        //layer menu action
+        download_shapefile: 'download-shapefile',
     }
 
     export const optionGroupType = {
@@ -507,7 +525,10 @@ module Gis {
             generateRoute: Gis.IMenuLayerItem,
             addTransportRoute: Gis.IMenuLayerItem,
             editTransportRoute: Gis.IMenuLayerItem,
-            generateReport: Gis.IMenuLayerItem
+            generateReport: Gis.IMenuLayerItem,
+            animateTimeRaster: Gis.IMenuLayerItem,
+            setAsTopLayer: Gis.IMenuLayerItem,
+            downloadShapefile: Gis.IMenuLayerItem
         }
         =
         {
@@ -566,6 +587,30 @@ module Gis {
                 action: Gis.menuAction.refreshLayer,
                 auth: Gis.authOpt.generate_report,
                 data: {}
+            },
+            animateTimeRaster: {
+                id: 107,
+                name: 'Animeaza strat',
+                active: true,
+                action: Gis.menuAction.animateTimeRaster,
+                auth: Gis.authOpt.animate_time_raster,
+                data: {}
+            },
+            setAsTopLayer: {
+                id: 108,
+                name: 'Strat top',
+                active: true,
+                action: Gis.menuAction.setAsTopLayer,
+                auth: Gis.authOpt.set_as_top_layer,
+                data: {}
+            },
+            downloadShapefile: {
+                id: 109,
+                name: 'Descarca date',
+                active: true,
+                action: Gis.menuAction.downloadShapefile,
+                auth: Gis.authOpt.download_shapefile,
+                data: {}
             }
         }
 
@@ -591,7 +636,7 @@ module Gis {
     }
 
     export const styleType = {
-       // color: "color",
+        // color: "color",
         default: "default",
         //icon: "icon",
         multiStyle: "multiStyle",
@@ -601,7 +646,7 @@ module Gis {
         { name: styleType.default, text: "Stil de baza" },
         //{ name: styleType.color, text: "Culoare" },
         { name: styleType.multiStyle, text: "Stiluri multiple posibile" },
-        { name: styleType.singleStyle, text: "Stil personalizat"}
+        { name: styleType.singleStyle, text: "Stil personalizat" }
     ]
 
     export const sourceType = {
@@ -626,7 +671,7 @@ module Gis {
         { name: destUploadAction.append, text: 'Adauga la datele existente' }
     ];
 
-    export interface IDayTaskState{
+    export interface IDayTaskState {
         id?: number;
         name?: string;
         type?: string;
@@ -637,7 +682,7 @@ module Gis {
         points?: number;
     }
 
-    
+
     export const formatDateTime = {
         dateTime: "DD/MM/YYYY HH:mm:ss",
         date: "DD/MM/YYYY",
@@ -698,6 +743,24 @@ module Gis {
         startPointIndex: number
     }
 
+    export interface IAnimateTimeRaster {
+        //timesource
+        sourceVectorColumn: string,
+        sourceVectorLayer: ILayer,
+        sourceRasterLayer: ILayer,
+        //
+        index: number,
+        isAnimating: boolean,
+        ticks: number,
+        speed: number,
+        maxSpeed: number,
+        minSpeed: number,
+        sliderValue: number,
+        steps: Array<string>,
+        startPointIndex: number,
+        info: string
+    }
+
     export interface ISridProjection {
         proiectie: string;
         srid: string;
@@ -741,5 +804,51 @@ module Gis {
     export interface ILayerSourceLoading {
         layerId: number;
         timeout: number;
+    }
+    export const controlError = {
+        "required": "obligatoriu",
+        "step": "precizie",
+    }
+    //
+    export function getErrorMessage(errorMessage: string): string {
+        if (errorMessage == undefined || errorMessage == null || errorMessage == "") {
+            return "";
+        }
+        return controlError[errorMessage] || errorMessage;
+    }
+    //
+    export function checkValidForm(topLevelForm: any): boolean {
+        try {
+
+            if (topLevelForm.$valid) {
+                return true;
+            } else {
+                // Form not valid, triggering fields to make it easier to find errors
+                setFormTouched(topLevelForm);
+                return false;
+            }
+        } catch (e) {
+            this.$log.error("verificare formular valid: " + e.message || "");
+            return false;
+        }
+        //
+        function setFormTouched(form) {
+            // Check if the form/property has the $setSubmitted method
+            if (form.hasOwnProperty('$submitted')) {
+                // Iterate through each of the required error properties
+                angular.forEach(form.$error, function (errorType) {
+                    // Iterate through each error type
+                    angular.forEach(errorType, function (prop) {
+                        // Check if the property has the $setTouched method
+                        if (prop.hasOwnProperty('$touched')) prop.$setTouched();
+                        // Recursive call to handle nested forms
+                        setFormTouched(prop);
+                    });
+
+                });
+            }
+        }
+
+
     }
 }

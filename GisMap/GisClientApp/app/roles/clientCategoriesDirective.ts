@@ -36,7 +36,7 @@
         }
 
         private initInternalResource = (actionName: string) => {
-            this.userSettingsSrvs.getAssignedCategories().then(res => {
+            this.userSettingsSrvs.category.getAssignedCategories().then(res => {
                 this.assignedCategories = res.data.assignedCategories;
                 this.categories = res.data.categories;
             }).catch(e => {
@@ -66,7 +66,7 @@
         }
 
         public save() {
-            this.userSettingsSrvs.setAssignedCategories(this.assignedCategories).then(res => this.cancel()).catch(e => console.error(e));
+            this.userSettingsSrvs.category.setAssignedCategories(this.assignedCategories).then(res => this.cancel()).catch(e => console.error(e));
         }
 
         public cancel() {

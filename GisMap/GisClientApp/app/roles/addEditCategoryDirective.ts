@@ -43,14 +43,14 @@
 
                 this.selectedCategory = null;
             } else {
-                this.userSettingsSrvs.getCategories().then(res => this.categories = res.data).catch(e => console.error(e));
+                this.userSettingsSrvs.category.getCategories().then(res => this.categories = res.data).catch(e => console.error(e));
             }
         }
 
         public save() {
             if (this.selectedAction.name === 'add-cat') {
                 if (this.categories.length === 1 && this.categories[0].nume && this.categories[0].descriere) {
-                    this.userSettingsSrvs.addCategory({ nume: this.categories[0].nume, descriere: this.categories[0].descriere })
+                    this.userSettingsSrvs.category.addCategory({ nume: this.categories[0].nume, descriere: this.categories[0].descriere })
                         .then(res => {
                             this.cancel();
                         }).catch(e => {
@@ -62,7 +62,7 @@
 
                 if (~index && this.selectedCategory.nume === this.categories[index].nume) {
                     if (this.selectedCategory.descriere !== this.categories[index].descriere) {
-                        this.userSettingsSrvs.updateCategory({ id: this.selectedCategory.id, nume: this.selectedCategory.nume, descriere: this.selectedCategory.descriere })
+                        this.userSettingsSrvs.category.updateCategory({ id: this.selectedCategory.id, nume: this.selectedCategory.nume, descriere: this.selectedCategory.descriere })
                             .then(res => {
                                 this.cancel();
                             }).catch(e => {

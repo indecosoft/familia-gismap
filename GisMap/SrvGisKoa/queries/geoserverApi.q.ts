@@ -20,3 +20,21 @@ export function createSchema(schemaName: string) {
         values: []
     }
 }
+
+export function selectSpireMosaicEntry(type: string, location: string) {
+    return {
+        text: `SELECT fid, the_geom, location, ingestion, elevation
+	            FROM spire.spiremosaic${type}
+	            WHERE location = $1`,
+        values: [location]
+    }
+}
+
+export function insertSpireMosaicEntry(type: string, location: string, the_geom: string, ingestion: string) {
+    return {
+        text: `INSERT INTO spire.spiremosaic${type}(
+	             location, the_geom, ingestion)
+	            VALUES ($1, ST_GeomFromText($2, 3857), $3);`,
+        values: [location, the_geom, ingestion]
+    }
+}

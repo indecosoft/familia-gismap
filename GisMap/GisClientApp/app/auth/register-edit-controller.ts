@@ -246,7 +246,7 @@
             //
             this.errorResponse = 'Salvare informatii utilizator...';
             this.disableInput = true;
-            this.userSettingsSrvs.setUserInfoToStorage(this.selectedUser.id, this.name, this.email, this.phone, this.mapConfigVersion)
+            this.userSettingsSrvs.userInfo.setUserInfoToStorage(this.selectedUser.id, this.name, this.email, this.phone, this.mapConfigVersion)
                 .then((success) => {
                     if (success) {
                         this.errorResponse = '';
@@ -267,7 +267,7 @@
             this.errorResponse = 'Incarcare informatii utilizator...';
             this.selectedConfigVersion = null;
             this.disableInput = true;
-            this.userSettingsSrvs.getAvailableMapViewSettings()
+            this.userSettingsSrvs.mapView.getAvailableMapViewSettings()
                 .then((views) => {
                     if (views) {
                         this.availableConfigVersions = views;
@@ -307,7 +307,7 @@
             this.errorResponse = 'Incarcare informatii harta ...';
             this.selectedConfigVersion = null;
             this.disableInput = true;
-            this.userSettingsSrvs.getAvailableMapViewSettings()
+            this.userSettingsSrvs.mapView.getAvailableMapViewSettings()
                 .then((views) => {
                     if (views) {
                         this.availableConfigVersions = views;
@@ -331,7 +331,7 @@
             this.errorResponse = 'Incarcare informatii utilizator...';
             this.selectedConfigVersion = null;
             this.disableInput = true;
-            this.userSettingsSrvs.getAvailableMapViewSettings()
+            this.userSettingsSrvs.mapView.getAvailableMapViewSettings()
                 .then((views) => {
                     if (views) {
                         this.availableConfigVersions = views;
@@ -340,7 +340,7 @@
                     }
                 })
                 .then(() => {
-                    return this.userSettingsSrvs.getUserInfoFromStorage(this.selectedUser.id)
+                    return this.userSettingsSrvs.userInfo.getUserInfoFromStorage(this.selectedUser.id)
                 })
                 .then((userInfo) => {
                     if (userInfo) {

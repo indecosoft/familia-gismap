@@ -57,7 +57,7 @@
                     }
                 })
                 .then(() => {
-                    return this.userSettingsSrvs.getAvailableResursaTipDefaultAccessFromStorage()
+                    return this.userSettingsSrvs.optResRol.getAvailableResursaTipDefaultAccessFromStorage()
                         .then((data) => {
                             this.addEditResursaOptiuni.availableCustomAccess = [];
                             data.forEach((item) => {
@@ -68,12 +68,12 @@
                 })
                 .then(() => {
                     if (this.selectedAction.name === 'res-rol-opt') {
-                        return this.userSettingsSrvs.getAvailableRoles()
+                        return this.userSettingsSrvs.role.getAvailableRoles()
                             .then((data) => {
                                 this.addEditResursaOptiuni.availableRoles = <Array<IItem>>data;
                             })
                     } else {
-                        return this.userSettingsSrvs.getAvailableResursaTipOptiuniFromStorage()
+                        return this.userSettingsSrvs.optResRol.getAvailableResursaTipOptiuniFromStorage()
                             .then((data) => {
                                 this.addEditResursaOptiuni.availableOptions = data;
                             })
@@ -208,7 +208,7 @@
         public getRolesForSelectetResursa = (): void => {
             this.errorResponse = 'Incarcare roluri';
             this.disableInput = true;
-            this.userSettingsSrvs.getAssingendResursaOptiuniFromStorage(this.addEditResursaOptiuni.selectedResursa.id)
+            this.userSettingsSrvs.optResRol.getAssingendResursaOptiuniFromStorage(this.addEditResursaOptiuni.selectedResursa.id)
                 .then((data) => {
                     while (this.addEditResursaOptiuni.availableResourceOptions.length) {
                         this.addEditResursaOptiuni.availableResourceOptions.pop();
@@ -222,7 +222,7 @@
                     return true;
                 })
                 .then(() => {
-                    return this.userSettingsSrvs.getAssignedRolesForResursa(this.addEditResursaOptiuni.selectedResursa.id)
+                    return this.userSettingsSrvs.optResRol.getAssignedRolesForResursa(this.addEditResursaOptiuni.selectedResursa.id)
                 })
                 .then((data) => {
                     this.addEditResursaOptiuni.assignedRoleOptions = <Array<IRoleOptiuni>>data;
@@ -261,7 +261,7 @@
         public getOptiuniForSelectedResursa = (): void => {
             this.errorResponse = 'Incarcare optiuni';
             this.disableInput = true;
-            this.userSettingsSrvs.getAssingendResursaOptiuniFromStorage(this.addEditResursaOptiuni.selectedResursa.id)
+            this.userSettingsSrvs.optResRol.getAssingendResursaOptiuniFromStorage(this.addEditResursaOptiuni.selectedResursa.id)
                 .then((optiuni) => {
                     this.addEditResursaOptiuni.assignedOptions = optiuni;
                     return true;
@@ -296,7 +296,7 @@
             if (this.addEditResursaOptiuni.selectedResursa && (this.addEditResursaOptiuni.selectedResursa.nume != '')
                 && (this.addEditResursaOptiuni.availableResurse.filter((litem) => litem.id === this.addEditResursaOptiuni.selectedResursa.id).length > 0)) {
                 this.disableInput = true;
-                this.userSettingsSrvs.setAssingendResursaOptiuniToStorage(
+                this.userSettingsSrvs.optResRol.setAssingendResursaOptiuniToStorage(
                     this.addEditResursaOptiuni.selectedResursa.id, this.addEditResursaOptiuni.assignedOptions, Gis.saveOptionType.all)
                     .then((result: boolean) => {
                         if (result) {
@@ -325,7 +325,7 @@
                 && (this.addEditResursaOptiuni.availableResurse.filter((litem) => litem.id === this.addEditResursaOptiuni.selectedResursa.id).length > 0)) {
                 //set roles for the layer in storage
                 this.disableInput = true;
-                this.userSettingsSrvs.setAssignedRolesForResursaToStorage(
+                this.userSettingsSrvs.optResRol.setAssignedRolesForResursaToStorage(
                     this.addEditResursaOptiuni.selectedResursa.id, this.addEditResursaOptiuni.assignedRoleOptions)
                     .then((success: boolean) => {
                         if (!success) { return false; }

@@ -76,22 +76,22 @@
                                 </button>
                             </div>
                         </li>
-                        <div ng-repeat="category in vm.categories" ng-hide="vm.hideCategoryIfEmpty(category)">
+                        <div ng-repeat="category in vm.categories" ng-hide="vm.mapMenuLayers.hideCategoryIfEmpty(category)">
                             <li ng-cloak>
                                 <a href="#" data-toggle="collapse" data-target="#layers-{{category.code}}" class="category collapsed">
                                     <i class="fa fa-chevron-right fa-lg"></i> {{category.name}}
                                 </a>
-                                <span class="plus" title="Adaugă layer" ng-show="vm.showAddLayer()" ng-click="vm.mapDialogs.showAddLayerDialog(vm, category.code)"></span>
+                                <span class="plus" title="Adaugă layer" ng-show="vm.mapMenuLayers.showAddLayer()" ng-click="vm.mapDialogs.showAddLayerDialog(vm, category.code)"></span>
                             </li>
                             <div class="sub-menu collapse" id="layers-{{category.code}}">
                                 <div class="sub-menu-item" ng-repeat="layer in category.layers">
                                     <p>{{layer.name}}</p>
                                     <div class="row sub-menu-inputs">
                                         <div id="inputs-col-1" class="col-xs-1">
-                                            <input type="checkbox" style="zoom:1.5" ng-model="layer.visible" ng-click="vm.showHideLayer(vm, layer)" />
+                                            <input type="checkbox" style="zoom:1.5" ng-model="layer.visible" ng-click="vm.mapMenuLayers.showHideLayer(vm, layer)" />
                                         </div>
                                         <div id="inputs-col-2" class="col-xs-10">
-                                            <div ui-slider min="0" max="10" class="sliderTransp ui-slider ui-slider-horizontal" ng-disabled="!layer.visible" ng-change="vm.setOpacityToLayer(vm, layer)" ng-model="layer.opacity"></div>
+                                            <div ui-slider min="0" max="10" class="sliderTransp ui-slider ui-slider-horizontal" ng-disabled="!layer.visible" ng-change="vm.mapMenuLayers.setOpacityToLayer(vm, layer)" ng-model="layer.opacity"></div>
                                         </div>
                                         <div id="inputs-col-3" class="col-xs-1">
                                             <div class="dropdown" ng-show="layer.menuLayerItems && layer.menuLayerItems.length > 0">
@@ -99,7 +99,7 @@
                                                     &#x25BC
                                                 </div>
                                                 <ul class="dropdown-menu dropdown-menu-right">
-                                                    <li ng-repeat="menuItem in layer.menuLayerItems" ng-click="vm.layerMenuAction(vm, layer, menuItem)">{{menuItem.name}}</li>
+                                                    <li ng-repeat="menuItem in layer.menuLayerItems" ng-click="vm.mapMenuLayers.layerMenuAction(vm, layer, menuItem)">{{menuItem.name}}</li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -118,9 +118,9 @@
         </div>
 
         <div class="button_wrapper" ng-if="vm.showEditFeature || vm.showAddFeature" ng-cloak>
-            <button class="btn btn-default" ng-click="vm.mapOlFeatures.saveGeometry()" ng-show="vm.showEditFeature">Salveaza</button>
-            <button class="btn btn-default" ng-click="vm.mapOlFeatures.addEditFeatureInfo()" ng-show="vm.showAddFeature">Adauga informatii</button>
-            <button class="btn btn-default" ng-click="vm.mapOlFeatures.cancelSaveGeometry()">Renunta</button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlEditFeature.saveGeometry()" ng-show="vm.showEditFeature">Salveaza</button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlEditFeature.addEditFeatureInfo()" ng-show="vm.showAddFeature">Adauga informatii</button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlEditFeature.cancelSaveGeometry()">Renunta</button>
             <!--<button uib-popover-template="'app/popover/popover.html'" popover-title="Informatii" type="button" class="btn btn-default" style="margin-left: 100px">Popover With Template</button>-->
         </div>
         <div class="button_wrapper" ng-if="vm.routeShowEdit !== 'hide'" ng-cloak>
@@ -133,23 +133,35 @@
             <div class="form-group">
                 <select class="form-control" ng-model="vm.routingTypeSelected" ng-options="o as o.text for o in vm.routingTypeList" ng-disabled="vm.routeShowEdit !== 'show'" title="Mersul pe jos nu tine cont de sensuri unice spre deosebire de mersul cu masina  "></select>
             </div>
-            <button class="btn btn-default" ng-click="vm.mapOlFeatures.startGenerateRoute(false)" ng-disabled="vm.routeShowEdit !== 'show'" title="pastreaza ordinea locatilor">Genereaza ruta </button>
-            <button class="btn btn-default" ng-click="vm.mapOlFeatures.startGenerateRoute(true)" ng-disabled="vm.routeShowEdit !== 'show'" title="ordinea optimizata fata de prima locatie">Genereaza ruta TSP</button>
-            <button class="btn btn-default" ng-click="vm.mapOlFeatures.cancelGenerateRoute()" ng-disabled="vm.routeShowEdit === 'disable'">Renunta</button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlTransportRoute.startGenerateRoute(false)" ng-disabled="vm.routeShowEdit !== 'show'" title="pastreaza ordinea locatilor">Genereaza ruta </button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlTransportRoute.startGenerateRoute(true)" ng-disabled="vm.routeShowEdit !== 'show'" title="ordinea optimizata fata de prima locatie">Genereaza ruta TSP</button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlTransportRoute.cancelGenerateRoute()" ng-disabled="vm.routeShowEdit === 'disable'">Renunta</button>
         </div>
         <div class="button_wrapper" ng-if="vm.routeAnimate !== false" ng-cloak>
-            <button class="btn btn-default" ng-click="vm.mapOlFeatures.animateStepBack()"><i class="fa fa-step-backward" aria-hidden="true"></i></button>
-            <button class="btn btn-default" ng-click="vm.mapOlFeatures.animatePlay()"><i class="fa fa-play" aria-hidden="true"></i></button>
-            <button class="btn btn-default" ng-click="vm.mapOlFeatures.animatePause()"><i class="fa fa-pause" aria-hidden="true"></i></button>
-            <button class="btn btn-default" ng-click="vm.mapOlFeatures.animateStop()"><i class="fa fa-stop" aria-hidden="true"></i></button>
-            <button class="btn btn-default" ng-click="vm.mapOlFeatures.animateStepForward()"><i class="fa fa-step-forward" aria-hidden="true"></i></button>
-            <button class="btn btn-default" ng-click="vm.mapOlFeatures.cancelRouteAnimate()"><i class="fa fa-close" aria-hidden="true"></i></button>
-            <input type="range" value="1" min="1" max="10" style="width: 10%" ng-model="vm.animate.sliderValue" ng-change="vm.mapOlFeatures.sliderChanged()" />
+            <button class="btn btn-default" ng-click="vm.mapCtrlAnimateRoute.animateStepBack()"><i class="fa fa-step-backward" aria-hidden="true"></i></button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlAnimateRoute.animatePlay()"><i class="fa fa-play" aria-hidden="true"></i></button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlAnimateRoute.animatePause()"><i class="fa fa-pause" aria-hidden="true"></i></button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlAnimateRoute.animateStop()"><i class="fa fa-stop" aria-hidden="true"></i></button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlAnimateRoute.animateStepForward()"><i class="fa fa-step-forward" aria-hidden="true"></i></button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlAnimateRoute.cancelRouteAnimate()"><i class="fa fa-close" aria-hidden="true"></i></button>
+            <input type="range" value="1" min="1" max="10" style="width: 10%" ng-model="vm.animate.sliderValue" ng-change="vm.mapCtrlAnimateRoute.sliderChanged()" />
+        </div>
+        <div class="info_wrapper" ng-if="vm.timeRasterAnimate !== false" ng-cloak>
+            <div class="text-shadow-map">{{vm.animateTimeRasterData.info}}</div>
+        </div>
+        <div class="button_wrapper" ng-if="vm.timeRasterAnimate !== false" ng-cloak>
+            <button class="btn btn-default" ng-click="vm.mapCtrlAnimateTimeRaster.animateStepBack()" ng-disabled="vm.animateTimeRasterData.isAnimating"><i class="fa fa-step-backward" aria-hidden="true"></i></button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlAnimateTimeRaster.animatePlay()" ng-disabled="vm.animateTimeRasterData.isAnimating"><i class="fa fa-play" aria-hidden="true"></i></button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlAnimateTimeRaster.animatePause()"><i class="fa fa-pause" aria-hidden="true"></i></button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlAnimateTimeRaster.animateStop()"><i class="fa fa-stop" aria-hidden="true"></i></button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlAnimateTimeRaster.animateStepForward()" ng-disabled="vm.animateTimeRasterData.isAnimating"><i class="fa fa-step-forward" aria-hidden="true"></i></button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlAnimateTimeRaster.animateCancel()"><i class="fa fa-close" aria-hidden="true"></i></button>
+            <input type="range" value="3" min="1" max="10" style="width: 10%" ng-model="vm.animateTimeRasterData.sliderValue" ng-change="vm.mapCtrlAnimateTimeRaster.sliderChanged()" />
         </div>
         <div class="button_wrapper" ng-if="vm.transportRouteShowEdit !== 'hide'" ng-cloak>
-            <button class="btn btn-default" ng-click="vm.returnToEditTransportRouteStations()" title="">Editare statii</button>
-            <button class="btn btn-default" ng-click="vm.generateTransportRoute()" title="">Genereaza ruta</button>
-            <button class="btn btn-default" ng-click="vm.cancelTransportRouteEdit()" title="">Renunta </button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlTransportRoute.returnToEditTransportRouteStations()" title="">Editare statii</button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlTransportRoute.generateTransportRoute()" title="">Genereaza ruta</button>
+            <button class="btn btn-default" ng-click="vm.mapCtrlTransportRoute.cancelTransportRouteEdit()" title="">Renunta </button>
         </div>
         <div id="layerLoading" class="button_wrapper" ng-show="vm.showLayerLoading()">
             <i id="spinner" class="fa fa-circle-o-notch fa-spin" style="font-size:24px"></i>
@@ -181,57 +193,9 @@
     <script src="scripts/angular-moment-picker.js"></script>
     <script src="scripts/ng-rateit.js"></script>
     <script src="scripts/star-rating.js"></script>
+    <script src="scripts/FileSaver.js"></script>
 
-    <script src="app/definitions.js"></script>
-    <script src="app/app-settings.js"></script>
-    <script src="app/map/map-controller.js"></script>
-    <script src="app/services/user-settings-service.js"></script>
-    <script src="app/services/user-filter-service.js"></script>
-    <script src="app/services/window-message-service.js"></script>
-    <script src="app/services/route-message-service.js"></script>
-    <script src="app/services/transport-data-service.js"></script>
-    <script src="app/roles/user-roles-controller.js"></script>
-    <script src="app/roles/resouce-roles-controller.js"></script>
-    <script src="app/roles/roles-dialogs-services.js"></script>
-    <script src="app/auth/login-controller.js"></script>
-    <script src="app/auth/register-edit-controller.js"></script>
-    <script src="app/auth/auth-dialogs-service.js"></script>
-    <script src="app/layer/add-edit-layer-controller.js"></script>
-    <script src="app/layer/layer-dialogs-service.js"></script>
-    <script src="app/features/edit-feature-info-controller.js"></script>
-    <script src="app/features/info-dialogs-service.js"></script>
-    <script src="app/features/edit-search-info-controller.js"></script>
-    <script src="app/features/details-features-info-controller.js"></script>
-    <script src="app/features/print-features-info-controller.js"></script>
-    <script src="app/features/info-connected-features-controller.js"></script>
-    <script src="app/features/reports/fisa-spatiului-verde-controller.js"></script>
-    <script src="app/routes/add-edit-route-controller.js"></script>
-    <script src="app/routes/route-dialogs-service.js"></script>
-    <script src="app/routes/route-data-service.js"></script>
-    <script src="app/routes/add-edit-station-controller.js"></script>
-    <script src="app/services/popover-service.js"></script>
-    <script src="app/roles/selectOptionsDirective.js"></script>
-    <script src="app/roles/addEditRoleDirective.js"></script>
-    <script src="app/roles/addEditInternalResourceDirective.js"></script>
-    <script src="app/roles/editOptResRolDirective.js"></script>
-    <script src="app/map/map-dialogs.js"></script>
-    <script src="app/map/map-ol-init.js"></script>
-    <script src="app/map/map-ol-features.js"></script>
-    <script src="app/map/map-ol-position.js"></script>
-    <script src="app/map/report-layer-formulas.js"></script>
-    <script src="app/roles/addEditClientDirective.js"></script>
-    <script src="app/roles/addResOptionToMClientRolDirective.js"></script>
-    <script src="app/roles/addEditStyleSettingsDirective.js"></script>
-    <script src="app/roles/addResOptionToMClientRolDirective.js"></script>
-    <script src="app/roles/colorPickerDirective.js"></script>
-    <script src="app/roles/addEditDayRoutesTaskDirective.js"></script>
-    <script src="app/roles/addEditMapConfigDirective.js"></script>
-    <script src="app/roles/editResOptRolDirective.js"></script>
-    <script src="app/roles/addEditCategoryDirective.js"></script>
-    <script src="app/roles/clientCategoriesDirective.js"></script>
-    <script src="app/file/file-directives.js"></script>
-    <script src="app/roles/styleSettingsDirective.js"></script>
-    <script src="app/layer/editReportLayerSetDirective.js"></script>
-    <script src="app/app.js"></script>
+    <script src="main.js"></script>
+
 </body>
 </html>

@@ -42,8 +42,8 @@
 
         private initROR = () => {
             this.initData();
-            this.userSettingsSrvs.getAvailableRoles().then(data => this.data.roles.available = data);
-            this.userSettingsSrvs.getResourceType().then(data => this.data.resourceType.available = data.data);
+            this.userSettingsSrvs.role.getAvailableRoles().then(data => this.data.roles.available = data);
+            this.userSettingsSrvs.optResRol.getResourceType().then(data => this.data.resourceType.available = data.data);
         }
 
         public onChangeRole = (resourceName: string) => {
@@ -57,12 +57,12 @@
         public onChangeResourceType = (resourceName: string) => {
             this.data.resources.available = [];
             this.data.resources.assigned = [];
-            this.userSettingsSrvs.getAssignedResourceRole(this.data.roles.selected.id, this.data.resourceType.selected.nume)
+            this.userSettingsSrvs.optResRol.getAssignedResourceRole(this.data.roles.selected.id, this.data.resourceType.selected.nume)
                 .then((data) => {
                     this.data.resources.assigned = data.data;
                     this.setDefaultOption();
                 });
-            this.userSettingsSrvs.getAvailableResourceRole(this.data.roles.selected.id, this.data.resourceType.selected.nume).then(data => this.data.resources.available = data.data);
+            this.userSettingsSrvs.optResRol.getAvailableResourceRole(this.data.roles.selected.id, this.data.resourceType.selected.nume).then(data => this.data.resources.available = data.data);
         }
 
         public setDefaultOption() {

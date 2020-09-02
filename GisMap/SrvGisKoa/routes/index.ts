@@ -11,6 +11,8 @@ import { router as syncMTables } from './syncMTables';
 import { router as urbanism } from './urbanism';
 import { router as transport } from './transport';
 import { router as impozite } from './impozite';
+import { router as spire } from './spire';
+import { router as parcariOradea } from './parcariOradea';
 import { IUserCtx } from '../db/types'
 
 
@@ -32,4 +34,6 @@ export var router = (combineRouters as any)(
     urbanism,
     transport,
     impozite,
+    spire,
+    parcariOradea
 );

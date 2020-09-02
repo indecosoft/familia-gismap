@@ -44,7 +44,7 @@
             this.addEditClient.id = null;
             this.addEditClient.descriere = null;
             this.addEditClient.numarPostal = null;
-            this.addEditClient.idStrada = null;
+            this.addEditClient.idStrada = 0;
             this.addEditClient.idLocalitate = null;
             this.addEditClient.idJudet = null;
             this.addEditClient.url = null;
@@ -55,8 +55,8 @@
             this.addEditClient.formatDateTime = null;
             this.addEditClient.formatDate = null;
             this.addEditClient.formatTime = null;
-            this.userSettingsSrvs.getJudete().then(data => this.addEditClient.judet = data.data);
-            this.userSettingsSrvs.getTipClienti().then(data => {
+            this.userSettingsSrvs.client.getJudete().then(data => this.addEditClient.judet = data.data);
+            this.userSettingsSrvs.client.getTipClienti().then(data => {
 
                 this.tipClient = data.data;
 
@@ -65,7 +65,7 @@
             }, error => this.tipClient = []);
 
             if (actionName === 'client-edit') {
-                this.userSettingsSrvs.getClient().then(data => {
+                this.userSettingsSrvs.client.getClient().then(data => {
                         if (data.data !== 'error') {
                             this.addEditClient.nume = data.data.nume;
                             this.addEditClient.id = data.data.id;
@@ -83,7 +83,7 @@
                             this.addEditClient.formatDate = data.data.formatDate;
                             this.addEditClient.formatTime = data.data.formatTime;
                             if (this.addEditClient.idLocalitate !== null) {
-                                this.userSettingsSrvs.getLocalitati(this.addEditClient.idJudet).then(data => this.addEditClient.localitate = data.data, error => this.addEditClient.localitate = null);
+                                this.userSettingsSrvs.client.getLocalitati(this.addEditClient.idJudet).then(data => this.addEditClient.localitate = data.data, error => this.addEditClient.localitate = null);
                             }
                         }
                     });
@@ -112,7 +112,7 @@
             }
 
             this.disableInput = true;
-            this.userSettingsSrvs.addNewClient(this.addEditClient)
+            this.userSettingsSrvs.client.addNewClient(this.addEditClient)
                 .then(succes => {
                     if (succes) {
                         this.selectedAction = null;
@@ -137,7 +137,7 @@
             }
 
             this.disableInput = true;
-            this.userSettingsSrvs.editClient({
+            this.userSettingsSrvs.client.editClient({
                 id: this.addEditClient.id, nume: this.addEditClient.nume, descriere: this.addEditClient.descriere,
                 numarPostal: this.addEditClient.numarPostal, idStrada: this.addEditClient.idStrada, idLocalitate: this.addEditClient.idLocalitate,
                 idJudet: this.addEditClient.idJudet, url: this.addEditClient.url, username: this.addEditClient.username, password: this.addEditClient.password,
@@ -166,7 +166,7 @@
         private onChangeJudet = (ctrl, res) => {
             this.addEditClient.idJudet = res.id;
             this.addEditClient.judetSelectat = res;
-            this.userSettingsSrvs.getLocalitati(res.id).then(data => this.addEditClient.localitate = data.data, error => this.addEditClient.localitate = []);
+            this.userSettingsSrvs.client.getLocalitati(res.id).then(data => this.addEditClient.localitate = data.data, error => this.addEditClient.localitate = []);
         }
 
         private onChangeLocalitate = (ctrl, res) => {

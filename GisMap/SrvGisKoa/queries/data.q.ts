@@ -776,12 +776,6 @@ export function insertAdminCategoriiResurseClienti(id: number, tipClient: string
     }
 }
 
-export function selectMapConfig() {
-    return {
-        text: `SELECT configurations, version FROM admin."mapConfig" WHERE "idClient" = 0`,
-        values: []
-    }
-}
 
 export function insertUserRol(idRol: number, username: string) {
     return {
@@ -790,12 +784,6 @@ export function insertUserRol(idRol: number, username: string) {
     }
 }
 
-export function insertMapConfig(idClient, configuration, version) {
-    return {
-        text: `INSERT INTO admin."mapConfig"("idClient", "configurations", "version") VALUES ($1, $2, $3)`,
-        values: [idClient, configuration, version]
-    }
-}
 
 export function insertAdminOptiuneResursaRol(id: number, from: number) {
     return {
@@ -960,6 +948,14 @@ export function getMapViewClientMaxVersion(idClient: number): IQuery<{ version: 
     return query;
 }
 
+export function getMapViewClientMinVersion(idClient: number): IQuery<{ version: number }[]> {
+    let query = {
+        text: `SELECT   Min("version") as version FROM admin."mapConfig" where "idClient" = $1`,
+        values: [idClient]
+    };
+    return query;
+}
+
 export function getMapViewSettings(version: number, idClient: number)
     : IQuery<{ id: number, version: number, projection: string, zoom: string, minZoom: number, maxZoom: number, center: number[], basemap: string, basemapConfig:string }[]> {
     let query = {
@@ -971,7 +967,7 @@ export function getMapViewSettings(version: number, idClient: number)
 }
 
 export function insertMapViewSettings(idClient: number, version: number, projection: string, zoom: number, minZoom: number, maxZoom: number,
-    center: number[], basemap: string, basemapConfig:string): IQuery<any[]> {
+    center: number[], basemap: string, basemapConfig:any): IQuery<any[]> {
     let query = {
         text: `INSERT INTO admin."mapConfig"(
 	 "idClient", version, projection, zoom, "minZoom", "maxZoom", center, basemap, "basemapConfig", configurations)

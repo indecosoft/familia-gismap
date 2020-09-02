@@ -133,6 +133,7 @@
         bindEvent(messageButton6, 'click', function (e) {
             var zoomVal = messageInputp6.value;
             var message = `{"type":"sendMapView","center":[24, 47],"zoom":${zoomVal}}`;
+            var message = `{"type":"sendMapView","center":[24, 47]}`;
             sendMessage(message);
         });
         bindEvent(messageButton7, 'click', function (e) {

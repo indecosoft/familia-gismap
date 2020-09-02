@@ -45,8 +45,9 @@
     <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
     <TypeScriptModuleKind>None</TypeScriptModuleKind>
     <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
-    <TypeScriptOutFile />
-    <TypeScriptOutDir />
+    <TypeScriptOutFile>main.js</TypeScriptOutFile>
+    <TypeScriptOutDir>
+    </TypeScriptOutDir>
     <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
     <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
     <TypeScriptSourceMap>True</TypeScriptSourceMap>
@@ -91,10 +92,20 @@
     <TypeScriptCompile Include="app\file\file-directives.ts" />
     <TypeScriptCompile Include="app\layer\editReportLayerSetDirective.ts" />
     <TypeScriptCompile Include="app\layer\layer-dialogs-service.ts" />
+    <TypeScriptCompile Include="app\map\map-ctrl-animate-route.ts" />
+    <TypeScriptCompile Include="app\map\map-ctrl-animate-timeraster.ts" />
+    <TypeScriptCompile Include="app\map\map-ctrl-editfeature.ts" />
+    <TypeScriptCompile Include="app\map\map-ctrl-layerisloading.ts" />
+    <TypeScriptCompile Include="app\map\map-ctrl-measure.ts" />
+    <TypeScriptCompile Include="app\map\map-ctrl-selectbox.ts" />
+    <TypeScriptCompile Include="app\map\map-ctrl-selectfeature.ts" />
+    <TypeScriptCompile Include="app\map\map-ctrl-transportroute.ts" />
+    <TypeScriptCompile Include="app\map\map-menu-layers.ts" />
     <TypeScriptCompile Include="app\map\map-dialogs.ts" />
     <TypeScriptCompile Include="app\map\map-ol-features.ts" />
     <TypeScriptCompile Include="app\map\map-ol-init.ts" />
-    <TypeScriptCompile Include="app\map\map-ol-position.ts" />
+    <TypeScriptCompile Include="app\map\map-ol-layerstyle.ts" />
+    <TypeScriptCompile Include="app\map\map-ctrl-positionmarker.ts" />
     <TypeScriptCompile Include="app\map\report-layer-formulas.ts" />
     <TypeScriptCompile Include="app\roles\addEditCategoryDirective.ts" />
     <TypeScriptCompile Include="app\roles\addEditDayRoutesTaskDirective.ts" />
@@ -124,6 +135,15 @@
     <TypeScriptCompile Include="app\routes\add-edit-station-controller.ts" />
     <TypeScriptCompile Include="app\routes\route-dialogs-service.ts" />
     <TypeScriptCompile Include="app\routes\route-data-service.ts" />
+    <TypeScriptCompile Include="app\services\dbstore-category.ts" />
+    <TypeScriptCompile Include="app\services\dbstore-client.ts" />
+    <TypeScriptCompile Include="app\services\dbstore-layer.ts" />
+    <TypeScriptCompile Include="app\services\dbstore-layerstyle.ts" />
+    <TypeScriptCompile Include="app\services\dbstore-mapview.ts" />
+    <TypeScriptCompile Include="app\services\dbstore-optresrol.ts" />
+    <TypeScriptCompile Include="app\services\dbstore-resursainterna.ts" />
+    <TypeScriptCompile Include="app\services\dbstore-role.ts" />
+    <TypeScriptCompile Include="app\services\dbstore-userinfo.ts" />
     <TypeScriptCompile Include="app\services\popover-service.ts" />
     <TypeScriptCompile Include="app\services\route-message-service.ts" />
     <TypeScriptCompile Include="app\services\transport-data-service.ts" />
@@ -224,6 +244,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="main.js.map" />
     <None Include="packages.config" />
     <Content Include="img\featureEdit.png" />
     <Content Include="img\finishFlag.png" />
@@ -241,6 +262,7 @@
     <Content Include="scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="scripts\angular.min.js" />
     <Content Include="scripts\angularPrint.js" />
+    <Content Include="scripts\FileSaver.js" />
     <Content Include="scripts\html5shiv.min.js" />
     <Content Include="scripts\jquery.min.js" />
     <Content Include="scripts\jqueryui.min.js" />
@@ -275,7 +297,9 @@
     </None>
     <None Include="Properties\PublishProfiles\DevLinux.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\ProdLinux.pubxml" />
+    <Content Include="README.md" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -301,6 +325,7 @@
     <Content Include="styles\select2.css" />
     <Content Include="styles\style.css" />
     <Content Include="styles\ui-grid.min.css" />
+    <Content Include="testIframe\spireactivitati.html" />
     <Content Include="testIframe\parenteab.html" />
     <Content Include="testIframe\parent.html" />
     <Content Include="Web.config" />

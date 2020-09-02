@@ -1,4 +1,33 @@
 ﻿///<reference path="../scripts/typings/angularjs/angular.d.ts"/>
+///<reference path="services/user-settings-service.ts"/>
+///<reference path="services/transport-data-service.ts"/>
+///<reference path="services/popover-service.ts"/>
+///<reference path="services/route-message-service.ts"/>
+///<reference path="services/user-filter-service.ts"/>
+///<reference path="services/window-message-service.ts"/>
+///<reference path="auth/auth-dialogs-service.ts"/>
+///<reference path="roles/roles-dialogs-services.ts"/>
+///<reference path="features/info-dialogs-service.ts"/>
+///<reference path="routes/route-dialogs-service.ts"/>
+///<reference path="routes/route-data-service.ts"/>
+///<reference path="layer/layer-dialogs-service.ts"/>
+///<reference path="map/map-controller.ts"/>
+///<reference path="layer/add-edit-layer-controller.ts"/>
+///<reference path="routes/add-edit-route-controller.ts"/>
+///<reference path="routes/add-edit-station-controller.ts"/>
+///<reference path="features/details-features-info-controller.ts"/>
+///<reference path="features/edit-feature-info-controller.ts"/>
+///<reference path="features/edit-search-info-controller.ts"/>
+///<reference path="features/reports/fisa-spatiului-verde-controller.ts"/>
+///<reference path="features/info-connected-features-controller.ts"/>
+///<reference path="auth/login-controller.ts"/>
+///<reference path="features/print-features-info-controller.ts"/>
+///<reference path="auth/register-edit-controller.ts"/>
+///<reference path="roles/resouce-roles-controller.ts"/>
+///<reference path="roles/user-roles-controller.ts"/>
+///<reference path="map/map-ctrl-animate-route.ts"/>
+///<reference path="map/map-dialogs.ts"/>
+
 
 var app = angular.module('Gis', ["ngDialog", "ui.slider", "mp.colorPicker"
     , 'ui.select', 'angular-jwt', 'ui.grid', 'ui.grid.exporter', 'ui.grid.moveColumns',

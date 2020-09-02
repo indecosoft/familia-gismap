@@ -7,6 +7,28 @@
 
 module Gis {
     export class MapController {
+        //
+        //components
+        //
+        public mapDialogs: Gis.MapDialogs;
+        public mapOlInit: Gis.MapOlInitialization;
+        public mapOlFeatures: Gis.MapOlFeatures;
+        public mapOlLayerstyle: Gis.MapOlLayerStyle;
+        //
+        public mapMenuLayers: MapMenuLayers;
+        //
+        public mapCtrlPositionMarker: Gis.MapCtrlPositionMarker;
+        public mapCtrlAnimateRoute: Gis.MapCtrlAnimateRoute;
+        public mapCtrlMeasure: Gis.MapCtrlMeasure;
+        public mapCtrlEditFeature: Gis.MapCtrlEditFeature;
+        public mapCtrlSelectFeature: Gis.MapCtrlSelectFeature;
+        public mapCtrlSelectBox: Gis.MapCtrlSelectBox;
+        public mapCtrlTransportRoute: Gis.MapCtrlTransportRoute;
+        public mapCtrlLayerIsLoading: Gis.MapCtrlLayerIsLoading;
+        public mapCtrlAnimateTimeRaster: MapCtrlAnimateTimeRaster;
+        //
+        //data
+        //
         public static appLayer = "appLayer";
         public static searchFilterOut = "searchFilterOut";
 
@@ -34,9 +56,11 @@ module Gis {
         public showEditFeature: boolean = false;
         public showMainMenu: boolean = true;
         public routeAnimate: boolean = false;
+        public timeRasterAnimate: boolean = false;
         public editFeatureReferenceLayer: ILayer;
         public showAddFeature: boolean = false;
         public newFeature: ol.Feature;
+        public mousePositionCtrl: ol.control.Control;
 
         public dragBox: ol.interaction.DragBox;
         public selectionExtent: ol.interaction.Extent;
@@ -66,11 +90,7 @@ module Gis {
         public restrictTypeList: Array<IItemNT> = Gis.wayRestrictTypeList;
         public routingTypeSelected: IItemNT = Gis.wayRoutingTypeList[0];
         public routingTypeList: Array<IItemNT> = Gis.wayRoutingTypeList;
-        //
-        public mapDialogs: Gis.MapDialogs;
-        public mapOlInit: Gis.MapOlInitialization;
-        public mapOlFeatures: Gis.MapOlFeatures;
-        public mapOlPosition: Gis.MapOlPosition;
+
         //
         public selectInteraction: ol.interaction.Select;
         public selectedItemBuffer: Array<{ feature: ol.Feature, layer: ol.layer.Vector }>;
@@ -88,14 +108,31 @@ module Gis {
             vectorLayer: null,
             index: 0,
             isAnimating: false,
-            speed: 0,
+            speed: 1,
             maxSpeed: 11,
             minSpeed: 1,
             sliderValue: 1,
             routeDist: null,
             startPointIndex: 0
         }
-
+        //
+        public animateTimeRasterData: IAnimateTimeRaster = {
+            //timesource
+            sourceVectorColumn: null,
+            sourceVectorLayer: null,
+            sourceRasterLayer: null,
+            //
+            index: 0,
+            isAnimating: false,
+            ticks: 0,
+            speed: 3,
+            maxSpeed: 11,
+            minSpeed: 1,
+            sliderValue: 3,
+            steps: [],
+            startPointIndex: 0,
+            info: ''
+        }
         //
         public measure: IMeasure = {
             distance: {
@@ -143,40 +180,22 @@ module Gis {
             this.mapDialogs = new Gis.MapDialogs(this);
             this.mapOlInit = new Gis.MapOlInitialization(this);
             this.mapOlFeatures = new Gis.MapOlFeatures(this);
-            this.mapOlPosition = new Gis.MapOlPosition(this);
+            this.mapOlLayerstyle = new Gis.MapOlLayerStyle(this);
             //
-            var unbind = $rootScope.$on('userAuthChanged', () => {
-                console.log('reload layers');
-                this.reloadLayers();
-            });
-            $scope.$on('$destroy', unbind);
-            var unbind2 = $rootScope.$on('sendMapClick', (event, data) => {
-                console.log('sendMapClick');
-                this.mapOlFeatures.doClickMapOnMessage(data.mode, data.layer, data.coordinates, data.properties);
-            })
-            $scope.$on('$destroy', unbind2);
-            var newCqlMessage = $rootScope.$on('cqlFilterChanged', () => {
-                this.loadAllLayersCQLFilter();
-            });
-            $scope.$on('$destroy', newCqlMessage);
-            var newRouteMessage = $rootScope.$on('routeGenMessage', (event, data) => {
-                this.filterRouteForMessage(data);
-            });
-            $scope.$on('$destroy', newRouteMessage);
+            this.mapMenuLayers = new Gis.MapMenuLayers(this);
             //
-            var unbindAnimateRoute = $rootScope.$on('sendAnimateRoute', (event, data) => {
-                this.mapOlFeatures.animateRouteByMessage(data.layer, data.properties, data.startPointIndex, data.startAnimation);
-            });
-            $scope.$on('$destroy', unbindAnimateRoute);
+            this.mapCtrlPositionMarker = new Gis.MapCtrlPositionMarker(this);
+            this.mapCtrlAnimateRoute = new Gis.MapCtrlAnimateRoute(this);
+            this.mapCtrlMeasure = new Gis.MapCtrlMeasure(this);
+            this.mapCtrlEditFeature = new Gis.MapCtrlEditFeature(this);
+            this.mapCtrlSelectBox = new Gis.MapCtrlSelectBox(this);
+            this.mapCtrlSelectFeature = new Gis.MapCtrlSelectFeature(this);
+            this.mapCtrlTransportRoute = new Gis.MapCtrlTransportRoute(this);
+            this.mapCtrlLayerIsLoading = new Gis.MapCtrlLayerIsLoading(this);
+            this.mapCtrlAnimateTimeRaster = new Gis.MapCtrlAnimateTimeRaster(this);
             //
-            var unbindMapView = $rootScope.$on('sendMapView', (event, data) => {
-                this.mapOlFeatures.setMapViewByMessage(data.center, data.zoom, data.centerByFeature);
-            })
-            $scope.$on('$destroy', unbindMapView);
-            //
-            this.$window.addEventListener('resize', () => {
-                this.map.updateSize();
-            });
+            //events communication
+            this.initRootScopeEvents($rootScope, $scope);
             //
             this.selectedFeaturesOnLayers = new ol.Collection<ISelectedFeatures>();
             //implicit utilizator anonim
@@ -194,7 +213,7 @@ module Gis {
                 console.log('eroare extragere date initiale');
             }
             //
-            this.mapOlInit.initLayerLoadingState();
+            this.mapCtrlLayerIsLoading.initLayerLoadingState();
             //
             this.$q.when()
                 .then(() => {
@@ -240,15 +259,52 @@ module Gis {
             //end test
         }
 
+        //events for communication
+        private initRootScopeEvents($rootScope, $scope) {
+            var unbind = $rootScope.$on('userAuthChanged', () => {
+                console.log('reload layers');
+                this.reloadLayers();
+            });
+            $scope.$on('$destroy', unbind);
+            var unbind2 = $rootScope.$on('sendMapClick', (event, data) => {
+                console.log('sendMapClick');
+                this.mapOlFeatures.doClickMapOnMessage(data.mode, data.layer, data.coordinates, data.properties);
+            })
+            $scope.$on('$destroy', unbind2);
+            var newCqlMessage = $rootScope.$on('cqlFilterChanged', () => {
+                this.loadAllLayersCQLFilter();
+            });
+            $scope.$on('$destroy', newCqlMessage);
+            var newRouteMessage = $rootScope.$on('routeGenMessage', (event, data) => {
+                this.filterRouteForMessage(data);
+            });
+            $scope.$on('$destroy', newRouteMessage);
+            //
+            var unbindAnimateRoute = $rootScope.$on('sendAnimateRoute', (event, data) => {
+                this.mapCtrlAnimateRoute.animateRouteByMessage(data.layer, data.properties, data.startPointIndex, data.startAnimation);
+            });
+            $scope.$on('$destroy', unbindAnimateRoute);
+            //
+            var unbindMapView = $rootScope.$on('sendMapView', (event, data) => {
+                this.mapOlFeatures.setMapViewByMessage(data.center, data.zoom, data.centerByFeature);
+            })
+            $scope.$on('$destroy', unbindMapView);
+            //
+            this.$window.addEventListener('resize', () => {
+                this.map.updateSize();
+            });
+
+        }
+
         //
         //Map initialization
         //
-        private initialize():ng.IPromise<any> {
+        private initialize(): ng.IPromise<any> {
             this.loadConfig();
             this.loadLayers();
             this.loadAllLayersReports();
             return this.loadAllLayersColumnsInfosDefaults()
-                .then(() => {return true})
+                .then(() => { return true })
                 .catch((reason) => {
                     console.log("eroare info defaults");
                 })
@@ -264,6 +320,23 @@ module Gis {
             let currentUser = this.userSettingsSrvs.getCurrentUser()
             this.mapConfig = currentUser.mapConfig;
             this.categories = currentUser.categories;
+            //order categories by options settings
+            let catOptions = this.userSettingsSrvs.isAuthForItemOptionsAllInfo(Gis.authOpt.in_index_menu_category, Gis.authAs.menu_category_index, Gis.authType.object);
+            if (this.categories && this.categories.length > 0) {
+                for (let cat of this.categories) {
+                    //default value
+                    cat.defaultIndex = 300 + this.categories.indexOf(cat);
+                    //value from options
+                    if (catOptions && catOptions.length > 0) {
+                        let resopt = catOptions.filter((item) => item.descriere === cat.code);
+                        if (resopt && resopt.length > 0) {
+                            cat.defaultIndex = resopt[0].idItem;
+                        }
+                    }
+                }
+                this.categories.sort((a, b) => a.defaultIndex - b.defaultIndex);
+            }
+            //
             this.gridDefaultsList = [];
             if (currentUser.mapConfig['configurations'] && currentUser.mapConfig['configurations']['gridDefaultsList']) {
                 this.gridDefaultsList = currentUser.mapConfig['configurations']['gridDefaultsList'];
@@ -274,17 +347,18 @@ module Gis {
             this.mapOlInit.buildOlMap();
             //this.loadLayers();
             this.mapOlInit.addTileAndVectorLayers();
-            this.mapOlFeatures.addInfoOverlay();
-            this.mapOlPosition.addPositionMarkerButton();
-            this.mapOlPosition.buildPositionMarkerOverlay();
-            this.mapOlFeatures.addBoxSelection();
-            this.mapOlFeatures.addSelectButton();
-            this.mapOlFeatures.addMeasureDistanceButton();
-            this.mapOlFeatures.addMeasureAreaButton();
+            this.mapCtrlSelectFeature.addInfoOverlay();
+            this.mapCtrlPositionMarker.addPositionMarkerButton();
+            this.mapCtrlPositionMarker.buildPositionMarkerOverlay();
+            this.mapCtrlPositionMarker.addCtrlMousePosition();
+            this.mapCtrlSelectBox.addBoxSelection();
+            this.mapCtrlSelectBox.addSelectButton();
+            this.mapCtrlMeasure.addMeasureDistanceButton();
+            this.mapCtrlMeasure.addMeasureAreaButton();
             //
             document["map"] = this.map;
         }
-        
+
         public clearLayers() {
             this.categories.forEach((category) => {
                 if (category.layers) {
@@ -306,6 +380,7 @@ module Gis {
                     this.mapOlInit.addTileAndVectorLayers();
                     this.loadAllLayersGridColumnAndMenuActionsDefaults();
                     this.loadAllLayersCQLFilter();
+                    this.mapCtrlPositionMarker.addCtrlMousePosition();
                     //
                     return true;
                 })
@@ -338,8 +413,8 @@ module Gis {
                 } catch (e) {
                     console.log("eroare la reinitializare harta");
                 }
-                
-               
+
+
             }
             else {
                 this.initialize()
@@ -356,15 +431,15 @@ module Gis {
                 var matching = this.categories.filter((cat) => cat.code === layer.category);
                 if (matching.length != 0) {
                     var category = matching[0];
-
+                    let catindex = this.categories.indexOf(category);
                     if (!category.layers) {
                         category.layers = [];
                     }
                     layer.visible = this.userSettingsSrvs.isAuthForOption(Gis.authOpt.active_layer_at_init, layer.name, Gis.authType.layer);
-                    layer.defaultIndex = 1000 + i;
+                    layer.defaultIndex = (catindex * 1000) + 300 + i;
                     let indexOption = this.userSettingsSrvs.isAuthForOptionFullInfo(Gis.authOpt.in_layer_menu_index, layer.name, Gis.authType.layer);
                     if (indexOption && indexOption.idItem) {
-                        layer.defaultIndex = indexOption.idItem;
+                        layer.defaultIndex = (catindex * 1000) + indexOption.idItem;
                     }
                     layer.opacity = 10;
                     category.layers.push(layer);
@@ -372,11 +447,11 @@ module Gis {
             }
             //sorteaxa straturile dupa index
             this.categories.forEach((icat) => {
-                icat.layers.sort((a, b) => { return a.defaultIndex - b.defaultIndex;})
+                icat.layers.sort((a, b) => { return a.defaultIndex - b.defaultIndex; })
             })
         }
 
-        
+
 
         //
         //Layers Info Columns and menuItems
@@ -404,7 +479,7 @@ module Gis {
             }
         }
 
-        
+
         private loadLayerMenuActions(layer: ILayer) {
             layer.menuLayerItems = [];
             //default actions
@@ -413,7 +488,7 @@ module Gis {
                     layer.menuLayerItems.push(Gis.layerMenuItems[menuItem]);
                 }
             }
-            
+
             //
             this.loadLayerMenuActionsFromConfig(layer);
         }
@@ -489,7 +564,7 @@ module Gis {
             var promises: any = [];
             angular.forEach(this.categories, (catItem) => {
                 angular.forEach(catItem.layers, (layItem) => {
-                    if (Gis.featureTypeForVector( layItem.featureType)) {
+                    if (Gis.featureTypeForVector(layItem.featureType)) {
                         promises.push(this.loadLayerColumnInfo(layItem));
                         promises.push(this.loadLayerMenuActions(layItem));
                         promises.push(this.loadFeatureMenuActions(layItem));
@@ -543,6 +618,34 @@ module Gis {
             })
         }
 
+        public loadRasterSelectInfo(id, query) {
+            return this.$http({
+                method: 'GET',
+                url: AppSettings.serverPath + '/layer/load-raster-info/' + id + '?' + query
+            }).then((response) => {
+                console.log(response);
+                if (response.data !== Object(response.data)) {
+                    console.log("Eroare extragere info coloane " + response.data);
+                    return;
+                }
+                if (response.data['type'] == undefined || response.data['type'] !== "FeatureCollection") {
+                    throw new Error("nu exista tip date");
+                }
+                if (response.data['features'] == undefined || response.data['features'].length === 0) {
+                    throw new Error("nu exista date");
+                }
+                let infoData = response.data['features'][0];
+                if (infoData['properties'] == undefined || infoData['properties'] == null) {
+                    throw new Error("nu sunt proprietati");
+                }
+                return infoData['properties'];
+                
+            }).catch((reason) => {
+                console.log("Eroare extragere info raster " + reason.message);
+                return null;
+            })
+        }
+
         public loadAllLayersCQLFilter() {
             angular.forEach(this.categories, (catItem) => {
                 angular.forEach(catItem.layers, (layItem) => {
@@ -568,7 +671,7 @@ module Gis {
         }
 
         //
-        //Search show hide
+        //Search
         //
         public searchTextInFeature(searchText: string, feature: ol.Feature, layer: ILayer): boolean {
             let found = false;
@@ -644,7 +747,6 @@ module Gis {
             return found;
         }
 
-
         private search(): void {
             //filtrarea este pusa in functia de style pentru layer
             this.map.getLayers().forEach((litem: ol.layer.Base, index: number) => {
@@ -654,20 +756,7 @@ module Gis {
             });
         }
 
-        private setOpacityToLayer(vm: MapController, layer: ILayer) {
-            if (layer.opacity <= 10 && layer.opacity >= 0) {
-                layer.internalLayer.setOpacity(layer.opacity / 10);
-            }
-        }
-
-        private showHideLayer(vm: MapController, layer: ILayer) {
-            if (layer.visible != layer.internalLayer.getVisible()) {
-                layer.internalLayer.setVisible(layer.visible);
-                if (layer.visible === true) {
-                    layer.internalLayer.changed();
-                }
-            }
-        }
+        
 
        
         //
@@ -687,448 +776,9 @@ module Gis {
         }
 
         //
-        //layers menu actions
-        //
-        private layerMenuAction(vm: Gis.MapController, layer: Gis.ILayer, menuLayerItem: Gis.IMenuLayerItem) {
-            if (layer && menuLayerItem) {
-                switch (menuLayerItem.action) {
-                    case Gis.menuAction.addFeature:
-                        vm.addFeatureMenuAction(vm, layer, menuLayerItem);
-                        break;
-                    case Gis.menuAction.editLayer: 
-                        vm.editLayerMenuAction(vm, layer, menuLayerItem);
-                        break;
-                    case Gis.menuAction.refreshLayer: 
-                        vm.refreshLayerMenuAction(vm, layer, menuLayerItem);
-                        break;
-                    case Gis.menuAction.generateRoute:
-                        vm.generateRoute(vm, layer, menuLayerItem);
-                        break;
-                        //
+        //main menu
 
-                        //transport
-                    case Gis.menuAction.addTransportRoute: 
-                        this.addTransportRoute(vm, menuLayerItem, layer);
-                        break;
-                    case Gis.menuAction.editTransportRoute:
-                        this.editTransportRoute(vm, menuLayerItem, layer);
-                        break;
-                    case Gis.menuAction.regenerateRoutes: 
-                        vm.transportDataService.regenerateRoutesForType(layer);
-                        break;
-                    case Gis.menuAction.addStation: 
-                        vm.addTransportStation(vm, menuLayerItem, layer);
-                        break;
-                    default:
-                }
-            }
-        }
-
-        private addFeatureMenuAction(vm: Gis.MapController, layer: Gis.ILayer, menuLayerItem: Gis.IMenuLayerItem) {
-            console.log(layer);
-            this.editFeatureReferenceLayer = layer;
-            this.showMainMenu = false;
-            this.showAddFeature = true;
-            let source = new ol.source.Vector();
-
-            if (layer.featureType === Gis.featureType.point || layer.featureType === Gis.featureType.icon) {
-                this.editLayerFeature = new ol.layer.Vector({
-                    source: source,
-                    style: new ol.style.Style({
-                        image: new ol.style.Icon({
-                            crossOrigin: 'anonymous',
-                            src: AppSettings.serverPath + '/img/featureEdit.png',
-                            anchor: [0.5, 0.0],
-                            anchorOrigin: 'bottom-left'
-                        })
-                    })
-                });
-
-                this.selectModifyInteraction = new ol.interaction.Modify({
-                    source: this.editLayerFeature.getSource(),
-                    style: new ol.style.Style({
-                        fill: new ol.style.Fill({
-                            color: 'rgba(255, 255, 255, 0.2)'
-                        }),
-                        stroke: new ol.style.Stroke({
-                            color: '#ffcc33',
-                            width: 2
-                        }),
-                        image: new ol.style.Circle({
-                            radius: 7,
-                            fill: new ol.style.Fill({
-                                color: '#ffcc33'
-                            })
-                        })
-                    })
-                } as any);
-
-                this.map.addInteraction(this.selectModifyInteraction);
-
-                this.selectDrawInteraction = new ol.interaction.Draw({
-                    source: source,
-                    type: 'Point'
-                })
-            }
-
-            if (layer.featureType === Gis.featureType.line) {
-                this.editLayerFeature = new ol.layer.Vector({
-                    source: source,
-                    style: new ol.style.Style({
-                        stroke: new ol.style.Stroke({
-                            color: '#ffcc33',
-                            width: 4
-                        })
-                    })
-                });
-
-                this.selectModifyInteraction = new ol.interaction.Modify({
-                    source: this.editLayerFeature.getSource(),
-                    //style: new ol.style.Style({
-                    //    stroke: new ol.style.Stroke({
-                    //        color: '#fffa34',
-                    //        width: 2
-                    //    })
-                    //})
-                } as any);
-
-                this.map.addInteraction(this.selectModifyInteraction);
-
-                this.selectDrawInteraction = new ol.interaction.Draw({
-                    source: source,
-                    type: 'LineString'
-                })
-            }
-
-            if (layer.featureType === Gis.featureType.poly || layer.featureType === Gis.featureType.polyReport) {
-                this.editLayerFeature = new ol.layer.Vector({
-                    source: source,
-                    style: new ol.style.Style({
-                        stroke: new ol.style.Stroke({
-                            color: 'rgba(123, 45, 25, 1)',
-                            width: 4
-                        }),
-                        fill: new ol.style.Fill({
-                            color: 'rgba(28, 15, 125, 0.5)'
-                        })
-                    })
-                });
-                this.selectModifyInteraction = new ol.interaction.Modify({
-                    source: this.editLayerFeature.getSource()
-                } as any);
-
-                this.map.addInteraction(this.selectModifyInteraction);
-
-                this.selectDrawInteraction = new ol.interaction.Draw({
-                    source: source,
-                    type: 'Polygon'
-                })
-            }
-
-            this.map.addInteraction(this.selectDrawInteraction);
-            let snap = new ol.interaction.Snap({ source: source });
-            this.map.addInteraction(snap);
-
-            this.editLayerFeature.getSource().addFeature(new ol.Feature());
-            this.map.addLayer(this.editLayerFeature);
-
-            this.selectDrawInteraction.on('drawend', evt => {
-                this.selectDrawInteraction.setActive(false);
-                this.newFeature = evt.feature;
-            });
-        }
-
-        private editLayerMenuAction(vm: Gis.MapController, layer: Gis.ILayer, menuLayerItem: Gis.IMenuLayerItem) {
-            if (layer) {
-                vm.mapDialogs.showEditLayerDialog(vm, null, layer);
-            } else {
-                console.log("actiune strat, lipseste sursa ")
-            }
-        }
-
-        private refreshLayerMenuAction(vm: Gis.MapController, layer: Gis.ILayer, menuLayerItem: Gis.IMenuLayerItem) {
-            if (layer.featureType === Gis.featureType.polyReport) {
-                layer.manualRefresh = true;
-            }
-            (layer.internalLayer as ol.layer.Vector).getSource().clear();
-        }
-
-        private generateRoute(vm: Gis.MapController, layer: Gis.ILayer, menuLayerItem: Gis.IMenuLayerItem) {
-            this.routeFeatureReferenceLayer = layer;
-            this.showMainMenu = false;
-            this.routeShowEdit = this.routeShowType.show;
-            let source = new ol.source.Vector();
-            let styleArr = [
-                new ol.style.Style({
-                    stroke: new ol.style.Stroke({
-                        color: '#ff0000',
-                        width: 4,
-                        lineDash: [4, 6]
-                    })
-                }),
-                new ol.style.Style({
-                    image: new ol.style.Circle({
-                        radius: 6,
-                        fill: new ol.style.Fill({
-                            color: 'orange'
-                        }),
-                        
-                    }),
-                    geometry: function (feature: ol.Feature) {
-                        // return the coordinates of the first ring of the polygon
-                        let tmpgeom = feature.getGeometry();
-                        let coordinates = (tmpgeom as any).getCoordinates();
-                        return new ol.geom.MultiPoint(coordinates);
-                    }
-                })
-            ];
-
-            this.routeLayerFeature = new ol.layer.Vector({
-                source: source,
-                style: styleArr
-            });
-
-            this.routeModifyInteraction = new ol.interaction.Modify({
-                source: this.routeLayerFeature.getSource(),
-            } as any);
-
-            this.map.addInteraction(this.routeModifyInteraction);
-
-            this.routeDrawInteraction = new ol.interaction.Draw({
-                source: source,
-                type: 'LineString',
-                style: styleArr
-            });
-            this.map.addInteraction(this.routeDrawInteraction);
-            //
-            let snap = new ol.interaction.Snap({ source: source });
-            this.map.addInteraction(snap);
-            //
-            this.map.addLayer(this.routeLayerFeature);
-            //
-            this.routeDrawInteraction.on('drawend', evt => {
-                this.routeDrawInteraction.setActive(false);
-                this.routeFeature = evt.feature;
-            });
-            //get restrict options
-            this.transportDataService.getAvailableRestrictWaysTypes()
-                .then((resTypes) => {
-                    this.restrictTypeList = [];
-                    this.restrictTypeList.push(Gis.wayRestrictTypeList[0]);
-                    if (resTypes && resTypes.length > 0) {
-                        resTypes.forEach((resItem) => {
-                            this.restrictTypeList.push(resItem);
-                        })
-                    }
-                    this.restrictTypeSelected = Gis.wayRestrictTypeList[0];
-                })
-                .catch((reason) => {
-                    console.error('Eroare la incarcare tipuri de restrictii' + reason.message);
-                })
-
-}
-
-        private addTransportRoute(vm: any, menuLayerItem: any, layer: any) {
-            let source: ILayer = vm.getSourceLayerFromAction(vm, menuLayerItem);
-            if (layer) {
-                vm.mapDialogs.showAddRouteDialog(layer, source);
-            } else {
-                console.log("actiune strat ruta, lipseste sursa sau ruta")
-            }
-        }
-
-        private editTransportRoute(vm: any, menuLayerItem: any, layer: any) {
-            let source: ILayer = vm.getSourceLayerFromAction(vm, menuLayerItem);
-            if (layer) {
-                vm.mapDialogs.showEditRouteDialog(layer, source);
-            } else {
-                console.log("actiune strat ruta, lipseste sursa sau ruta")
-            }
-        }
-
-        public editTransportRouteOnMap() {
-            this.showMainMenu = false;
-            this.transportRouteShowEdit = this.routeShowType.show;
-            let source = new ol.source.Vector();
-            let styleArr = [
-                new ol.style.Style({
-                    stroke: new ol.style.Stroke({
-                        color: ol.color.asArray([0,255,0,0.8]),
-                        width: 4,
-                        lineDash: [4, 6]
-                    })
-                }),
-                new ol.style.Style({
-                    image: new ol.style.Circle({
-                        radius: 6,
-                        fill: new ol.style.Fill({
-                            color: 'orange'
-                        }),
-
-                    }),
-                    geometry: function (feature: ol.Feature) {
-                        // return the coordinates of the first ring of the polygon
-                        let tmpgeom = feature.getGeometry();
-                        let coordinates = (tmpgeom as any).getCoordinates();
-                        return new ol.geom.MultiPoint(coordinates);
-                    }
-                }),
-            ];
-            //
-            let stationStyleFunction = function(feature, resoulution) {
-                let color = '#000000'
-                if (feature.get('type') === "start") {
-                    color = "#0000FF";
-                } else if (feature.get('type') === "end") {
-                    color = "#FF0000";
-                }
-                let name = feature.get('name') || '';
-                let order = feature.get('order') || ''
-                return new ol.style.Style({
-                    image: new ol.style.Circle({
-                        radius: 8,
-                        fill: new ol.style.Fill({
-                            color: color
-                        }),
-                    }),
-                    text: new ol.style.Text({
-                        text: order + '. ' + name,
-                        scale: 1,
-                        offsetX: 1,
-                        offsetY: -10,
-                        textAlign: "left",
-                        fill: new ol.style.Fill({
-                            color: "#000000"
-                        })
-                    })
-                });
-            };
-
-           
-
-            this.routeLayerFeature = new ol.layer.Vector({
-                source: source,
-                style: styleArr
-            });
-            //
-            this.routeModifyInteraction = new ol.interaction.Modify({
-                condition: (event: ol.EventsConditionType) => {
-                    console.log(event);
-                    let evCoord = event['coordinate'] as ol.Coordinate;
-                    if (evCoord) {
-                        let features = this.routeLayerFeature.getSource().getFeatures();
-                        for (var i = 0; i < features.length; i++) {
-                            let featItemFirstCoord = (features[i].getGeometry() as ol.geom.LineString).getFirstCoordinate();
-                            let featItemLastCoord = (features[i].getGeometry() as ol.geom.LineString).getLastCoordinate();
-                            if ((evCoord[0] === featItemFirstCoord[0] && evCoord[1] === featItemFirstCoord[1])
-                                || (evCoord[0] === featItemLastCoord[0] && evCoord[1] === featItemLastCoord[1])) {
-                                return false;
-                            }
-                        }
-                    }
-                    return true;
-                },
-                source: this.routeLayerFeature.getSource(),
-            } as any);
-            //
-            this.map.addInteraction(this.routeModifyInteraction);
-            //
-            let snap = new ol.interaction.Snap({ source: source });
-            this.map.addInteraction(snap);
-            //
-            this.map.addLayer(this.routeLayerFeature);
-            //to do add features to layer
-            let routeFeature = this.routeDataService.getRouteLines();
-            for (let i = 0; i < routeFeature.length; i++) {
-                routeFeature[i].setGeometry(routeFeature[i].getGeometry().transform("EPSG:4326", this.mapConfig.projection));
-                this.routeLayerFeature.getSource().addFeature(routeFeature[i]);
-            }
-            
-            let stations = this.routeDataService.getRouteStations();
-            //add station points
-            for (let i = 0; i < stations.length; i++) {
-                stations[i].setGeometry(stations[i].getGeometry().transform("EPSG:4326", this.mapConfig.projection));
-                stations[i].setStyle(stationStyleFunction as any);
-                //
-                this.routeLayerFeature.getSource().addFeature(stations[i]);
-            } 
-            
-            //refresh and filter
-            let transData = this.routeDataService.getRouteData();
-            this.mapOlFeatures.searchRouteResultOnLayers(Number(transData.newRoute.text), transData.refLayer);
-
-        }
-
-        public returnToEditTransportRouteStations() {
-            let transFeatures: Array<ol.Feature> = [];
-            this.routeLayerFeature.getSource().getFeatures().forEach((fitem) => {
-                if (fitem.getGeometry().getType() == 'LineString') {
-                    let tmpItem = fitem.clone();
-                    tmpItem.setGeometry(tmpItem.getGeometry().transform(this.mapConfig.projection, "EPSG:4326"));
-                    transFeatures.push(tmpItem);
-                }
-            });
-            this.routeDataService.setRouteLines(transFeatures);
-            this.cancelTransportRouteEdit();
-            this.mapDialogs.showAddEditAferOnMapRouteDialog(null, null);
-        }
-
-        public cancelTransportRouteEdit() {
-            this.map.removeInteraction(this.routeModifyInteraction);
-            this.map.removeLayer(this.routeLayerFeature);
-            this.transportRouteShowEdit = this.routeShowType.hide;
-            this.showMainMenu = true;
-        }
-
-        private addTransportStation(vm: any, menuLayerItem: any, layer: any) {
-            if (layer) {
-                vm.mapDialogs.showAddStationDialog(vm, layer);
-            } else {
-                console.log("actiune strat statie, lipseste ruta")
-            }
-        }
-
-        public generateTransportRoute() {
-            //set route data
-            let transFeatures: Array<ol.Feature> = [];
-            this.routeLayerFeature.getSource().getFeatures().forEach((fitem) => {
-                if (fitem.getGeometry().getType() == 'LineString') {
-                    let tmpItem = fitem.clone();
-                    tmpItem.setGeometry(tmpItem.getGeometry().transform(this.mapConfig.projection, "EPSG:4326"));
-                    transFeatures.push(tmpItem);
-                }
-            });
-            this.routeDataService.setRouteLines(transFeatures);
-            //genate route
-            let transData = this.routeDataService.getRouteData();
-            //refresh route
-            if (!transData.isAddElseEdit) {
-                let pointArr: Array<{ id: number, coordinates: number[] }> = [];
-                //
-                transData.pointList.forEach((pitem) => {
-                    pointArr.push({ id: pitem.id, coordinates: [pitem.long, pitem.lat] });
-                })
-                this.transportDataService.setChangeAdhocRoute(Number(transData.newRoute.text), pointArr, false, true, null, Gis.RoutingType.car, 'statie_transport', Gis.RouteType.transport, transData.newRoute.name)
-                    .then((success) => {
-                        if (success) {
-                            console.log("ruta " + transData.name + " a fost modificata cu id " + transData.newRoute.text);
-                        } else {
-                            console.log("eroare modificare ruta");
-                        }
-                    })
-                    .then(() => {
-                        //refresh and filter
-                        this.mapOlFeatures.searchRouteResultOnLayers(Number(transData.newRoute.text), transData.refLayer);
-                    })
-                    .catch((reason) => {
-                        console.log("eroare la modificare ruta");
-                    })
-                    .finally(() => {
-                       // this.disableInput = false;
-                    })
-            }
-        }
-
+        //old
         private getSourceLayerFromAction(vm: MapController, action: Gis.IMenuLayerItem): ILayer {
             let sourceLayer: ILayer = null;
             if (action.data && angular.isObject(action.data) && 'source' in action.data) {
@@ -1153,28 +803,16 @@ module Gis {
         private showtools() {
             return this.userSettingsSrvs.isAuthForResource(Gis.authAs.menu_admin);
         }
-
-        public showAddLayer() {
-            return this.userSettingsSrvs.isAuthForResource(Gis.authAs.data_add_layer, Gis.authType.route);
-        }
-
+        //
         public menuIsVisible() {
             return this.userSettingsSrvs.isAuthForResource(Gis.authAs.menu_visible, Gis.authType.object);
         }
-
+        //
         public searchIsVisible() {
             return this.userSettingsSrvs.isAuthForResource(Gis.authAs.search_visible, Gis.authType.object);
         }
 
-        public hideCategoryIfEmpty(category: Gis.ICategory) {
-            if (category.layers.length > 0) {
-                return false;
-            } else {
-                let strAuth = this.userSettingsSrvs.isAuthForItemOption(Gis.authOpt.in_hide_menu_category, Gis.authAs.menu_category_hide_if_empty, category.code, Gis.authType.object);
-                return strAuth === Gis.authItemAccess.true;
-            }
-            
-        }
+        
         //
         public showLayerLoading() {
             let result = false;
@@ -1200,7 +838,7 @@ module Gis {
                     
                 });
                 if (routeLayer) {
-                    this.mapOlFeatures.searchRouteResultOnLayers(data.routeNr, routeLayer);
+                    this.mapCtrlTransportRoute.searchRouteResultOnLayers(data.routeNr, routeLayer);
                 }
             }
             //

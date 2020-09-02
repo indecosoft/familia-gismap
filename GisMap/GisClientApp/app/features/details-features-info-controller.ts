@@ -185,7 +185,7 @@
                     }
                 );
             }
-            this.UserSettingsService.setAssingendResursaOptiuniToStorage(featureTab.idLayer, options, Gis.saveOptionType.option, Gis.authOpt.in_table_details)
+            this.UserSettingsService.optResRol.setAssingendResursaOptiuniToStorage(featureTab.idLayer, options, Gis.saveOptionType.option, Gis.authOpt.in_table_details)
                 .then(data => {
                     this.$log.info('Configurarea a fost salvata!');
                 })

@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Parent Window</title>
+</head>
+<body>
+
+    <h4>Parent Window</h4>
+    <p>Filter activity data: <button id="message_button">filter</button></p>
+    <p>Send Message: <button id="message_button3">clear</button></p>
+    <p>UserId: <input id="userid" type="number" min="1" max="1000" step="1" value="13" /></p>
+   
+    <label>
+        date
+        <input type="datetime-local" id="date" name="date" value="2020-01-01T01:00" />
+    </label>
+
+    <p>Got Message:</p>
+    <div id="results"></div>
+    <br />
+
+    <script>
+        // addEventListener support for IE8
+        function bindEvent(element, eventName, eventHandler) {
+            if (element.addEventListener) {
+                element.addEventListener(eventName, eventHandler, false);
+            } else if (element.attachEvent) {
+                element.attachEvent('on' + eventName, eventHandler);
+            }
+        }
+        //var iframeSource = '../index.html#!?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjI2LCJjbGkiOjQsImV4cCI6MTUzNDE2MDEwMiwiaWF0IjoxNTMzMTIzMzAyfQ.vgnqDgjdU8k9OK24PYd09TEQKPlYYhuIjQ1zWwKks5M';
+        //var iframeSource = '../index.html#!?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImNsaSI6MSwiZXhwIjoxNTM4Mjk5MzgwLCJpYXQiOjE1MzcyNjI1ODB9.VeJsRG3qj2Xcj-98Xt7vAFQHUMUbaznBtjHP9ImMrGA&userfilter=[{"layer":"Asistenta Sociala","set":" lunaAjutor < 1000-01-28T12:00:00Z"}]';
+        //var iframeSource = '../index.html#!?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjI3LCJjbGkiOjQsImV4cCI6MTU1Mjk3Nzk3NCwiaWF0IjoxNTUxOTQxMTc0fQ.KE1zN1xHXzpAHSNawVaSJRvkeC1v-kAch5rxhN185jk&userfilter=%5B%7B%22layer%22:%22Asistenta%20Sociala%22,%22set%22:%22%20lunaAjutor%20%3C%201000-01-28T12:00:00Z%22%7D%5D';
+        var iframeSource = '../index.html#!?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIwMywiY2xpIjoxMTksImV4cCI6MTU5MzQxOTc2OCwiaWF0IjoxNTkyMzgyOTY4fQ.Vnor2_4gawoeC5Jom8N3MLaOkqL7DM0vJy3b8rb3iCI';
+
+        
+
+
+        // Create the iframe
+        var iframe = document.createElement('iframe');
+        iframe.setAttribute('src', iframeSource);
+        iframe.setAttribute('id', 'the_iframe');
+        iframe.style.width = 100 + '%';
+        iframe.style.height = 400 + 'px';
+        document.body.appendChild(iframe);
+        // Send a message to the child iframe
+        var iframeEl = document.getElementById('the_iframe'),
+            messageButtonImage = document.getElementById('message_button_image'),
+            messageButton = document.getElementById('message_button'),
+            messageButton3 = document.getElementById('message_button3'),
+            date = document.getElementById('date'),
+            userid = document.getElementById('userid');
+        // Send a message to the child iframe
+        var sendMessage = function (msg) {
+            // Make sure you are sending a string, and to stringify JSON
+            iframeEl.contentWindow.postMessage(msg, '*');
+        };
+        // Send random messge data on every button click
+        bindEvent(messageButton, 'click', function (e) {
+            var id = userid.value;
+            var valdate = date.value.substring(0,10);
+            //var message = '{"token":"","userfilter":[{"layer":"Dispozitive masuratori","set":[{"grOp":"and","grVal":"imei = 864190030935997"},{"grOp":"and","grVal":"dateTimeISO < 2018-05-31T00:00:00Z"},{"grOp":"and","grVal":"dateTimeISO > 2018-01-01T00:00:00Z"}]},{"layer":"Dispozitive traseu","set":[{"grOp":"and","grVal":"imei = 864190030936193"},{"grOp":"and","grVal":"data_str > 2018 - 03 - 05"},{"grOp":"and","grVal":"data_str < 2018 - 03 - 08"}]},{"layer":"Dispozitive rute","set":[{"grOp":"and","grVal":"imei = 864190030936193"},{"grOp":"and","grVal":"data_str > 2018 - 03 - 05"},{"grOp":"and","grVal":"data_str < 2018 - 03 - 08"}]}]}';
+            var message = `{"type":"cqlFilter","token":"","userfilter":[{"layer":"Activitati SPIRE","set":"idUser = ${id} and dataActivitate LIKE '${valdate}%25'"}]}`;
+            //var message = `{"type":"cqlFilter","token":"","userfilter":[{"layer":"Activitati SPIRE","set":"idUser = 13 and dataActivitate LIKE '2020-01-01T01:01:01%25'"}]}`;
+            sendMessage(message);
+        });
+
+       //
+        bindEvent(messageButton3, 'click', function (e) {
+            var message = '{"type":"cqlFilter","token":"","userfilter":[{"layer":"Activitati SPIRE","set":""}]}';
+
+            sendMessage(message);
+        });
+       
+        // Listen to message from child window
+        bindEvent(window, 'message', function (e) {
+            results.innerHTML = e.data;
+            let tmpData = JSON.parse(e.data);
+            if (tmpData['type'] && tmpData['type'] === "featureExtraInfo") {
+                try {
+                    let data = tmpData['data']['info'];
+                    for (var i = 0; i < data.length; i++) {
+                        let currentItem = data[i];
+                        if (currentItem.item === 'cnp') {
+                            currentItem.value = '248';
+                        }
+                        if (currentItem.item === 'nume') {
+                            currentItem.value = 'ddd';
+                        }
+                        if (currentItem.item === 'prenume') {
+                            currentItem.value = 'vvv';
+                        }
+                    }
+                    sendMessage(JSON.stringify(tmpData));
+                } catch (e) {
+
+                }
+            }
+        });
+    </script>
+</body>
+</html>

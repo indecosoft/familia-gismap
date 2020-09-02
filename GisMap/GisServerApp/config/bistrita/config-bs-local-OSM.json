@@ -1,0 +1,48 @@
+﻿{
+  "map": {
+    "projection": "EPSG:4326",
+    "center": [ 24.494705566223143, 47.13427713757324 ],
+    "extent": [ 24.36853445416259, 47.06878832226562, 24.629288085754386, 47.19925096874999 ],
+    "zoom": 15,
+    "minZoom": 1,
+    "maxZoom": 25,
+    "basemap": "OSM",
+    "basemapConfig": {}
+  },
+  "categories": [
+    {
+      "code": "sat",
+      "name": "Imagini satelitare"
+    },
+    {
+      "code": "cad",
+      "name": "Cadastru general"
+    },
+    {
+      "code": "rsv",
+      "name": "Registru Spatii Verzi"
+    },
+    {
+      "code": "sis",
+      "name": "SISDIEBDU"
+    }
+  ],
+  "gridDefaultsList": [
+    {
+
+      "_comment": "configurare afisare coloane in tabele si configurare afisare proprietati ascuns-citire-scriere in editorul de elemente",
+      "name": "Layer Spatii Verzi 3",
+      "columns": [
+        {
+          "name": "descriere",
+          "edit-feature-info": "write",
+          "_comment": "edit-feature-info valori pentru afisarea proprietatilor in editor hide read write",
+          "edit-feature-picture-field": "true",
+          "_comment1": "edit-feature-picture-field true/false configurarea campului care contine calea catre poza, doar una dintre proprietati"
+        }
+      ]
+    }
+   
+
+  ]
+}

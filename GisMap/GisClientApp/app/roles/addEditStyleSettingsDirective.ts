@@ -79,7 +79,7 @@
             this.addEditStyleSettings.icon = "";
             this.addEditStyleSettings.availableTypes = Gis.layerTypeName;
             this.disableInput = true;
-            this.userSettingsSrvs.getStyleDescriptionFromStorage(this.addEditStyleSettings.selectedStyle.id)
+            this.userSettingsSrvs.layerStyle.getStyleDescriptionFromStorage(this.addEditStyleSettings.selectedStyle.id)
                 .then((style) => {
                     if (style) {
                         this.buildStyleFromJSON(style.layerType, style.style, this.featureStyle);
@@ -144,7 +144,7 @@
                 this.addEditStyleSettings.selectedStyle = null;
                 //
                 this.disableInput = true;
-                this.userSettingsSrvs.getAvailableStylesDescriptionsFromStorage()
+                this.userSettingsSrvs.layerStyle.getAvailableStylesDescriptionsFromStorage()
                     .then((styles) => {
                         if (styles) {
                             this.addEditStyleSettings.availableStyles = styles;
@@ -201,7 +201,7 @@
             let tmpFile = this.addEditStyleSettings.layerType === Gis.featureType.icon ? this.file : null;
             //
             this.disableInput = true;
-            this.userSettingsSrvs.setAddStyleSettingsToStorage(this.addEditStyleSettings, tmpFile)
+            this.userSettingsSrvs.layerStyle.setAddStyleSettingsToStorage(this.addEditStyleSettings, tmpFile)
                 .then((success) => {
                     if (success) {
                         this.selectedAction = null;
@@ -259,7 +259,7 @@
             let tmpFile = this.addEditStyleSettings.layerType === Gis.featureType.icon ? this.file : null;
             //
             this.disableInput = true;
-            this.userSettingsSrvs.setUpdateStyleSettingsToStorage(this.addEditStyleSettings, tmpFile)
+            this.userSettingsSrvs.layerStyle.setUpdateStyleSettingsToStorage(this.addEditStyleSettings, tmpFile)
                 .then((success) => {
                     if (success) {
                         this.selectedAction = null;
@@ -292,7 +292,7 @@
             }
             //
             this.disableInput = true;
-            this.userSettingsSrvs.setDeleteStyleSettingsToStorage(this.addEditStyleSettings.selectedStyle.id)
+            this.userSettingsSrvs.layerStyle.setDeleteStyleSettingsToStorage(this.addEditStyleSettings.selectedStyle.id)
                 .then((success) => {
                     if (success) {
                         //this.$scope.closeThisDialog(true);

@@ -1,0 +1,21 @@
+﻿{
+  "map": {
+    "projection": "EPSG:4326",
+    "center": [ 27.96072, 45.27749 ],
+    "extent": [ 27.931507, 45.2395775, 28.0059929, 45.3086004 ],
+    "zoom": 15,
+    "minZoom": 1,
+    "maxZoom": 20,
+    "basemap": "BingMaps",
+    "basemapConfig": {
+      "key": "AqSLMimUWHH103M39vQ-utAk9z4_ovVbP6X0Oj9UcWZ4BwDvXQGr-0XUwyyOBk5E",
+      "imagerySet": "Aerial"
+    }
+  },
+  "categories": [
+    {
+      "code": "cad",
+      "name": "Asistenta sociala"
+    }
+  ]
+}

@@ -77,7 +77,7 @@
         //
         public getRolesForSelectedUser(): ng.IPromise<boolean> {
             this.disableInput = true;
-            return this.userSettingsSrvs.getAvailableRoles()
+            return this.userSettingsSrvs.role.getAvailableRoles()
                 .then((data) => {
                     this.availableRoles = <Array<IItem>>data;
                     return true;

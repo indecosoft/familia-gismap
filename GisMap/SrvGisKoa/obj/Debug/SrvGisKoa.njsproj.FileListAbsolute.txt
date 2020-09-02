@@ -1,0 +1,3 @@
+C:\Users\ovidiu.podina\Desktop\Indeco\GisMap\SrvGisKoa\obj\Debug\SrvGisKoa.njsproj.CoreCompileInputs.cache
+C:\Users\ovidiu.podina\Desktop\Indeco\GisMap\SrvGisKoa\bin\Microsoft.NodejsTools.WebRole.dll
+C:\Users\ovidiu.podina\Desktop\Indeco\GisMap\SrvGisKoa\obj\Debug\SrvGisKoa.njsprojAssemblyReference.cache

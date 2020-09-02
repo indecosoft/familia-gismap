@@ -62,6 +62,7 @@
                             this.mapCtrl.loadConfig();
                             this.mapCtrl.reloadLayers();
                             this.mapCtrl.map.setView(this.mapCtrl.mapOlInit.buildMapView());
+                            this.mapCtrl.mapCtrlPositionMarker.addCtrlMousePosition();
                             
                         } catch (e) {
                             console.error("eroare in reinitializare harta");
@@ -154,7 +155,7 @@
                         (layer.internalLayer as ol.layer.Vector).getSource().clear();
                     } else if (data.value === Gis.routeDialogReturn.editOnMap) {
                         //todo edit map
-                        this.mapCtrl.editTransportRouteOnMap();
+                        this.mapCtrl.mapCtrlTransportRoute.editTransportRouteOnMap();
                     }
                 });
         }
@@ -166,7 +167,7 @@
                         (layer.internalLayer as ol.layer.Vector).getSource().clear();
                     } else if (data.value === Gis.routeDialogReturn.editOnMap) {
                         //todo edit map
-                        this.mapCtrl.editTransportRouteOnMap();
+                        this.mapCtrl.mapCtrlTransportRoute.editTransportRouteOnMap();
                     }
                 });
         }
@@ -178,7 +179,7 @@
                         (layer.internalLayer as ol.layer.Vector).getSource().clear();
                     } else if (data.value === Gis.routeDialogReturn.editOnMap) {
                         //todo edit map
-                        this.mapCtrl.editTransportRouteOnMap();
+                        this.mapCtrl.mapCtrlTransportRoute.editTransportRouteOnMap();
                     }
                 });
         }

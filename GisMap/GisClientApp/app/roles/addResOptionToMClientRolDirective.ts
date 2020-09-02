@@ -55,7 +55,7 @@
                 .then((data) => {
                     this.addOptResCli.availableResurse = data;
                 }).then(() => {
-                    return this.userSettingsSrvs.getAvailableResursaTipDefaultAccessFromStorage()
+                    return this.userSettingsSrvs.optResRol.getAvailableResursaTipDefaultAccessFromStorage()
                         .then((data) => {
                             this.addOptResCli.availableCustomAccess = [];
                             data.forEach((item) => {
@@ -86,7 +86,7 @@
 
             this.errorResponse = '';
             this.disableInput = true;
-            this.userSettingsSrvs.addOptResCli(data)
+            this.userSettingsSrvs.client.addOptResCli(data)
                 .then(succes => {
                     if (succes) {
                         this.selectedAction = null;
@@ -135,11 +135,11 @@
         }
 
         public getClients = () => {
-            this.userSettingsSrvs.getClients().then(data => this.addOptResCli.availableClients = data.data, error => this.addOptResCli.availableClients = []);
+            this.userSettingsSrvs.client.getClients().then(data => this.addOptResCli.availableClients = data.data, error => this.addOptResCli.availableClients = []);
         }
 
         public getOptions = () => {
-            this.userSettingsSrvs.getOptions().then(data => this.addOptResCli.availableOptions = data.data, error => this.addOptResCli.availableOptions = []);
+            this.userSettingsSrvs.client.getOptions().then(data => this.addOptResCli.availableOptions = data.data, error => this.addOptResCli.availableOptions = []);
         }
 
         public onChangeClient = (urCtrl: ResourceRolesController, typeName: string) => {
@@ -156,7 +156,7 @@
                 this.addOptResCli.availableClients[index].selectedRoles = [];
                 this.addOptResCli.selectedClients.push(this.addOptResCli.availableClients[index]);
 
-                this.userSettingsSrvs.getClientRoles(this.addOptResCli.availableClients[index].id).then(data => {
+                this.userSettingsSrvs.client.getClientRoles(this.addOptResCli.availableClients[index].id).then(data => {
                     this.addOptResCli.selectedClients[this.addOptResCli.selectedClients.length - 1].roles = data.data;
                 });
 
@@ -226,7 +226,7 @@
         public getRolesForSelectetResursa = (): void => {
             this.errorResponse = 'Incarcare roluri';
             this.disableInput = true;
-            this.userSettingsSrvs.getAssingendResursaOptiuniFromStorage(this.addOptResCli.selectedResursa.id)
+            this.userSettingsSrvs.optResRol.getAssingendResursaOptiuniFromStorage(this.addOptResCli.selectedResursa.id)
                 .then((data) => {
 
                     while (this.addOptResCli.availableOptions.length) {

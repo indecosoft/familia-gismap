@@ -1116,6 +1116,12 @@ router.post('/data/delete-layer',
     }
 )
 
+router.post('/data/spire-mosaic-layer-adddata',
+    //isAuthenticated,
+    //isAuthorized('/data/spire-mosaic-layer-adddata'),
+    formidable(),
+    geoserverApi.spireMosaicLayerAddData 
+)
 
 //role
 router.get('/data/role/:idRole',
@@ -1424,39 +1430,59 @@ router.post('/data/add-client', isAuthenticated, async ctx => {
         )).execAs(ctx.user);
 
         if (res[0]['id'] !== undefined) {
+            //
             await prepareQuery(queriesData.insertAdminCategoriiResurseClienti(res[0]['id'], data.data.tipClient.name, 'categorie')).execAsSys();
 
-            let mapConfig = await prepareQuery(queriesData.selectMapConfig()).execAs(ctx.user);
-            if (mapConfig[0]['configurations'] !== undefined && mapConfig[0]['version'] !== undefined) {
-
-                await prepareQuery(queriesData.insertMapConfig(res[0]['id'], mapConfig[0]['configurations'], mapConfig[0]['version'])).execAs(ctx.user);
-
-                let rolesName = await prepareQuery(queriesData.getRoleIdAndName(data.data.tipClient.name, 'rol')).execAsSys();
-
-                let dbUsers = await prepareQuery(queriesData.getUsers(data.data.tipClient.name)).execAs(ctx.user);
-
-                for (let i = 0; i < dbUsers.length; i++) {
-                    let idRol = (await prepareQuery(queriesData.insertNewRol(dbUsers[i]['rol'], "", res[0]['id'])).execAs(ctx.user))[0]['id'];
-                    dbUsers[i]['idRol'] = idRol;
-                }
-
-                for (let i = 0; i < dbUsers.length; i++) {
-                    let ceva = rolesName.find(e => e['nume'] == dbUsers[i]['rol']);
-                    if (ceva) {
-                        await prepareQuery(queriesData.insertAdminResursaRol(dbUsers[i]['idRol'], ceva['id'])).execAsSys();
-                        await prepareQuery(queriesData.insertAdminOptiuneResursaRol(dbUsers[i]['idRol'], ceva['id'])).execAsSys();
-                    }
-                }
-
-                for (let i = 0; i < dbUsers.length; i++) {
-                    let newUser = new SchemaUser((data.data.nume.split(' ').join('') + dbUsers[i]['sufixClient']).toLowerCase(), '1234');
-                    newUser.idClient = res[0]['id'];
-                    newUser.name = (data.data.nume + ' ' + dbUsers[i]['rol'].substring(3)).toLowerCase();
-                    await newUser.saveUserAndPassword();
-
-                    await prepareQuery(queriesData.insertUserRol(dbUsers[i]['idRol'], newUser.username)).execAs(ctx.user);
+            //some default values
+            let mapConfig = {
+                version: 1, projection: 'EPSG:3857', zoom: 10, minZoom: 5, maxZoom: 15,
+                center: [23, 47], basemap: 'OSM', basemapConfig: {}
+            };
+            //min version of default client map config
+            let minVersion = await prepareQuery(queriesData.getMapViewClientMinVersion(0)).execAsSys();
+            if (minVersion && minVersion.length > 0) {
+                let mapDef = await prepareQuery(queriesData.getMapViewSettings(minVersion[0].version, 0)).execAsSys();
+                if (mapDef && mapDef.length > 0) {
+                    mapConfig.projection = mapDef[0].projection;
+                    mapConfig.zoom = mapDef[0].zoom as any;
+                    mapConfig.minZoom = mapDef[0].minZoom;
+                    mapConfig.maxZoom = mapDef[0].maxZoom;
+                    mapConfig.center = mapDef[0].center;
+                    mapConfig.basemap = mapDef[0].basemap;
                 }
             }
+            //insert map config
+            await prepareQuery(queriesData.insertMapViewSettings(res[0]['id'], mapConfig.version, mapConfig.projection,
+                mapConfig.zoom, mapConfig.minZoom, mapConfig.maxZoom, mapConfig.center, mapConfig.basemap,
+                mapConfig.basemapConfig)).execAsSys();
+
+            //
+            let rolesName = await prepareQuery(queriesData.getRoleIdAndName(data.data.tipClient.name, 'rol')).execAsSys();
+
+            let dbUsers = await prepareQuery(queriesData.getUsers(data.data.tipClient.name)).execAs(ctx.user);
+
+            for (let i = 0; i < dbUsers.length; i++) {
+                let idRol = (await prepareQuery(queriesData.insertNewRol(dbUsers[i]['rol'], "", res[0]['id'])).execAs(ctx.user))[0]['id'];
+                dbUsers[i]['idRol'] = idRol;
+            }
+
+            for (let i = 0; i < dbUsers.length; i++) {
+                let ceva = rolesName.find(e => e['nume'] == dbUsers[i]['rol']);
+                if (ceva) {
+                    await prepareQuery(queriesData.insertAdminResursaRol(dbUsers[i]['idRol'], ceva['id'])).execAsSys();
+                    await prepareQuery(queriesData.insertAdminOptiuneResursaRol(dbUsers[i]['idRol'], ceva['id'])).execAsSys();
+                }
+            }
+
+            for (let i = 0; i < dbUsers.length; i++) {
+                let newUser = new SchemaUser((data.data.nume.split(' ').join('') + dbUsers[i]['sufixClient']).toLowerCase(), '1234');
+                newUser.idClient = res[0]['id'];
+                newUser.name = (data.data.nume + ' ' + dbUsers[i]['rol'].substring(3)).toLowerCase();
+                await newUser.saveUserAndPassword();
+
+                await prepareQuery(queriesData.insertUserRol(dbUsers[i]['idRol'], newUser.username)).execAs(ctx.user);
+            }
+            //}
 
         }
         ctx.body = { success: true };

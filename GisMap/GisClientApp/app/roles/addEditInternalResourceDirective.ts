@@ -54,7 +54,7 @@
                 this.addEditResursaInterna.selectedResursa = null;
                 //
                 this.disableInput = true;
-                this.userSettingsSrvs.getAvailableResursaInterna()
+                this.userSettingsSrvs.resursaInterna.getAvailableResursaInterna()
                     .then((resurse) => {
                         if (resurse) {
                             this.addEditResursaInterna.availableResurse = resurse;
@@ -88,7 +88,7 @@
             this.addEditResursaInterna.defaultAccess = false;
             //
             this.disableInput = true;
-            this.userSettingsSrvs.getResursaInternaFromStorage(this.addEditResursaInterna.selectedResursa.id)
+            this.userSettingsSrvs.resursaInterna.getResursaInternaFromStorage(this.addEditResursaInterna.selectedResursa.id)
                 .then((resursa) => {
                     if (resursa) {
                         this.addEditResursaInterna.id = resursa.id;
@@ -142,7 +142,7 @@
             this.addEditResursaInterna.type = this.addEditResursaInterna.selectedType.name;
             //
             this.disableInput = true;
-            this.userSettingsSrvs.setAddResursaInternaToStorage(this.addEditResursaInterna)
+            this.userSettingsSrvs.resursaInterna.setAddResursaInternaToStorage(this.addEditResursaInterna)
                 .then((success) => {
                     if (success) {
                         //this.$scope.closeThisDialog(true);
@@ -181,7 +181,7 @@
             this.addEditResursaInterna.type = this.addEditResursaInterna.selectedType.name;
             //
             this.disableInput = true;
-            this.userSettingsSrvs.setUpdateResursaInternaToStorage(this.addEditResursaInterna)
+            this.userSettingsSrvs.resursaInterna.setUpdateResursaInternaToStorage(this.addEditResursaInterna)
                 .then((success) => {
                     if (success) {
                         //this.$scope.closeThisDialog(true);
@@ -214,7 +214,7 @@
             }
             //
             this.disableInput = true;
-            this.userSettingsSrvs.setDeleteResursaInternaToStorage(this.addEditResursaInterna)
+            this.userSettingsSrvs.resursaInterna.setDeleteResursaInternaToStorage(this.addEditResursaInterna)
                 .then((success) => {
                     if (success) {
                         //this.$scope.closeThisDialog(true);

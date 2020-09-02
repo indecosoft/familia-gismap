@@ -12,6 +12,8 @@
     <SccLocalPath>SAK</SccLocalPath>
     <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
     <NameOfLastUsedPublishProfile>devlinux</NameOfLastUsedPublishProfile>
+    <NodeExeArguments>
+    </NodeExeArguments>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -139,7 +141,13 @@
     </TypeScriptCompile>
     <TypeScriptCompile Include="queries\devices.q.ts" />
     <TypeScriptCompile Include="queries\locatieAdresa.q.ts" />
+    <TypeScriptCompile Include="queries\parcariOradea.q.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="queries\redirect.q.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="queries\spire.q.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="queries\syncMTables.q.ts">
@@ -174,7 +182,13 @@
     <TypeScriptCompile Include="routes\metadata.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\parcariOradea.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="routes\redirect.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="routes\spire.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="routes\syncMTables.ts">

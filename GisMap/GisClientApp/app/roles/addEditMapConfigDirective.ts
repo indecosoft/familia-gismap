@@ -64,7 +64,7 @@
                 this.errorResponse = '';
                 //
                 this.disableInput = true;
-                this.userSettingsSrvs.getAvailableMapViewSettings()
+                this.userSettingsSrvs.mapView.getAvailableMapViewSettings()
                     .then((views) => {
                         if (views) {
                             this.addEditMapConfig.availableViews = views;
@@ -112,7 +112,7 @@
             this.setDefaultValues();
             //
             this.disableInput = true;
-            this.userSettingsSrvs.getMapViewSettingsFromStorage(Number(this.addEditMapConfig.selectedView.text))
+            this.userSettingsSrvs.mapView.getMapViewSettingsFromStorage(Number(this.addEditMapConfig.selectedView.text))
                 .then((mapView) => {
                     if (mapView) {
                         this.addEditMapConfig.id = -1;
@@ -138,7 +138,10 @@
                 })
         }
 
-        public saveMapConfig = () => {
+        public saveMapConfig = (form: any) => {
+            if (!Gis.checkValidForm(form)) {
+                return;
+            }
             switch (this.selectedAction.name) {
                 case "mapcfg-add":
                     this.addMapConfig();
@@ -149,6 +152,8 @@
                 default:
             }
         }
+
+        
 
         public addMapConfig = () => {
             this.errorResponse = '';
@@ -170,7 +175,7 @@
             }
             //
             this.disableInput = true;
-            this.userSettingsSrvs.setAddMapViewSettingsToStorage(this.addEditMapConfig)
+            this.userSettingsSrvs.mapView.setAddMapViewSettingsToStorage(this.addEditMapConfig)
                 .then((success) => {
                     if (success) {
                         this.selectedAction = null;
@@ -211,7 +216,7 @@
             }
             //
             this.disableInput = true;
-            this.userSettingsSrvs.setUpdateMapViewSettingsToStorage(this.addEditMapConfig)
+            this.userSettingsSrvs.mapView.setUpdateMapViewSettingsToStorage(this.addEditMapConfig)
                 .then((success) => {
                     if (success) {
                         this.selectedAction = null;
@@ -236,5 +241,11 @@
             this.selectedAction = null;
         }
 
+        public getErrorMessage(errorMessage: string): string {
+            if (errorMessage == undefined || errorMessage == null || errorMessage == "") {
+                return "";
+            }
+            return Gis.controlError[errorMessage] || errorMessage;
+        }
     }
 }

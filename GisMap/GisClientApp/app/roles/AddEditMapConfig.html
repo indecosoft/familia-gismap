@@ -20,8 +20,10 @@
                     <div class="form-group">
                         <label for="projection">Projection</label>
                         <input type="text" class="form-control" id="projection" name="projection" ng-model="vm.addEditMapConfig.projection" required>
-                        <span ng-show="vm.errorResponse || resourceForm.rol_nume.$touched">
-                            <span ng-show="resourceForm.projection.$error.required">Proiectia este obligatorie</span>
+                        <span ng-show="vm.errorResponse || resourceForm.projection.$touched">
+                            <ul>
+                                <li ng-repeat="(key, value) in resourceForm.projection.$error">Proiectia are eroare: <strong>{{ vm.getErrorMessage(key) }}</strong>.</li>
+                            </ul>
                         </span>
                     </div>
                     <div class="form-group">
@@ -35,21 +37,27 @@
                             </div>
                         </div>
                         <span ng-show="vm.errorResponse || resourceForm.zoom.$touched">
-                            <span ng-show="resourceForm.zoom.$error.required">Zoom este obligatorie</span>
+                            <ul>
+                                <li ng-repeat="(key, value) in resourceForm.zoom.$error">Zoom are eroare: <strong>{{ vm.getErrorMessage(key) }}</strong>.</li>
+                            </ul>
                         </span>
                     </div>
                     <div class="form-group">
                         <label for="zoomMin">Zoom minim</label>
                         <input type="number" class="form-control" id="zoomMin" name="zoomMin" ng-model="vm.addEditMapConfig.minZoom" min="0" max="100" step="1" required>
                         <span ng-show="vm.errorResponse || resourceForm.zoomMin.$touched">
-                            <span ng-show="resourceForm.zoomMin.$error.required">Zoom  minim este obligatorie</span>
+                            <ul>
+                                <li ng-repeat="(key, value) in resourceForm.zoomMin.$error">Zoom minim are eroare: <strong>{{ vm.getErrorMessage(key) }}</strong>.</li>
+                            </ul>
                         </span>
                     </div>
                     <div class="form-group">
                         <label for="zoomMax">Zoom maxim</label>
                         <input type="number" class="form-control" id="zoomMax" name="zoomMax" ng-model="vm.addEditMapConfig.maxZoom" min="0" max="100" step="1" required>
                         <span ng-show="vm.errorResponse || resourceForm.zoomMax.$touched">
-                            <span ng-show="resourceForm.zoomMax.$error.required">Zoom maxim este obligatorie</span>
+                            <ul>
+                                <li ng-repeat="(key, value) in resourceForm.zoomMax.$error">Zoom maxim are eroare: <strong>{{ vm.getErrorMessage(key) }}</strong>.</li>
+                            </ul>
                         </span>
                     </div>
                     <div class="form-group">
@@ -66,19 +74,24 @@
                             </div>
                         </div>
                         <span ng-show="vm.errorResponse || resourceForm.centrux.$touched|| resourceForm.centruy.$touched">
-                            <span ng-show="resourceForm.centrux.$error.required || resourceForm.centrux.$error.required">centru x y  sunt obligatorii</span>
+                            <ul>
+                                <li ng-repeat="(key, value) in resourceForm.centrux.$error">centru x are eroare: <strong>{{ vm.getErrorMessage(key) }}</strong>.</li>
+                                <li ng-repeat="(key, value) in resourceForm.centruy.$error">centru y are eroare: <strong>{{ vm.getErrorMessage(key) }}</strong>.</li>
+                            </ul>
                         </span>
                     </div>
                     <div class="form-group">
                         <label for="basemap">Harta de baza</label>
                         <input type="text" class="form-control" id="basemap" name="basemap" ng-model="vm.addEditMapConfig.basemap" required>
                         <span ng-show="vm.errorResponse || resourceForm.basemap.$touched">
-                            <span ng-show="resourceForm.basemap.$error.required">Harta de baza este obligatorie</span>
+                            <ul>
+                                <li ng-repeat="(key, value) in resourceForm.basemap.$error">Harta de baza are eroare: <strong>{{ vm.getErrorMessage(key) }}</strong>.</li>
+                            </ul>
                         </span>
                     </div>
                     <div class="form-group">
                         <label for="basemapconfig">Setari harta de baza</label>
-                        <textarea class="form-control" id="basemapconfig" name="basemapconfig" ng-model="vm.addEditMapConfig.basemapConfig" required></textarea>
+                        <textarea class="form-control" id="basemapconfig" name="basemapconfig" ng-model="vm.addEditMapConfig.basemapConfig" ></textarea>
                     </div>
                 </div>
                 <!---->
@@ -90,7 +103,7 @@
             </div>
             <div class="panel-footer dialog-panel-no-padding">
                 <div class="form-group">
-                    <button type="button" class="btn btn-default" ng-click="vm.saveMapConfig()" ng-show="vm.selectedAction != null">Salveaza</button>
+                    <button type="button" class="btn btn-default" ng-click="vm.saveMapConfig(resourceForm)" ng-show="vm.selectedAction != null">Salveaza</button>
                     <button type="button" class="btn btn-default" ng-click="vm.cancelMapConfig()">Anuleaza</button>
                 </div>
             </div>

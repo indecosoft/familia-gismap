@@ -98,7 +98,8 @@ router.post('/save-device-measurements/', /*isAuthenticated,*/ async (ctx) => {
                             measurement.extension || {},
                             measurement.sleepType || null,
                             measurement.sleepSeconds || null,
-                            measurement.dailyActivity || null
+                            measurement.dailyActivity || null,
+                            measurement.battery || null
                         )
                     ).execAsSys();
 
